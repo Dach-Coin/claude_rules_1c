@@ -1,0 +1,6 @@
+---
+---
+
+# If you are developing an integration, first try to develop it in Python.
+Write Python code, then test it, then correct if needed. After that, using ready-to-use Python code,
+write 1C code to avoid errors.

@@ -1,0 +1,4 @@
+.dev.env
+.claude/settings.local.json
+CLAUDE.local.md
+.mcp.json
