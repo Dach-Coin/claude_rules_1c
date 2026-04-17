@@ -1,10 +1,10 @@
-# 1C BSP Manage — Registration, Commands
+# 1C BSP Manage - Registration, Commands
 
 BSP/SSL integration: add registration function (ExternalDataProcessorInfo) and manage commands for external data processors.
 
 ---
 
-## 1. Registration — Add BSP Registration Function
+## 1. Registration - Add BSP Registration Function
 
 Adds the `СведенияОВнешнейОбработке()` function to the object module, required for registering external data processors/reports in the SSL "Additional Reports and Data Processors" subsystem.
 
@@ -16,9 +16,9 @@ Adds the `СведенияОВнешнейОбработке()` function to the 
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| ProcessorName | yes | — | Processor name (must be created via `1c-epf-scaffold`) |
-| Kind | yes | — | Processor kind (see mapping below) |
-| TargetObjects | * | — | Metadata objects for assignable kinds |
+| ProcessorName | yes | - | Processor name (must be created via `1c-epf-scaffold`) |
+| Kind | yes | - | Processor kind (see mapping below) |
+| TargetObjects | * | - | Metadata objects for assignable kinds |
 | SrcDir | no | `src` | Source directory |
 
 \* TargetObjects is required for assignable kinds: ObjectFilling, Report, PrintForm, RelatedObjectCreation.
@@ -49,7 +49,7 @@ User may specify kind in free form. Determine the correct one from context:
 
 ### Template: СведенияОВнешнейОбработке
 
-Base template — same for all kinds, only API method calls and conditional sections differ.
+Base template - same for all kinds, only API method calls and conditional sections differ.
 
 ```bsl
 Функция СведенияОВнешнейОбработке() Экспорт
@@ -76,12 +76,12 @@ Base template — same for all kinds, only API method calls and conditional sect
 
 ### Substitutions
 
-- `{{ProcessorKind}}` — API method from kind mapping table
-- `{{CommandType}}` — API method from default command type table
+- `{{ProcessorKind}}` - API method from kind mapping table
+- `{{CommandType}}` - API method from default command type table
 
 ### Conditional Sections
 
-**`{{TARGET_SECTION}}`** — only for assignable kinds (ObjectFilling, Report, PrintForm, RelatedObjectCreation). One line per object:
+**`{{TARGET_SECTION}}`** - only for assignable kinds (ObjectFilling, Report, PrintForm, RelatedObjectCreation). One line per object:
 
 ```bsl
 	ПараметрыРегистрации.Назначение.Добавить("Document.SalesInvoice");
@@ -89,15 +89,15 @@ Base template — same for all kinds, only API method calls and conditional sect
 
 Object name format: `MetadataClassName.ObjectName` (e.g., `Document.SalesInvoice`, `Catalog.Contractors`).
 
-For global kinds (AdditionalDataProcessor, AdditionalReport) — remove section with empty line.
+For global kinds (AdditionalDataProcessor, AdditionalReport) - remove section with empty line.
 
-**`{{MODIFIER_SECTION}}`** — only for PrintForm:
+**`{{MODIFIER_SECTION}}`** - only for PrintForm:
 
 ```bsl
 	НоваяКоманда.Модификатор = "PrintMXL";
 ```
 
-For other kinds — remove with empty line.
+For other kinds - remove with empty line.
 
 ### Server Handler Templates
 
@@ -141,11 +141,11 @@ Note: global processors do not have the `ОбъектыНазначения` par
 
 1. Find `ObjectModule.bsl` via Glob: `src/{{ProcessorName}}/Ext/ObjectModule.bsl`
 2. Read the file
-3. If `СведенияОВнешнейОбработке` already exists — inform user, do not duplicate
-4. If file not found — suggest using `1c-epf-scaffold` skill first
+3. If `СведенияОВнешнейОбработке` already exists - inform user, do not duplicate
+4. If file not found - suggest using `1c-epf-scaffold` skill first
 5. Find the region `#Область ПрограммныйИнтерфейс` ... `#КонецОбласти`
 6. Insert `СведенияОВнешнейОбработке()` function inside this region
-7. If kind requires server handler — insert it too, after the function
+7. If kind requires server handler - insert it too, after the function
 8. Use tabs for indentation (match existing file style)
 
 ### Example
@@ -204,7 +204,7 @@ Result in `ObjectModule.bsl`:
 
 ---
 
-## 2. Command — Add Command to Registered Processor
+## 2. Command - Add Command to Registered Processor
 
 Adds a command to an existing `СведенияОВнешнейОбработке()` function and generates the corresponding handler.
 
@@ -218,8 +218,8 @@ The data processor must be initialized with BSP registration first (see `1c-bsp-
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| ProcessorName | yes | — | Processor name |
-| Identifier | yes | — | Internal command name (Latin characters) |
+| ProcessorName | yes | - | Processor name |
+| Identifier | yes | - | Internal command name (Latin characters) |
 | CommandType | no | from processor kind | Command launch type (see mapping below) |
 | Presentation | no | = Identifier | Display name for the user |
 | SrcDir | no | `src` | Source directory |
@@ -236,7 +236,7 @@ User may specify type in free form:
 | form filling, fill form | `ТипКомандыЗаполнениеФормы()` |
 | scenario, safe mode | `ТипКомандыСценарийВБезопасномРежиме()` |
 
-If user does not specify — determine from processor kind in existing `СведенияОВнешнейОбработке()` code:
+If user does not specify - determine from processor kind in existing `СведенияОВнешнейОбработке()` code:
 
 | Processor Kind (from code) | Default Command Type |
 |---------------------------|---------------------|
@@ -269,7 +269,7 @@ Note: unlike the first command (from `1c-bsp-registration`), additional commands
 
 ### Handler Templates
 
-#### ServerMethodCall — handler already exists
+#### ServerMethodCall - handler already exists
 
 If `ВыполнитьКоманду` procedure already exists in the object module, add a branch before `КонецЕсли`:
 
@@ -278,7 +278,7 @@ If `ВыполнитьКоманду` procedure already exists in the object mod
 		// TODO: Реализация {{Identifier}}
 ```
 
-#### ServerMethodCall — no handler yet
+#### ServerMethodCall - no handler yet
 
 For global processors (without `ОбъектыНазначения`):
 
@@ -304,7 +304,7 @@ For assignable processors (with `ОбъектыНазначения`):
 КонецПроцедуры
 ```
 
-#### PrintForm — `Печать` procedure already exists
+#### PrintForm - `Печать` procedure already exists
 
 Add block before `КонецПроцедуры`:
 
@@ -316,7 +316,7 @@ Add block before `КонецПроцедуры`:
 	КонецЕсли;
 ```
 
-#### PrintForm — no `Печать` procedure yet
+#### PrintForm - no `Печать` procedure yet
 
 ```bsl
 Процедура Печать(МассивОбъектов, КоллекцияПечатныхФорм, ОбъектыПечати, ПараметрыВывода) Экспорт
@@ -360,18 +360,18 @@ For assignable processors:
 КонецПроцедуры
 ```
 
-If procedure already exists — add `ИначеЕсли` branch.
+If procedure already exists - add `ИначеЕсли` branch.
 
 ### Instructions
 
 1. Find and read `ObjectModule.bsl` via Glob: `src/{{ProcessorName}}/Ext/ObjectModule.bsl`
-2. Ensure `СведенияОВнешнейОбработке()` exists. If not — suggest using `1c-bsp-registration` skill first
+2. Ensure `СведенияОВнешнейОбработке()` exists. If not - suggest using `1c-bsp-registration` skill first
 3. Determine processor kind from existing code (find the line with `ВидОбработки...()`)
 4. Insert command block **before** `Возврат ПараметрыРегистрации`
 5. Add handler:
-   - For server handlers — in `ObjectModule.bsl`, `ПрограммныйИнтерфейс` region
-   - For client handlers — in form module (find via Glob: `src/{{ProcessorName}}/Forms/*/Ext/Form/Module.bsl`)
-6. If handler (`ВыполнитьКоманду` / `Печать`) already exists — add branch, do not duplicate the procedure
+   - For server handlers - in `ObjectModule.bsl`, `ПрограммныйИнтерфейс` region
+   - For client handlers - in form module (find via Glob: `src/{{ProcessorName}}/Forms/*/Ext/Form/Module.bsl`)
+6. If handler (`ВыполнитьКоманду` / `Печать`) already exists - add branch, do not duplicate the procedure
 7. Use tabs for indentation
 
 ---
@@ -388,9 +388,9 @@ If procedure already exists — add `ИначеЕсли` branch.
 
 ## MCP Integration
 
-- Find SSL/BSP module methods for registration and verify API method names — `mcp__rlm-tools-bsl__rlm_execute` (grep over `ОбщегоНазначения*`, `ИнтеграцияСовместной*` etc. + `find_exports`, `extract_procedures`). Signatures of BSP-specific procedures are read from the module source via the same `rlm_execute` (`extract_procedures`) — `1c-syntax` only covers platform built-ins, not BSP modules. See also `.claude/skills/1c-metadata-manage/docs/ssl-patterns.md`.
-- Verify target metadata object names — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
-- Find existing handler patterns in the codebase — `mcp__rlm-tools-bsl__rlm_execute` (`grep`, `find_callers`, `extract_procedures`).
+- Find SSL/BSP module methods for registration and verify API method names - `mcp__rlm-tools-bsl__rlm_execute` (grep over `ОбщегоНазначения*`, `ИнтеграцияСовместной*` etc. + `find_exports`, `extract_procedures`). Signatures of BSP-specific procedures are read from the module source via the same `rlm_execute` (`extract_procedures`) - `1c-syntax` only covers platform built-ins, not BSP modules. See also `.claude/skills/1c-metadata-manage/docs/ssl-patterns.md`.
+- Verify target metadata object names - `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
+- Find existing handler patterns in the codebase - `mcp__rlm-tools-bsl__rlm_execute` (`grep`, `find_callers`, `extract_procedures`).
 
 ## SDD Integration
 

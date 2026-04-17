@@ -1,4 +1,4 @@
-﻿# meta-validate v1.0 — Validate 1C metadata object structure
+﻿# meta-validate v1.0 - Validate 1C metadata object structure
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[Parameter(Mandatory)]
@@ -259,7 +259,7 @@ if (-not $version) {
 	Report-Warn "1. Unusual version '$version' (expected 2.17 or 2.20)"
 }
 
-# Detect type element — exactly one child element in md namespace
+# Detect type element - exactly one child element in md namespace
 $typeNode = $null
 $mdType = ""
 $childElements = @()
@@ -395,7 +395,7 @@ if ($typesWithoutInternalInfo -contains $mdType) {
 
 if ($script:stopped) { & $finalize; exit 1 }
 
-# --- Check 3: Properties — Name, Synonym ---
+# --- Check 3: Properties - Name, Synonym ---
 
 if (-not $propsNode) {
 	Report-Error "3. Properties block missing"
@@ -438,7 +438,7 @@ if (-not $propsNode) {
 
 if ($script:stopped) { & $finalize; exit 1 }
 
-# --- Check 4: Property values — enum properties ---
+# --- Check 4: Property values - enum properties ---
 
 if ($propsNode) {
 	$enumChecked = 0
@@ -515,7 +515,7 @@ if ($typesWithStdAttrs -contains $mdType) {
 
 if ($script:stopped) { & $finalize; exit 1 }
 
-# --- Check 6: ChildObjects — allowed element types ---
+# --- Check 6: ChildObjects - allowed element types ---
 
 $childObjNode = $typeNode.SelectSingleNode("md:ChildObjects", $ns)
 $allowedChildren = $childObjectRules[$mdType]
@@ -550,13 +550,13 @@ if ($childObjNode) {
 } elseif ($allowedChildren.Count -eq 0) {
 	Report-OK "6. ChildObjects: absent (correct for $mdType)"
 } else {
-	# Some types may have no children — that's OK
+	# Some types may have no children - that's OK
 	Report-OK "6. ChildObjects: absent"
 }
 
 if ($script:stopped) { & $finalize; exit 1 }
 
-# --- Check 7: Attributes/Dimensions/Resources/EnumValues/Columns — UUID, Name, Type ---
+# --- Check 7: Attributes/Dimensions/Resources/EnumValues/Columns - UUID, Name, Type ---
 
 function Check-ChildElement {
 	param(
@@ -725,7 +725,7 @@ if ($childObjNode) {
 
 if ($script:stopped) { & $finalize; exit 1 }
 
-# --- Check 9: TabularSections — internal structure ---
+# --- Check 9: TabularSections - internal structure ---
 
 if ($childObjNode) {
 	$tsSections = $childObjNode.SelectNodes("md:TabularSection", $ns)
@@ -879,7 +879,7 @@ if ($propsNode) {
 if ($check10Ok -and $check10Issues -eq 0) {
 	Report-OK "10. Cross-property consistency"
 } elseif ($check10Ok) {
-	# Had warnings but no errors — already reported
+	# Had warnings but no errors - already reported
 }
 
 if ($script:stopped) { & $finalize; exit 1 }
@@ -947,7 +947,7 @@ if ($mdType -eq "HTTPService" -and $childObjNode) {
 		$opNameNode = if ($opProps) { $opProps.SelectSingleNode("md:Name", $ns) } else { $null }
 		$opName = if ($opNameNode) { $opNameNode.InnerText } else { "(unnamed)" }
 
-		# ReturnType — XDTOReturningValueType
+		# ReturnType - XDTOReturningValueType
 		$retType = if ($opProps) { $opProps.SelectSingleNode("md:XDTOReturningValueType", $ns) } else { $null }
 		if (-not $retType -or -not $retType.InnerText.Trim()) {
 			Report-Warn "11. WebService Operation '$opName': no XDTOReturningValueType"

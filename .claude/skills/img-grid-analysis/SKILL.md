@@ -3,7 +3,7 @@ name: img-grid-analysis
 description: "Overlay a numbered grid on an image to determine column proportions for layout generation. Use when creating MXL spreadsheet layouts from screenshots or scanned print forms."
 ---
 
-# Image Grid Analysis — Grid Overlay for Layout Design
+# Image Grid Analysis - Grid Overlay for Layout Design
 
 Overlays a numbered grid on a print form image. Allows precise determination of column boundaries, proportions, and spans for generating spreadsheet document layouts.
 
@@ -15,7 +15,7 @@ img-grid-analysis <ImagePath> [-c COLS] [-o OUTPUT]
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| ImagePath | yes | — | Path to image (PNG, JPG) |
+| ImagePath | yes | - | Path to image (PNG, JPG) |
 | -c COLS | no | 50 | Number of vertical divisions |
 | -r ROWS | no | auto | Number of horizontal divisions (auto = square cells) |
 | -o OUTPUT | no | `<name>-grid.<ext>` | Output path |

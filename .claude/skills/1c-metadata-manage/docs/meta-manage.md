@@ -1,9 +1,9 @@
-# 1C Metadata Manage — Compile, Edit, Info, Remove, Validate
+# 1C Metadata Manage - Compile, Edit, Info, Remove, Validate
 
 Operations for creating, modifying, analyzing, removing, and validating 1C metadata objects from configuration XML export.
 
 ---
-## 1. Compile — Create from JSON
+## 1. Compile - Create from JSON
 
 Takes a JSON definition of a metadata object and generates XML + modules in the configuration export structure, then registers it in Configuration.xml.
 
@@ -18,7 +18,7 @@ Takes a JSON definition of a metadata object and generates XML + modules in the 
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-meta-compile/scripts/meta-compile.ps1 -JsonPath "<json>" -OutputDir "<ConfigDir>"
 ```
 
-`OutputDir` — directory containing type subfolders (`Catalogs/`, `Documents/`, ...) and `Configuration.xml`.
+`OutputDir` - directory containing type subfolders (`Catalogs/`, `Documents/`, ...) and `Configuration.xml`.
 
 ## Supported Types (23)
 
@@ -34,7 +34,7 @@ Report, DataProcessor
 ### Service Types
 Constant, DefinedType, CommonModule, ScheduledJob, EventSubscription, DocumentJournal, HTTPService, WebService
 
-## JSON DSL — Quick Reference
+## JSON DSL - Quick Reference
 
 Full specification: `docs/meta-dsl-spec.md`.
 
@@ -51,12 +51,12 @@ Full specification: `docs/meta-dsl-spec.md`.
 }
 ```
 
-### Attributes — Shorthand
+### Attributes - Shorthand
 
 ```
-"AttributeName"                     — String without qualifiers
-"AttributeName: Type"               — with type
-"AttributeName: Type | req, index"  — with flags
+"AttributeName"                     - String without qualifiers
+"AttributeName: Type"               - with type
+"AttributeName: Type | req, index"  - with flags
 ```
 
 Types: `String(100)`, `Number(15,2)`, `Boolean`, `Date`, `DateTime`, `CatalogRef.Xxx`, `DocumentRef.Xxx`, `EnumRef.Xxx`, `ChartOfAccountsRef.Xxx`, `ChartOfCharacteristicTypesRef.Xxx`, `ChartOfCalculationTypesRef.Xxx`, `ExchangePlanRef.Xxx`, `BusinessProcessRef.Xxx`, `TaskRef.Xxx`, `DefinedType.Xxx`.
@@ -163,23 +163,23 @@ Context shortcuts: `"server"` → Server+ServerCall, `"client"` → ClientManage
 
 ## What Gets Generated
 
-- `{OutputDir}/{TypePlural}/{Name}.xml` — object metadata
-- `{OutputDir}/{TypePlural}/{Name}/Ext/ObjectModule.bsl` — object module (Catalog, Document, Report, DataProcessor, ExchangePlan, ChartOfAccounts, ChartOfCharacteristicTypes, ChartOfCalculationTypes, BusinessProcess, Task)
-- `{OutputDir}/{TypePlural}/{Name}/Ext/RecordSetModule.bsl` — record set module (4 register types)
-- `{OutputDir}/{TypePlural}/{Name}/Ext/Module.bsl` — module (CommonModule, HTTPService, WebService)
-- `{OutputDir}/{TypePlural}/{Name}/Ext/Content.xml` — exchange plan content (ExchangePlan)
-- `{OutputDir}/{TypePlural}/{Name}/Ext/Flowchart.xml` — route map (BusinessProcess)
-- `Configuration.xml` — automatic registration in `<ChildObjects>`
+- `{OutputDir}/{TypePlural}/{Name}.xml` - object metadata
+- `{OutputDir}/{TypePlural}/{Name}/Ext/ObjectModule.bsl` - object module (Catalog, Document, Report, DataProcessor, ExchangePlan, ChartOfAccounts, ChartOfCharacteristicTypes, ChartOfCalculationTypes, BusinessProcess, Task)
+- `{OutputDir}/{TypePlural}/{Name}/Ext/RecordSetModule.bsl` - record set module (4 register types)
+- `{OutputDir}/{TypePlural}/{Name}/Ext/Module.bsl` - module (CommonModule, HTTPService, WebService)
+- `{OutputDir}/{TypePlural}/{Name}/Ext/Content.xml` - exchange plan content (ExchangePlan)
+- `{OutputDir}/{TypePlural}/{Name}/Ext/Flowchart.xml` - route map (BusinessProcess)
+- `Configuration.xml` - automatic registration in `<ChildObjects>`
 
 ## Verification
 
 ```
-1c-meta-info <OutputDir>/<TypePlural>/<Name>.xml    — check structure
-1c-meta-validate <OutputDir>/<TypePlural>/<Name>.xml — validate XML
+1c-meta-info <OutputDir>/<TypePlural>/<Name>.xml    - check structure
+1c-meta-validate <OutputDir>/<TypePlural>/<Name>.xml - validate XML
 ```
 
 ---
-## 2. Edit — Modify Existing Object
+## 2. Edit - Modify Existing Object
 
 Atomic modification operations on existing metadata object XML files.
 
@@ -205,11 +205,11 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-meta-edit/scr
 | DefinitionFile | JSON file with operations (alternative to Operation) |
 | NoValidate | Skip meta-validate after editing |
 
-## Operations — Summary Table
+## Operations - Summary Table
 
 Batch via `;;` in all operations. Detailed syntax in linked reference files.
 
-### Child Elements — [child-operations.md](skills/1c-metadata-manage/tools/1c-meta-edit/child-operations.md)
+### Child Elements - [child-operations.md](skills/1c-metadata-manage/tools/1c-meta-edit/child-operations.md)
 
 | Operation | Value Format | Example |
 |-----------|-------------|---------|
@@ -229,7 +229,7 @@ Batch via `;;` in all operations. Detailed syntax in linked reference files.
 
 Positional insert: `"Склад: CatalogRef.Склады >> after Организация"`.
 
-### Object Properties — [properties-reference.md](skills/1c-metadata-manage/tools/1c-meta-edit/properties-reference.md)
+### Object Properties - [properties-reference.md](skills/1c-metadata-manage/tools/1c-meta-edit/properties-reference.md)
 
 | Operation | Value Format | Example |
 |-----------|-------------|---------|
@@ -241,7 +241,7 @@ Positional insert: `"Склад: CatalogRef.Склады >> after Организ
 | `set-owners` / `set-registerRecords` / `set-basedOn` / `set-inputByString` | Replace entire list | `"Catalog.Орг ;; Catalog.Контр"` |
 | `remove-owner` / `remove-registerRecord` / ... | Remove from list | `"Catalog.Контрагенты"` |
 
-### JSON DSL — [json-dsl.md](skills/1c-metadata-manage/tools/1c-meta-edit/json-dsl.md)
+### JSON DSL - [json-dsl.md](skills/1c-metadata-manage/tools/1c-meta-edit/json-dsl.md)
 
 For combined operations (add + remove + modify in one file), key/type synonyms, supported object table.
 
@@ -270,12 +270,12 @@ For combined operations (add + remove + modify in one file), key/type synonyms, 
 ## Verification
 
 ```
-1c-meta-validate <ObjectPath>    — validate after editing
-1c-meta-info <ObjectPath>        — visual summary
+1c-meta-validate <ObjectPath>    - validate after editing
+1c-meta-info <ObjectPath>        - visual summary
 ```
 
 ---
-## 3. Info — Analyze Structure
+## 3. Info - Analyze Structure
 
 Reads a metadata object XML from a 1C configuration export and outputs a compact structure description.
 
@@ -301,7 +301,7 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-meta-info/scr
 | `brief` | Everything in one-two lines: field names, counters |
 | `full` | Everything expanded: TS columns, subscription sources, register records, forms |
 
-`-Name` — drill-down: expand a specific object element (tabular section, attribute, URL template, web service operation).
+`-Name` - drill-down: expand a specific object element (tabular section, attribute, URL template, web service operation).
 
 ## Supported Types (23)
 
@@ -313,22 +313,22 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-meta-info/scr
 ## Examples
 
 ```powershell
-# Catalog — overview
+# Catalog - overview
 ... -ObjectPath Catalogs/Валюты/Валюты.xml
 
-# Document — full summary with TS columns, register records, forms
+# Document - full summary with TS columns, register records, forms
 ... -ObjectPath Documents/АвансовыйОтчет/АвансовыйОтчет.xml -Mode full
 
-# Information register — brief
+# Information register - brief
 ... -ObjectPath InformationRegisters/КурсыВалют/КурсыВалют.xml -Mode brief
 
 # Drill-down into a document tabular section
 ... -ObjectPath Documents/АвансовыйОтчет/АвансовыйОтчет.xml -Name Товары
 
-# Common module — context flags and return value reuse
+# Common module - context flags and return value reuse
 ... -ObjectPath CommonModules/ОбщегоНазначения/ОбщегоНазначения.xml
 
-# HTTP service — URL templates and methods
+# HTTP service - URL templates and methods
 ... -ObjectPath HTTPServices/ExternalAPI/ExternalAPI.xml
 
 # Drill-down into a URL template
@@ -336,7 +336,7 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-meta-info/scr
 ```
 
 ---
-## 4. Remove — Delete Object
+## 4. Remove - Delete Object
 
 Safely removes an object from a 1C configuration XML export. Before deletion, checks for references to the object in attributes, code, and other metadata. If references are found, deletion is blocked.
 
@@ -380,12 +380,12 @@ Catalog, Document, Enum, Constant, InformationRegister, AccumulationRegister, Ac
 | BSL code (English) | `Catalogs.Name`, `Documents.Name`, `Enums.Name`, etc. |
 | Common modules | `Name.` (method calls), `<Handler>Name.`, `<MethodName>Name.` |
 
-References from Configuration.xml, ConfigDumpInfo.xml, and subsystems are NOT blocking — they are cleaned automatically.
+References from Configuration.xml, ConfigDumpInfo.xml, and subsystems are NOT blocking - they are cleaned automatically.
 
 ## Examples
 
 ```powershell
-# Dry run — check references
+# Dry run - check references
 ... -ConfigDir src/cf -Object "Catalog.Obsolete" -DryRun
 
 # Delete object with no references
@@ -401,7 +401,7 @@ References from Configuration.xml, ConfigDumpInfo.xml, and subsystems are NOT bl
 Exit code: 0 = success, 1 = errors or references found.
 
 ---
-## 5. Validate — Check Correctness
+## 5. Validate - Check Correctness
 
 Checks a metadata object XML from a configuration export for structural errors: root structure, InternalInfo, properties, allowed values, StandardAttributes, ChildObjects, name uniqueness, tabular sections, cross-properties, nested HTTP/Web service structures.
 
@@ -409,11 +409,11 @@ Checks a metadata object XML from a configuration export for structural errors: 
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| ObjectPath | yes | — | Path to the XML file or object directory |
+| ObjectPath | yes | - | Path to the XML file or object directory |
 | MaxErrors | no | 30 | Stop after N errors |
-| OutFile | no | — | Write result to file (UTF-8 BOM) |
+| OutFile | no | - | Write result to file (UTF-8 BOM) |
 
-`ObjectPath` auto-resolve: if a directory is given — looks for `<dirName>/<dirName>.xml`.
+`ObjectPath` auto-resolve: if a directory is given - looks for `<dirName>/<dirName>.xml`.
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-meta-validate/scripts/meta-validate.ps1 -ObjectPath "<path>"
@@ -433,15 +433,15 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-meta-validate
 |---|-------|----------|
 | 1 | XML well-formedness + root structure | ERROR |
 | 2 | InternalInfo / GeneratedType | ERROR / WARN |
-| 3 | Properties — Name, Synonym | ERROR / WARN |
-| 4 | Properties — enum property values | ERROR |
+| 3 | Properties - Name, Synonym | ERROR / WARN |
+| 4 | Properties - enum property values | ERROR |
 | 5 | StandardAttributes | ERROR / WARN |
-| 6 | ChildObjects — allowed element types | ERROR |
-| 7 | Attributes/Dimensions/Resources — UUID, Name, Type | ERROR |
+| 6 | ChildObjects - allowed element types | ERROR |
+| 7 | Attributes/Dimensions/Resources - UUID, Name, Type | ERROR |
 | 8 | Name uniqueness | ERROR |
-| 9 | TabularSections — internal structure | ERROR / WARN |
+| 9 | TabularSections - internal structure | ERROR / WARN |
 | 10 | Cross-property consistency | ERROR / WARN |
-| 11 | HTTPService/WebService — nested structure | ERROR |
+| 11 | HTTPService/WebService - nested structure | ERROR |
 
 Exit code: 0 = all checks passed, 1 = errors found.
 
@@ -461,9 +461,9 @@ Exit code: 0 = all checks passed, 1 = errors found.
 ## Verification Workflow
 
 ```
-1c-meta-compile <JsonPath> <OutputDir>              — generate XML
-1c-meta-validate <OutputDir>/<Type>/<Name>.xml      — check result
-1c-meta-info <OutputDir>/<Type>/<Name>.xml          — visual summary
+1c-meta-compile <JsonPath> <OutputDir>              - generate XML
+1c-meta-validate <OutputDir>/<Type>/<Name>.xml      - check result
+1c-meta-info <OutputDir>/<Type>/<Name>.xml          - visual summary
 ```
 
 ## When to Use
@@ -477,23 +477,23 @@ Exit code: 0 = all checks passed, 1 = errors found.
 ## Typical Workflow
 
 ```
-1c-meta-compile <JsonPath> <OutputDir>     — create object from JSON
-1c-meta-validate <ObjectPath>              — validate generated XML
-1c-meta-info <ObjectPath>                  — review structure
-1c-meta-edit <ObjectPath> -Operation ...   — modify as needed
-1c-meta-validate <ObjectPath>              — validate after editing
-1c-meta-remove -ConfigDir <path> -Object   — remove when obsolete
+1c-meta-compile <JsonPath> <OutputDir>     - create object from JSON
+1c-meta-validate <ObjectPath>              - validate generated XML
+1c-meta-info <ObjectPath>                  - review structure
+1c-meta-edit <ObjectPath> -Operation ...   - modify as needed
+1c-meta-validate <ObjectPath>              - validate after editing
+1c-meta-remove -ConfigDir <path> -Object   - remove when obsolete
 ```
 
 ---
 ## MCP Integration
 
-- Verify object names don't conflict, check attribute types, find objects to remove and their relationships — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`, `grep`).
-- Look up platform documentation for metadata type properties and valid property values when investigating validation errors — `mcp__1c-syntax__search_syntax` → `get_function_info`.
-- Semantic/NL search for related metadata objects — not available as a dedicated tool; use descriptive grep and synonym-based `parse_object_xml` iterations via `mcp__rlm-tools-bsl__rlm_execute` (see Capability boundaries in `.claude/rules/mcp-tools.md`).
-- Questions about object structure — parse the XML directly via `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`); `1c-meta-info` provides more detailed structural analysis.
-- Find code references to objects before removal — `mcp__rlm-tools-bsl__rlm_execute` (`grep`, `find_callers`, `find_callers_context`).
-- Verify BSL code in object modules after fixing structural issues — `claude-code-bsl-lsp` for diagnostics plus manual review against `.claude/rules/anti-patterns.md`.
+- Verify object names don't conflict, check attribute types, find objects to remove and their relationships - `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`, `grep`).
+- Look up platform documentation for metadata type properties and valid property values when investigating validation errors - `mcp__1c-syntax__search_syntax` → `get_function_info`.
+- Semantic/NL search for related metadata objects - not available as a dedicated tool; use descriptive grep and synonym-based `parse_object_xml` iterations via `mcp__rlm-tools-bsl__rlm_execute` (see Capability boundaries in `.claude/rules/mcp-tools.md`).
+- Questions about object structure - parse the XML directly via `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`); `1c-meta-info` provides more detailed structural analysis.
+- Find code references to objects before removal - `mcp__rlm-tools-bsl__rlm_execute` (`grep`, `find_callers`, `find_callers_context`).
+- Verify BSL code in object modules after fixing structural issues - `bsl-language-server` for diagnostics plus manual review against `.claude/rules/anti-patterns.md`.
 
 ## SDD Integration
 

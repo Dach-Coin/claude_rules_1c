@@ -300,7 +300,7 @@ function Emit-Element {
 		return
 	}
 
-	# Validate known keys — warn about typos and unknown properties
+	# Validate known keys - warn about typos and unknown properties
 	$knownKeys = @{
 		# type keys
 		"group"=1;"input"=1;"check"=1;"label"=1;"labelField"=1;"table"=1;"pages"=1;"page"=1
@@ -337,7 +337,7 @@ function Emit-Element {
 	}
 	foreach ($p in $el.PSObject.Properties) {
 		if (-not $knownKeys.ContainsKey($p.Name)) {
-			Write-Warning "Element '$($el.$typeKey)': unknown key '$($p.Name)' — ignored. Check SKILL.md for valid keys."
+			Write-Warning "Element '$($el.$typeKey)': unknown key '$($p.Name)' - ignored. Check SKILL.md for valid keys."
 		}
 	}
 
@@ -1042,7 +1042,7 @@ if ($def.title) {
 X '<?xml version="1.0" encoding="UTF-8"?>'
 X '<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcssch="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.17">'
 
-# Oops — Title was emitted before header. Need to fix the order.
+# Oops - Title was emitted before header. Need to fix the order.
 # Actually, let me restructure: build the body into a separate buffer, then assemble
 
 # Reset and rebuild properly
@@ -1052,7 +1052,7 @@ $script:nextId = 1
 X '<?xml version="1.0" encoding="UTF-8"?>'
 X '<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcssch="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.17">'
 
-# 12a. Title (from def.title or properties.title — must be multilingual XML)
+# 12a. Title (from def.title or properties.title - must be multilingual XML)
 $formTitle = $def.title
 if (-not $formTitle -and $def.properties -and $def.properties.title) {
 	$formTitle = $def.properties.title
@@ -1061,7 +1061,7 @@ if ($formTitle) {
 	Emit-MLText -tag "Title" -text "$formTitle" -indent "`t"
 }
 
-# 12b. Properties (skip 'title' — handled above as multilingual)
+# 12b. Properties (skip 'title' - handled above as multilingual)
 if ($def.properties) {
 	$propsClone = New-Object PSObject
 	foreach ($p in $def.properties.PSObject.Properties) {

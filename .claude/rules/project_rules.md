@@ -2,9 +2,9 @@
 
 <!-- Scope: coding standards, query rules, data access, performance.
      Persona, tool selection, workflow and skill dispatch live elsewhere:
-     - CLAUDE.md — persona, project parameters, workflow
-     - .claude/rules/mcp-tools.md — tool selection, task-to-tool mapping
-     - .claude/skills_instructions.md — skill dispatch -->
+     - CLAUDE.md - persona, project parameters, workflow
+     - .claude/rules/mcp-tools.md - tool selection, task-to-tool mapping
+     - .claude/skills_instructions.md - skill dispatch -->
 
 ## Scope
 
@@ -12,19 +12,50 @@ This file documents BSL coding standards only. For tool selection, workflow and 
 
 ## Coding Guidelines
 
-- Follow `bsl-language-server` recommendations surfaced by `claude-code-bsl-lsp`.
+- Follow `bsl-language-server` recommendations (plugin in-session, or `bsl-language-server.exe --analyze` from the CLI). It is a Claude Code plugin, not an MCP server - never call it with an `mcp__*` prefix.
 - Do not use `Попытка...Исключение` (Try/Except) for reading from or writing to the database unless there is a specific, well-justified reason for transaction control.
 - Do not call `ЗаписьЖурналаРегистрации()` unless explicitly asked.
 - Do not use `Сообщить()` to report messages to the user. Use `ОбщегоНазначения.СообщитьПользователю` (server-side) or `ОбщегоНазначенияКлиент.СообщитьПользователю` (client-side) instead.
 - Avoid boolean comparisons to `Истина`/`Ложь`; use boolean expressions directly.
 - Simple ternary operators `?(Condition, TrueValue, FalseValue)` are allowed. Nested ternary operators are **PROHIBITED**.
 - Do not use Hungarian notation for variable names (e.g., use `Контрагенты` instead of `МассивКонтрагентов`).
-- Do not use names from the 1C global context for variables (e.g., `Документы`, `Справочники`, `Пользователи`, `Регистры`, `Метаданные`, `Константы`) — they create collisions and hurt readability.
+- Do not use names from the 1C global context for variables (e.g., `Документы`, `Справочники`, `Пользователи`, `Регистры`, `Метаданные`, `Константы`) - they create collisions and hurt readability.
 
 ## Comments
 
 - Prefer self-documenting code over comments. Avoid comments that simply repeat what the code does.
 - Comments are appropriate only when they add value: explaining motivation/reasoning, describing a non-trivial algorithm, documenting constraints/side effects, marking technical debt, or providing context that cannot be expressed clearly in code.
+
+### Human-like comments
+
+Live developers write comments rarely, briefly, and only to explain the *motive* that the code itself cannot show. Agent-generated commentary tends to over-explain. Match the human style.
+
+**Anti-patterns - do not write:**
+
+- **Banner separators** (`// ====================== ИНИЦИАЛИЗАЦИЯ ФОРМЫ ======================`) - regions (`#Область` / `#КонецОбласти`) handle visual structure.
+- **Module-header preambles** with formal "Назначение / Автор / Версия" fields - that information lives in version control and metadata, not in source comments.
+- **Restating the next line** of code (`// Устанавливаем видимость кнопки` immediately above `Кнопка.Видимость = Истина;`).
+- **Lecturing tone** - "Здесь мы инициализируем...", "Важно отметить, что...", "Далее выполняется проверка...". Drop the meta-narration.
+- **Apologetic / historical commentary** - "// TODO: разобраться, почему это вообще работает", "// Костыль, но платформа не дает иначе". Either fix it or describe the constraint factually.
+- **Comments around obvious guards** like `Если НЕ ЗначениеЗаполнено(Ссылка) Тогда Возврат; КонецЕсли;` - the code reads itself.
+
+**Acceptable patterns - one short line, motive only:**
+
+- Non-obvious invariant or constraint that the reader cannot infer from the code.
+- Platform-specific workaround for a specific known bug.
+- Order-of-operations remark when the order is load-bearing and not visible from the call site.
+- Public `Экспорт`-procedures get the formal documentation header from `dev-standards-core.md` § "Procedure/Function Documentation" - that is API documentation, not narrative inside the body.
+
+**Rule of thumb:** if removing a comment would not confuse a future reader, the comment is noise. Prefer fewer, sharper comments over many bland ones.
+
+| Form | Comment |
+|---|---|
+| OK | `// Платформа теряет привязку, если перечитать набор внутри транзакции.` |
+| OK | `// Порядок важен: сначала очистка движений, затем перезаполнение.` |
+| OK | `// Обход бага платформы 8.3.21 с двойным вызовом ПриЗаписи.` |
+| NOT OK | `// Устанавливаем флаг проведения` (over `Документ.Проведен = Истина;`) |
+| NOT OK | `// =========== ОБРАБОТЧИКИ СОБЫТИЙ ФОРМЫ ===========` |
+| NOT OK | `// Здесь мы получаем данные из регистра и обрабатываем их` |
 
 ## Code Review
 
@@ -34,9 +65,9 @@ This file documents BSL coding standards only. For tool selection, workflow and 
 ## Module Regions
 
 - Use regions with the following purposes:
-  - `ПрограммныйИнтерфейс` — public interface
-  - `СлужебныйПрограммныйИнтерфейс` — internal/private interface
-  - `СлужебныеПроцедурыИФункции` — helper procedures and functions
+  - `ПрограммныйИнтерфейс` - public interface
+  - `СлужебныйПрограммныйИнтерфейс` - internal/private interface
+  - `СлужебныеПроцедурыИФункции` - helper procedures and functions
 
 ## Code Reuse
 
@@ -71,11 +102,32 @@ This file documents BSL coding standards only. For tool selection, workflow and 
 - Use query parameters (`Запрос.УстановитьПараметр()`) instead of string concatenation to prevent SQL injection and improve performance.
 - For complex data retrieval, prefer batch queries with temporary tables over multiple separate queries.
 
+## Dot Notation in Query Text
+
+Dereferencing reference fields through a dot in **query text** is the standard 1C idiom (it expands into an automatic LEFT JOIN handled by the platform). It is allowed and preferred over manual JOINs for ordinary references.
+
+```sql
+ВЫБРАТЬ
+    Заказ.Контрагент.ИНН КАК ИНН,
+    Заказ.Договор.Валюта КАК Валюта
+ИЗ
+    Документ.ЗаказКлиента КАК Заказ
+```
+
+**Composite-type fields require care:**
+- In **JOIN conditions** (`ПО ... = ...`) and `ГДЕ` predicates - dot dereference of a composite-type field is **PROHIBITED** (each branch generates a separate JOIN, plan blows up). Convert via temp table or `ВЫРАЗИТЬ(...)` upfront.
+- In the **SELECT list** - allowed only when the field is wrapped in `ВЫРАЗИТЬ(... КАК Документ.ИмяТипа)` to fix the type:
+  ```sql
+  ВЫБРАТЬ ВЫРАЗИТЬ(ЗП.ДокументОснование КАК Документ.ЗаказКлиента).Номер КАК Номер
+  ```
+
+**Do not confuse with the BSL anti-pattern:** dot notation in **BSL code** (`Контрагент.ИНН` on a reference variable) loads the whole object - that is forbidden, see `.claude/rules/anti-patterns.md` and the section below.
+
 # Data Access Guidelines
 
-## Reference Attribute Access
+## Reference Attribute Access (in BSL code)
 
-Do not access reference attributes via dot notation (e.g. `Контрагент.ИНН`) — it fetches the entire object from the database. Use the dedicated BSP (`ОбщегоНазначения`) helpers instead:
+Do not access reference attributes via dot notation **in BSL code** (e.g. `Контрагент.ИНН` on a reference variable) - it fetches the entire object from the database. This restriction is for code, not query text (see "Dot Notation in Query Text" above). Use the dedicated BSP (`ОбщегоНазначения`) helpers instead:
 
 | Method | Purpose | Example |
 |---|---|---|
@@ -83,7 +135,7 @@ Do not access reference attributes via dot notation (e.g. `Контрагент.
 | `ОбщегоНазначения.ЗначенияРеквизитовОбъекта` | Multiple attributes from one ref | `ОбщегоНазначения.ЗначенияРеквизитовОбъекта(Контрагент, "ИНН, Наименование")` |
 | `ОбщегоНазначения.ЗначениеРеквизитаОбъектов` | Same attribute from multiple refs | `ОбщегоНазначения.ЗначениеРеквизитаОбъектов(МассивКонтрагентов, "ИНН")` |
 
-BSP function reference: read signatures directly from BSP modules via `mcp__rlm-tools-bsl__rlm_execute` (`find_exports`, `extract_procedures`); see `.claude/skills/1c-metadata-manage/docs/ssl-patterns.md` for the search workflow. `1c-syntax` does not cover BSP modules — it only documents platform built-ins.
+BSP function reference: read signatures directly from BSP modules via `mcp__rlm-tools-bsl__rlm_execute` (`find_exports`, `extract_procedures`); see `.claude/skills/1c-metadata-manage/docs/ssl-patterns.md` for the search workflow. `1c-syntax` does not cover BSP modules - it only documents platform built-ins.
 
 ## Caching in Loops
 
@@ -118,7 +170,7 @@ Caching is appropriate for:
 
 # Performance & Optimization Guidelines
 
-Logic and performance review is manual in the current toolset — follow the checklists in `.claude/rules/anti-patterns.md` plus diagnostics from `claude-code-bsl-lsp`. See Capability boundaries in `.claude/rules/mcp-tools.md`.
+Logic and performance review is manual in the current toolset - follow the checklists in `.claude/rules/anti-patterns.md` plus diagnostics from `bsl-language-server`. See Capability boundaries in `.claude/rules/mcp-tools.md`.
 
 ## Server Context
 
@@ -130,7 +182,7 @@ Logic and performance review is manual in the current toolset — follow the che
 
 - Prefer queries over manual iteration for data retrieval from collections.
 - Index frequently queried fields in configuration metadata.
-- Avoid queries inside loops — use batch queries with temporary tables.
+- Avoid queries inside loops - use batch queries with temporary tables.
 - Use `ПЕРВЫЕ N` (TOP N) when only a subset of records is needed.
 
 ## Privileged Mode
@@ -162,7 +214,7 @@ Logic and performance review is manual in the current toolset — follow the che
 
 # Metadata Management
 
-Structural metadata work (creating/editing/validating objects, forms, reports, layouts, roles, extensions, databases) is delegated to the `1c-metadata-manage` skill — see `.claude/skills_instructions.md`. For multi-step or multi-domain metadata work, invoke the `metadata-manager` agent. For a single lookup, inspect the configuration directly via `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml).
+Structural metadata work (creating/editing/validating objects, forms, reports, layouts, roles, extensions, databases) is delegated to the `1c-metadata-manage` skill - see `.claude/skills_instructions.md`. For multi-step or multi-domain metadata work, invoke the `metadata-manager` agent. For a single lookup, inspect the configuration directly via `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml).
 
 # Documentation
 

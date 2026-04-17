@@ -1,9 +1,9 @@
-# 1C SKD Manage — Compile, Edit, Info, Validate
+# 1C SKD Manage - Compile, Edit, Info, Validate
 
 Comprehensive Data Composition Schema (DCS/SKD) management: create from JSON, modify existing schemas, analyze structure, validate correctness.
 
 ---
-## 1. Compile — Create from JSON
+## 1. Compile - Create from JSON
 
 Takes a JSON definition of a Data Composition Schema and generates Template.xml (DataCompositionSchema).
 
@@ -23,7 +23,7 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-skd-compile/s
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-skd-compile/scripts/skd-compile.ps1 -Value '<json-string>' -OutputPath "<Template.xml>"
 ```
 
-### JSON DSL — Quick Reference
+### JSON DSL - Quick Reference
 
 Full specification is embedded below.
 
@@ -50,13 +50,13 @@ Type by key: `query` → DataSetQuery, `objectName` → DataSetObject, `items` �
 { "name": "Продажи", "query": "ВЫБРАТЬ ...", "fields": [...] }
 ```
 
-#### Fields — Shorthand
+#### Fields - Shorthand
 
 ```
-"Наименование"                              — just name
-"Количество: decimal(15,2)"                  — name + type
-"Организация: CatalogRef.Организации @dimension"  — + role
-"Служебное: string #noFilter #noOrder"       — + restrictions
+"Наименование"                              - just name
+"Количество: decimal(15,2)"                  - name + type
+"Организация: CatalogRef.Организации @dimension"  - + role
+"Служебное: string #noFilter #noOrder"       - + restrictions
 ```
 
 Types: `string`, `string(N)`, `decimal(D,F)`, `boolean`, `date`, `dateTime`, `CatalogRef.X`, `DocumentRef.X`, `EnumRef.X`, `StandardPeriod`. Reference types are emitted with inline namespace `d5p1:` (`http://v8.1c.ru/8.1/data/enterprise/current-config`). Building an EPF with reference types requires a database with the corresponding configuration.
@@ -80,9 +80,9 @@ Restrictions: `#noField`, `#noFilter`, `#noGroup`, `#noOrder`.
 ]
 ```
 
-`@autoDates` — automatically generates `ДатаНачала` and `ДатаОкончания` parameters with expressions `&Период.ДатаНачала` / `&Период.ДатаОкончания` and `availableAsField=false`. Replaces 5 lines with 1.
+`@autoDates` - automatically generates `ДатаНачала` and `ДатаОкончания` parameters with expressions `&Период.ДатаНачала` / `&Период.ДатаОкончания` and `availableAsField=false`. Replaces 5 lines with 1.
 
-#### Filters — Shorthand
+#### Filters - Shorthand
 
 ```json
 "filter": [
@@ -94,7 +94,7 @@ Restrictions: `#noField`, `#noFilter`, `#noGroup`, `#noOrder`.
 
 Format: `"Field operator value @flags"`. Value `_` = empty (placeholder). Flags: `@off` (use=false), `@user` (userSettingID=auto), `@quickAccess`, `@normal`, `@inaccessible`.
 
-#### Structure — String Shorthand
+#### Structure - String Shorthand
 
 ```json
 "structure": "Организация > details"
@@ -164,7 +164,7 @@ Format: `"Field operator value @flags"`. Value `_` = empty (placeholder). Flags:
 ```
 
 ---
-## 2. Edit — Modify Existing Schema
+## 2. Edit - Modify Existing Schema
 
 Atomic modification operations on an existing Data Composition Schema: add, remove, and modify fields, totals, filters, parameters, variant settings, structure management, query replacement.
 
@@ -172,7 +172,7 @@ Atomic modification operations on an existing Data Composition Schema: add, remo
 
 | Parameter | Description |
 |-----------|-------------|
-| `TemplatePath` | Path to Template.xml (or folder — auto-completes to Ext/Template.xml) |
+| `TemplatePath` | Path to Template.xml (or folder - auto-completes to Ext/Template.xml) |
 | `Operation` | Operation (see list below) |
 | `Value` | Operation value (shorthand string or query text) |
 | `DataSet` | (opt.) Data set name (default: first) |
@@ -195,76 +195,76 @@ Works for all operations except `set-query`, `set-structure`, and `add-dataSet`.
 
 ### Operations
 
-#### add-field — Add Field to Data Set
+#### add-field - Add Field to Data Set
 
 Shorthand: `"Name [Title]: type @role #restriction"`.
 
-#### add-total — Add Total
+#### add-total - Add Total
 
 ```
 "Цена: Среднее"
 "Стоимость: Сумма(Кол * Цена)"
 ```
 
-#### add-calculated-field — Add Calculated Field
+#### add-calculated-field - Add Calculated Field
 
 Shorthand: `"Name [Title]: type = Expression"`.
 
-#### add-parameter — Add Parameter
+#### add-parameter - Add Parameter
 
 ```
 "Период: StandardPeriod = LastMonth @autoDates"
 ```
 
-#### add-filter — Add Filter to Variant
+#### add-filter - Add Filter to Variant
 
 Shorthand: `"Field operator value @flags"`. Flags: `@off`, `@user`, `@quickAccess`, `@normal`, `@inaccessible`.
 
-#### add-dataParameter — Add Data Parameter to Variant
+#### add-dataParameter - Add Data Parameter to Variant
 
 Shorthand: `"Name [= value] @flags"`.
 
-#### add-order — Add Sort Order
+#### add-order - Add Sort Order
 
-Shorthand: `"Field [desc]"`. Default is asc. `Auto` — auto element.
+Shorthand: `"Field [desc]"`. Default is asc. `Auto` - auto element.
 
-#### add-selection — Add Selection Element
+#### add-selection - Add Selection Element
 
-#### add-dataSetLink — Add Data Set Link
+#### add-dataSetLink - Add Data Set Link
 
 Shorthand: `"Source > Target on SrcExpr = DstExpr [param Name]"`.
 
-#### add-dataSet — Add Data Set
+#### add-dataSet - Add Data Set
 
 Shorthand: `"Name: QUERY_TEXT"` or `"QUERY_TEXT"` (auto-name). Does not support batch mode.
 
-#### add-variant — Add Settings Variant
+#### add-variant - Add Settings Variant
 
 Shorthand: `"Name [Presentation]"`.
 
-#### add-conditionalAppearance — Add Conditional Appearance
+#### add-conditionalAppearance - Add Conditional Appearance
 
 Shorthand: `"Parameter = value [when condition] [for Field1, Field2]"`.
 
-#### set-query — Replace Query Text
+#### set-query - Replace Query Text
 
 Value = full query text. Does not support batch mode.
 
-#### set-outputParameter — Set Output Parameter
+#### set-outputParameter - Set Output Parameter
 
 ```
 "Заголовок = My Report"
 ```
 
-#### set-structure — Set Variant Structure
+#### set-structure - Set Variant Structure
 
 Shorthand: `"Field1 > Field2 > details"`. Replaces entire structure. Does not support batch mode.
 
-#### modify-field — Modify Existing Field
+#### modify-field - Modify Existing Field
 
 Same shorthand as `add-field`. Finds by dataPath, merges properties.
 
-#### modify-filter / modify-dataParameter — Modify Existing Filter/Parameter
+#### modify-filter / modify-dataParameter - Modify Existing Filter/Parameter
 
 #### remove-* and clear-*
 
@@ -280,7 +280,7 @@ Same shorthand as `add-field`. Finds by dataPath, merges properties.
 | `clear-filter` | `*` | Clear all filter elements |
 
 ---
-## 3. Info — Analyze Structure
+## 3. Info - Analyze Structure
 
 Reads a Template.xml Data Composition Schema (DCS) and outputs a compact summary. Replaces the need to read thousands of XML lines.
 
@@ -311,24 +311,24 @@ With mode specified:
 
 | Mode | Without `-Name` | With `-Name` |
 |------|-----------------|--------------|
-| `overview` | Navigation map of the schema + Next hints | — |
-| `query` | — | Query text of the data set (with batch index) |
+| `overview` | Navigation map of the schema + Next hints | - |
+| `query` | - | Query text of the data set (with batch index) |
 | `fields` | Map: field names by data set | Field detail: set, type, role, format |
-| `links` | All data set links | — |
+| `links` | All data set links | - |
 | `calculated` | Map: calculated field names | Expression + title + restrictions |
 | `resources` | Map: resource field names (`*` = group formulas) | Aggregation formulas by groupings |
-| `params` | Parameters table: type, value, visibility | — |
+| `params` | Parameters table: type, value, visibility | - |
 | `variant` | Variant list | Grouping structure + filters + output |
 | `templates` | Template binding map (field/group) | Template content: rows, cells, expressions |
-| `trace` | — | Full chain: data set → calculation → resource |
-| `full` | Full summary: overview + query + fields + resources + params + variant | — |
+| `trace` | - | Full chain: data set → calculation → resource |
+| `full` | Full summary: overview + query + fields + resources + params + variant | - |
 
-Pattern: without `-Name` — map/index, with `-Name` — detail of a specific element. `full` mode combines 6 key modes in one call.
+Pattern: without `-Name` - map/index, with `-Name` - detail of a specific element. `full` mode combines 6 key modes in one call.
 
 Detailed output examples for each mode are in `skills/1c-metadata-manage/tools/1c-skd-info/modes-reference.md`.
 
 ---
-## 4. Validate — Check Correctness
+## 4. Validate - Check Correctness
 
 Checks structural correctness of a Template.xml Data Composition Schema. Detects format errors, broken references, duplicate names.
 
@@ -378,9 +378,9 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-skd-validate/
 ---
 ## MCP Integration
 
-- Verify object and attribute names used in queries; cross-reference field names with actual metadata objects — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
-- Find similar DCS patterns in the codebase — `mcp__rlm-tools-bsl__rlm_execute` (`glob_files` on `**/Templates/*/Ext/Template.xml` + `read_file`). Cross-project curated DCS templates are not available — see Capability boundaries in `.claude/rules/mcp-tools.md`.
-- Look up valid DCS element types and properties when investigating validation errors; DCS platform documentation — `mcp__1c-syntax__search_syntax` → `get_function_info`.
+- Verify object and attribute names used in queries; cross-reference field names with actual metadata objects - `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
+- Find similar DCS patterns in the codebase - `mcp__rlm-tools-bsl__rlm_execute` (`glob_files` on `**/Templates/*/Ext/Template.xml` + `read_file`). Cross-project curated DCS templates are not available - see Capability boundaries in `.claude/rules/mcp-tools.md`.
+- Look up valid DCS element types and properties when investigating validation errors; DCS platform documentation - `mcp__1c-syntax__search_syntax` → `get_function_info`.
 
 ## SDD Integration
 

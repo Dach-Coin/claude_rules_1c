@@ -1,4 +1,4 @@
-# 1C Database Manage — Registry and Platform Operations
+# 1C Database Manage - Registry and Platform Operations
 
 Comprehensive database management: registry (.v8-project.json) and platform operations (create, run, update, dump/load configuration).
 
@@ -6,15 +6,15 @@ Comprehensive database management: registry (.v8-project.json) and platform oper
 
 ## Part 1: Database Registry (.v8-project.json)
 
-Manages the `.v8-project.json` file — the project's infobase registry. Stores connection parameters, aliases, Git branch bindings.
+Manages the `.v8-project.json` file - the project's infobase registry. Stores connection parameters, aliases, Git branch bindings.
 
 ### Usage
 
 ```
-1c-db-manage                    — show database list
-1c-db-manage add                — add database (interactive)
-1c-db-manage remove <id>        — remove database from registry
-1c-db-manage show <id|alias>    — show database details
+1c-db-manage                    - show database list
+1c-db-manage add                - add database (interactive)
+1c-db-manage remove <id>        - remove database from registry
+1c-db-manage show <id|alias>    - show database details
 ```
 
 ### .v8-project.json Format
@@ -55,7 +55,7 @@ File is placed at the project root (next to `.git/`).
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `v8path` | string | 1C platform bin directory. Optional — auto-detect if not set |
+| `v8path` | string | 1C platform bin directory. Optional - auto-detect if not set |
 | `databases` | array | Array of databases |
 | `default` | string | Default database id |
 
@@ -79,21 +79,25 @@ File is placed at the project root (next to `.git/`).
 
 This algorithm is used by ALL skills (`1c-db-ops`, `1c-epf-build`, `1c-epf-dump`, etc.) to determine the target database.
 
-1. If user specified **connection parameters** (path, server) — use directly
-2. If user specified **database by name** — search in order:
+1. If user specified **connection parameters** (path, server) - use directly
+2. If user specified **database by name** - search in order:
    1. By `id` (exact match)
    2. By `aliases` (match in array)
    3. By `name` (fuzzy match)
-3. If user **didn't specify** a database — match current Git branch with `databases[].branches`:
+3. If user **didn't specify** a database - match current Git branch with `databases[].branches`:
    - Exact match: branch `dev` → `"branches": ["dev"]`
    - Glob pattern: branch `release/2.1` → `"branches": ["release/*"]`
-4. If branch didn't match — use `default`
-5. If not found or ambiguous — ask the user
-6. If `.v8-project.json` not found — ask for connection parameters and offer to create the file
+4. If branch didn't match - use `default`
+5. If not found or ambiguous - ask the user
+6. If `.v8-project.json` not found - ask for connection parameters and offer to create the file
 
-### Platform Auto-Detection
+### Platform Path Resolution
 
-If `v8path` is not set in config:
+Resolution order:
+
+1. `$env:PLATFORM_PATH` (or `PLATFORM_PATH` from `.dev.env`) - explicit override.
+2. `v8path` from project config.
+3. Auto-detect (latest installed version):
 
 ```powershell
 $v8 = Get-ChildItem "C:\Program Files\1cv8\*\bin\1cv8.exe" | Sort-Object -Descending | Select-Object -First 1
@@ -116,7 +120,7 @@ $v8 = Get-ChildItem "C:\Program Files\1cv8\*\bin\1cv8.exe" | Sort-Object -Descen
 /N"<user>" /P"<password>"
 ```
 
-> **Important**: No space between `/N` and username. No space between `/P` and password. If password is empty — omit `/P` entirely.
+> **Important**: No space between `/N` and username. No space between `/P` and password. If password is empty - omit `/P` entirely.
 
 ### Operations
 
@@ -132,11 +136,11 @@ test    Test           server   srv01/MyApp_Test
 
 #### Add Database
 
-Ask the user for: id, name, type (file/server), path or server+ref, user, password, aliases, branches. Add to `databases` array. If first database — set as `default`.
+Ask the user for: id, name, type (file/server), path or server+ref, user, password, aliases, branches. Add to `databases` array. If first database - set as `default`.
 
 #### Remove Database
 
-Remove from `databases` array by id. If removed was `default` — ask for new default.
+Remove from `databases` array by id. If removed was `default` - ask for new default.
 
 #### Show Database Details
 
@@ -165,7 +169,7 @@ Either `-InfoBasePath` or the `-InfoBaseServer` + `-InfoBaseRef` pair is require
 
 ### Database Resolution
 
-Read `.v8-project.json` from the project root. Take `v8path` and resolve the database (see Part 1 for the full algorithm). If `v8path` is not set — auto-detect platform.
+Read `.v8-project.json` from the project root. Take `v8path` and resolve the database (see Part 1 for the full algorithm). If `v8path` is not set - auto-detect platform.
 
 ---
 
@@ -197,7 +201,7 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-db-ops/script
 | `-CParam <string>` | Launch parameter (/C) |
 | `-URL <link>` | Navigation link (`e1cib/...` format) |
 
-Launches 1C in background — control returns immediately.
+Launches 1C in background - control returns immediately.
 
 ---
 
@@ -270,9 +274,9 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-db-ops/script
 
 | Mode | Description |
 |------|-------------|
-| `Full` | Full dump — all configuration objects |
-| `Changes` | Incremental — only changed since last dump (uses ConfigDumpInfo.xml) |
-| `Partial` | Partial — selected objects from `-Objects` parameter |
+| `Full` | Full dump - all configuration objects |
+| `Changes` | Incremental - only changed since last dump (uses ConfigDumpInfo.xml) |
+| `Partial` | Partial - selected objects from `-Objects` parameter |
 | `UpdateInfo` | Update only ConfigDumpInfo.xml without dumping files |
 
 > **When dumping**: if user doesn't specify dump type (full or incremental), ask before executing.
@@ -363,7 +367,7 @@ After loading: offer to run `db-update`.
 
 ### Important
 
-- **DO NOT READ the scripts — just RUN them**
+- **DO NOT READ the scripts - just RUN them**
 - After any load operation, suggest running `db-update`
 - Check logs after execution and show results to user
 
@@ -371,8 +375,8 @@ After loading: offer to run `db-update`.
 
 ## MCP Integration
 
-- Verify object names when doing partial loads — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
-- Platform reference on Designer command-line parameters and helper APIs — `mcp__1c-syntax__search_syntax` → `get_function_info`.
+- Verify object names when doing partial loads - `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
+- Platform reference on Designer command-line parameters and helper APIs - `mcp__1c-syntax__search_syntax` → `get_function_info`.
 
 ## SDD Integration
 

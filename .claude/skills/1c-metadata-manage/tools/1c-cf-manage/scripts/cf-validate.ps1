@@ -1,4 +1,4 @@
-﻿# cf-validate v1.0 — Validate 1C configuration root structure
+﻿# cf-validate v1.0 - Validate 1C configuration root structure
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[Parameter(Mandatory)]
@@ -293,7 +293,7 @@ if (-not $internalInfo) {
 
 if ($script:stopped) { & $finalize; exit 1 }
 
-# --- Check 3: Properties — Name, Synonym, DefaultLanguage, DefaultRunMode ---
+# --- Check 3: Properties - Name, Synonym, DefaultLanguage, DefaultRunMode ---
 if (-not $propsNode) {
 	Report-Error "3. Properties block missing"
 } else {
@@ -344,7 +344,7 @@ if (-not $propsNode) {
 
 if ($script:stopped) { & $finalize; exit 1 }
 
-# --- Check 4: Property values — enum properties ---
+# --- Check 4: Property values - enum properties ---
 if ($propsNode) {
 	$enumChecked = 0
 	$check4Ok = $true
@@ -371,7 +371,7 @@ if ($propsNode) {
 
 if ($script:stopped) { & $finalize; exit 1 }
 
-# --- Check 5: ChildObjects — valid types, no duplicates, order ---
+# --- Check 5: ChildObjects - valid types, no duplicates, order ---
 $childObjNode = $cfgNode.SelectSingleNode("md:ChildObjects", $ns)
 
 if (-not $childObjNode) {

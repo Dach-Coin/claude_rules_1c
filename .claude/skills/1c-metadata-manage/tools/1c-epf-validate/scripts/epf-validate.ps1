@@ -1,6 +1,6 @@
-﻿# epf-validate v1.0 — Validate 1C external data processor / report structure
+﻿# epf-validate v1.0 - Validate 1C external data processor / report structure
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
-# Works for both EPF (ExternalDataProcessor) and ERF (ExternalReport) — auto-detects
+# Works for both EPF (ExternalDataProcessor) and ERF (ExternalReport) - auto-detects
 param(
 	[Parameter(Mandatory)]
 	[string]$ObjectPath,
@@ -251,7 +251,7 @@ if (-not $internalInfo) {
 		}
 	}
 
-	# GeneratedType — expect exactly 1 with category "Object"
+	# GeneratedType - expect exactly 1 with category "Object"
 	$genTypes = $internalInfo.SelectNodes("xr:GeneratedType", $ns)
 	if ($genTypes.Count -eq 0) {
 		Report-Error "2. No GeneratedType entries found"
@@ -352,7 +352,7 @@ if (-not $propsNode) {
 
 if ($script:stopped) { & $finalize; exit 1 }
 
-# --- Check 4: ChildObjects — allowed types and ordering ---
+# --- Check 4: ChildObjects - allowed types and ordering ---
 
 $childObjNode = $typeNode.SelectSingleNode("md:ChildObjects", $ns)
 $formNames = @()
@@ -466,7 +466,7 @@ if ($check5Ok) {
 
 if ($script:stopped) { & $finalize; exit 1 }
 
-# --- Check 6: Attributes — UUID, Name, Type ---
+# --- Check 6: Attributes - UUID, Name, Type ---
 
 function Check-Attribute {
 	param(
@@ -580,7 +580,7 @@ if ($childObjNode) {
 
 			$allChildNames["TS:$tsName"] = $tsName
 
-			# InternalInfo — expect 2 GeneratedType
+			# InternalInfo - expect 2 GeneratedType
 			$tsIntInfo = $ts.SelectSingleNode("md:InternalInfo", $ns)
 			if ($tsIntInfo) {
 				$tsGens = $tsIntInfo.SelectNodes("xr:GeneratedType", $ns)
@@ -689,7 +689,7 @@ $filesChecked = 0
 $objDir = Join-Path $srcDir $objName
 
 foreach ($fn in $formNames) {
-	# FormName.xml — form descriptor
+	# FormName.xml - form descriptor
 	$formMetaXml = Join-Path (Join-Path $objDir "Forms") "$fn.xml"
 	if (-not (Test-Path $formMetaXml)) {
 		Report-Error "9. Missing form descriptor: Forms/$fn.xml"
@@ -698,7 +698,7 @@ foreach ($fn in $formNames) {
 		$filesChecked++
 	}
 
-	# FormName/Ext/Form.xml — form layout
+	# FormName/Ext/Form.xml - form layout
 	$formXml = Join-Path (Join-Path (Join-Path (Join-Path $objDir "Forms") $fn) "Ext") "Form.xml"
 	if (-not (Test-Path $formXml)) {
 		Report-Error "9. Missing form layout: Forms/$fn/Ext/Form.xml"
@@ -709,7 +709,7 @@ foreach ($fn in $formNames) {
 }
 
 foreach ($tn in $templateNames) {
-	# TemplateName.xml — template descriptor
+	# TemplateName.xml - template descriptor
 	$tplMetaXml = Join-Path (Join-Path $objDir "Templates") "$tn.xml"
 	if (-not (Test-Path $tplMetaXml)) {
 		Report-Error "9. Missing template descriptor: Templates/$tn.xml"
@@ -718,7 +718,7 @@ foreach ($tn in $templateNames) {
 		$filesChecked++
 	}
 
-	# TemplateName/Ext/Template.* — template content (extension varies)
+	# TemplateName/Ext/Template.* - template content (extension varies)
 	$tplExtDir = Join-Path (Join-Path (Join-Path $objDir "Templates") $tn) "Ext"
 	if (Test-Path $tplExtDir) {
 		$tplFiles = @(Get-ChildItem $tplExtDir -Filter "Template.*" -File)

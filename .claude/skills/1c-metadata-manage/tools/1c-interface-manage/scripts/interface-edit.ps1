@@ -1,4 +1,4 @@
-﻿# interface-edit v1.0 — Edit 1C CommandInterface.xml
+﻿# interface-edit v1.0 - Edit 1C CommandInterface.xml
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[Parameter(Mandatory)][string]$CIPath,
@@ -253,7 +253,7 @@ function Do-Show([string[]]$commands) {
 
 	foreach ($cmd in $commands) {
 		if (-not $section) {
-			# No CommandsVisibility section — showing means adding with true
+			# No CommandsVisibility section - showing means adding with true
 			$section = Ensure-Section "CommandsVisibility"
 		}
 		$existing = Find-CommandByName $section $cmd

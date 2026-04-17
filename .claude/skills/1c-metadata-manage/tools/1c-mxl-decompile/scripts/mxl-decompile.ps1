@@ -619,7 +619,7 @@ $result["areas"] = [array]$dslAreas
 
 $json = $result | ConvertTo-Json -Depth 10
 
-# PS 5.1 escapes non-ASCII as \uXXXX — unescape back to UTF-8
+# PS 5.1 escapes non-ASCII as \uXXXX - unescape back to UTF-8
 $json = [regex]::Replace($json, '\\u([0-9A-Fa-f]{4})', {
 	param($m)
 	[char][int]("0x" + $m.Groups[1].Value)

@@ -1,4 +1,4 @@
-﻿# db-run v1.0 — Launch 1C:Enterprise
+﻿# db-run v1.0 - Launch 1C:Enterprise
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS
@@ -6,7 +6,7 @@
 
 .DESCRIPTION
     Запускает информационную базу в режиме 1С:Предприятие (пользовательский режим).
-    Запуск в фоне — не ждёт завершения процесса.
+    Запуск в фоне - не ждёт завершения процесса.
 
 .PARAMETER V8Path
     Путь к каталогу bin платформы или к 1cv8.exe
@@ -79,6 +79,9 @@ $OutputEncoding = [System.Text.Encoding]::UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 # --- Resolve V8Path ---
+if (-not $V8Path -and $env:PLATFORM_PATH) {
+    $V8Path = $env:PLATFORM_PATH
+}
 if (-not $V8Path) {
     $found = Get-ChildItem "C:\Program Files\1cv8\*\bin\1cv8.exe" -ErrorAction SilentlyContinue | Sort-Object FullName -Descending | Select-Object -First 1
     if ($found) {

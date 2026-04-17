@@ -37,17 +37,19 @@ Before testing, ensure:
    - Infobase publish URL (for web testing)
 
 2. If settings file doesn't exist, ask user for:
-   - Connection string (e.g., `C:\Users\...\InfoBase12` for file, or server connection)
+   - Connection string (e.g., `C:\Users\<user>\Documents\<MyBase>` for file infobase, or server connection)
    - Web publish URL (e.g., `http://localhost/TestForms/ru/`)
 
 ## Deployment Process
 
 Follow the `.claude/skills/deploy-and-test/SKILL.md` command for deployment:
 
+`{PLATFORM_PATH}` is taken from `.dev.env` (e.g. `PLATFORM_PATH=C:\Program Files\1cv8\8.3.27.2074\bin`).
+
 ### Step 1: Load Configuration to Infobase
 
 ```powershell
-& 'C:\Program Files\1cv8\8.3.23.1997\bin\1cv8.exe' DESIGNER /F '<INFOBASE_PATH>' /DisableStartupMessages /LoadConfigFromFiles <PROJECT_ROOT> /Out <LOG_PATH>
+& '{PLATFORM_PATH}\1cv8.exe' DESIGNER /F '<INFOBASE_PATH>' /DisableStartupMessages /LoadConfigFromFiles <PROJECT_ROOT> /Out <LOG_PATH>
 ```
 
 **After execution:**
@@ -57,7 +59,7 @@ Follow the `.claude/skills/deploy-and-test/SKILL.md` command for deployment:
 ### Step 2: Update Database Structure
 
 ```powershell
-& 'C:\Program Files\1cv8\8.3.23.1997\bin\1cv8.exe' DESIGNER /F '<INFOBASE_PATH>' /DisableStartupMessages /UpdateDBCfg -Dynamic+ -SessionTerminate force /Out <LOG_PATH>
+& '{PLATFORM_PATH}\1cv8.exe' DESIGNER /F '<INFOBASE_PATH>' /DisableStartupMessages /UpdateDBCfg -Dynamic+ -SessionTerminate force /Out <LOG_PATH>
 ```
 
 **After execution:**

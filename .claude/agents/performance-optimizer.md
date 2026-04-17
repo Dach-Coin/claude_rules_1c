@@ -27,11 +27,11 @@ You are an expert 1C performance optimization specialist focused on identifying 
 See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping. Follow `.claude/skills/powershell-windows/SKILL.md` for shell commands.
 
 **Tasks typical for this agent:**
-- Locate slow patterns (query-in-loop, dot-notation, O(n²), excessive server calls) — `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers, extract_procedures)
-- Inspect register dimensions, indexes and virtual-table sources — `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml on `AccumulationRegister.*/Ext/Metadata.xml`, `InformationRegister.*/Ext/Metadata.xml`)
-- Reference platform APIs used in the hot path — `mcp__1c-syntax__search_syntax` → `get_function_info`
-- Diagnose rewritten modules — `claude-code-bsl-lsp` (limit 3 style-warning iterations)
-- Automated logic/performance analyzer is not available — fall back to the manual checklist in `.claude/rules/anti-patterns.md` (see Capability boundaries in `.claude/rules/mcp-tools.md`)
+- Locate slow patterns (query-in-loop, dot-notation, O(n²), excessive server calls) - `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers, extract_procedures)
+- Inspect register dimensions, indexes and virtual-table sources - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml on `AccumulationRegister.*/Ext/Metadata.xml`, `InformationRegister.*/Ext/Metadata.xml`)
+- Reference platform APIs used in the hot path - `mcp__1c-syntax__search_syntax` → `get_function_info`
+- Diagnose rewritten modules - `bsl-language-server` (limit 3 style-warning iterations)
+- Automated logic/performance analyzer is not available - fall back to the manual checklist in `.claude/rules/anti-patterns.md` (see Capability boundaries in `.claude/rules/mcp-tools.md`)
 
 **SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance.
 

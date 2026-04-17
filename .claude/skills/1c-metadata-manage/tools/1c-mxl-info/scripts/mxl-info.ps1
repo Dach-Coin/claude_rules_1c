@@ -140,7 +140,7 @@ function Get-CellData {
 
 				if ($isTemplate) {
 					# Always extract parameter names from [Param] placeholders
-					# Skip numeric-only like [5] — these are footnote refs in legal forms
+					# Skip numeric-only like [5] - these are footnote refs in legal forms
 					foreach ($m in [regex]::Matches($text, '\[([^\]]+)\]')) {
 						$val = $m.Groups[1].Value
 						if ($val -notmatch '^\d+$') {

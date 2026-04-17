@@ -1,4 +1,4 @@
-# 1C:Enterprise project — Claude Code configuration
+# 1C:Enterprise project - Claude Code configuration
 
 <!-- Scope: this file is the thin orchestrator.
      - Persona, project parameters, workflow, skill/rule pointers live here.
@@ -7,7 +7,7 @@
      - Skill dispatch lives in .claude/skills_instructions.md.
      Do not duplicate content from those files here. -->
 
-> A Russian mirror of this file lives at `rus_CLAUDE.md`. The English file is canonical — update it first, then synchronize the mirror.
+> A Russian mirror of this file lives at `rus_CLAUDE.md`. The English file is canonical - update it first, then synchronize the mirror.
 
 ## Persona
 
@@ -18,15 +18,15 @@
 
 ## Project parameters (.dev.env)
 
-Read `.dev.env` before any coding task. If the file is missing, stop and ask the user — do not guess values.
+Read `.dev.env` before any coding task. If the file is missing, stop and ask the user - do not guess values.
 
 Key parameters:
 
-- `PREFIX` — prefix for every new metadata object, attribute, form element, role
-- `COMPANY`, `DEVELOPER` — used in modification comment templates
-- `PLATFORM_VERSION` — gates which platform features are allowed (async/await vs. NotifyDescription, etc.)
-- `COMMENT_OPEN`, `COMMENT_CLOSE` — opening/closing markers for modifications in standard code
-- `NEW_OBJECTS_IN` — where new metadata objects go: `main_configuration` (default) or `extension`
+- `PREFIX` - prefix for every new metadata object, attribute, form element, role
+- `COMPANY`, `DEVELOPER` - used in modification comment templates
+- `PLATFORM_VERSION` - gates which platform features are allowed (async/await vs. NotifyDescription, etc.)
+- `COMMENT_OPEN`, `COMMENT_CLOSE` - opening/closing markers for modifications in standard code
+- `NEW_OBJECTS_IN` - where new metadata objects go: `main_configuration` (default) or `extension`
 
 Template: `.dev.env.example`.
 
@@ -34,12 +34,13 @@ Tasks that do not touch code (review, analysis, documentation) do not need the p
 
 ## Tool layers
 
-The environment exposes three classes of tool. Pick before acting:
+The environment exposes four classes of tool. Pick before acting:
 
 | Layer | Purpose | Where defined |
 |---|---|---|
-| **MCP sources** (`rlm-tools-bsl`, `1c-syntax`, `claude-code-bsl-lsp`) | Explore code and metadata, look up the platform, diagnose BSL | `.claude/rules/mcp-tools.md` |
-| **Skills** (`1c-metadata-manage`, `deploy-and-test`, `getconfigfiles`, …) | Mutate metadata, deploy, run end-to-end tests | `.claude/skills_instructions.md` |
+| **MCP servers** (`rlm-tools-bsl`, `1c-syntax`) | `rlm-tools-bsl` - explore code and metadata (sandbox Python). `1c-syntax` - platform reference (built-in functions/methods/objects). Both listed under `mcpServers` in `~/.claude.json`. | `.claude/rules/mcp-tools.md` |
+| **BSL Language Server** (plugin `bsl-language-server`) | Diagnose BSL - errors and style warnings. Runs as a Claude Code plugin (visible in `SessionStart` hook) and as a local CLI (`bsl-language-server.exe --analyze`). This is NOT an MCP server - don't call it with an `mcp__*` prefix. | `.claude/rules/mcp-tools.md` |
+| **Skills** (`1c-metadata-manage`, `deploy-and-test`, `getconfigfiles`, `1c_syntax_skills`, …) | Mutate metadata, deploy, run end-to-end tests. `1c_syntax_skills` is a slash-command with BSL development rules that points to the `1c-syntax` MCP server for platform lookups - it does not ship a language server itself. | `.claude/skills_instructions.md` |
 | **Sub-agents** (`developer`, `code-reviewer`, `metadata-manager`, …) | Delegate multi-step work | `.claude/agents/` |
 
 Prefer MCP tools over `Grep` / `find` when investigating BSL. Prefer skills over direct file edits when mutating metadata.
@@ -51,8 +52,8 @@ Prefer MCP tools over `Grep` / `find` when investigating BSL. Prefer skills over
 3. Investigate existing patterns, reusable procedures and metadata via `rlm_execute`.
 4. Look up unfamiliar platform calls in `1c-syntax` (`search_syntax`, `get_function_info`).
 5. Write code following `project_rules.md` + `dev-standards-core.md` + `dev-standards-architecture.md`.
-6. Diagnose with `claude-code-bsl-lsp`; cap style-warning iterations at three.
-7. Manually review against `anti-patterns.md` (this replaces the former automated logic/perf analyzer — see Capability boundaries in `mcp-tools.md`).
+6. Diagnose with `bsl-language-server` (plugin / CLI); cap style-warning iterations at three.
+7. Manually review against `anti-patterns.md` (this replaces the former automated logic/perf analyzer - see Capability boundaries in `mcp-tools.md`).
 8. Close the session: `mcp__rlm-tools-bsl__rlm_end`.
 9. Present the result with rationale and the list of touched files.
 
@@ -64,27 +65,35 @@ Delegate any structural metadata work to the `1c-metadata-manage` skill (see `.c
 
 Rule files are loaded from `.claude/rules/`:
 
-- `anti-patterns.md` — catalogued anti-patterns (critical/high/medium) with fixes
-- `dev-standards-architecture.md` — architecture patterns, extensions, code smells
-- `dev-standards-core.md` — `.dev.env`, code style, modification comments, naming, documentation headers
-- `dev-standards-forms.md` — form module structure and standards (path-scoped: `**/Form.Module.bsl`)
-- `form_module_rules.md` — client/server interaction, compilation directives (path-scoped)
-- `forms_add.md` — how to create or modify managed forms
-- `forms_events_add.md` — adding event handlers (path-scoped: `**/Form.Module.bsl`)
-- `getconfigfiles.md` — exporting a configuration to files
-- `integrations_add.md` — external integrations (Python-first policy)
-- `mcp-tools.md` — MCP tool selection and workflows
-- `project_rules.md` — coding standards: queries, data access, performance, formatting
-- `refactor_add.md` — refactoring approach (top-down analysis, bottom-up refactor)
-- `sdd-integrations.md` — optional SDD frameworks (Memory Bank, OpenSpec, Spec Kit, TaskMaster)
-- `user_rules.md` — working principles (step-by-step, minimal changes, human-in-the-loop)
+- `anti-patterns.md` - catalogued anti-patterns (critical/high/medium) with fixes
+- `dev-standards-architecture.md` - architecture patterns, extensions, code smells
+- `dev-standards-core.md` - `.dev.env`, code style, modification comments, naming, documentation headers
+- `dev-standards-forms.md` - form module structure and standards (path-scoped: `**/Form.Module.bsl`)
+- `form_module_rules.md` - client/server interaction, compilation directives (path-scoped)
+- `forms_add.md` - how to create or modify managed forms
+- `forms_events_add.md` - adding event handlers (path-scoped: `**/Form.Module.bsl`)
+- `getconfigfiles.md` - exporting a configuration to files
+- `integrations_add.md` - external integrations (Python-first policy)
+- `mcp-tools.md` - MCP tool selection and workflows
+- `project_rules.md` - coding standards: queries, data access, performance, formatting
+- `refactor_add.md` - refactoring approach (top-down analysis, bottom-up refactor)
+- `sdd-integrations.md` - optional SDD frameworks (Memory Bank, OpenSpec, Spec Kit, TaskMaster)
+- `user_rules.md` - working principles (step-by-step, minimal changes, human-in-the-loop)
 
-Skill dispatch — see `.claude/skills_instructions.md`.
+Skill dispatch - see `.claude/skills_instructions.md`.
 
 ## Working principles
 
 - Act step by step; think before editing code.
-- Keep edits minimal and focused — one logical change at a time.
+- Keep edits minimal and focused - one logical change at a time.
 - Code must be correct, maintainable and safe.
 - Human-in-the-loop: every proposal is reviewed by the user.
 - Ask for details when the task is ambiguous.
+
+## Code and comment style (Russian BSL)
+
+- Identifiers, comments and user-facing messages use native 1C/Russian terms. No anglicisms borrowed from other stacks: not `дебаунс`, `UI`, `триггерить`, `батч`, `воркфлоу`, `тоггл`, `коммит`, `мердж`, `деплой`, `фолбэк` etc.
+- Equivalents: `дебаунс` → `отложенное обновление / задержка обновления`; `UI` → `форма / интерфейс / состояние формы`; `батч-запрос` → `пакетный запрос`; `триггерить` → `запускать / вызывать`; `коммит` → `фиксация транзакции`.
+- Error text in exception handlers: always `ОбработкаОшибок.ПодробноеПредставлениеОшибки(ИнформацияОбОшибке())`, never the bare `ПодробноеПредставлениеОшибки(...)` (it is deprecated since 8.3.17).
+- Repository typography: no em-dash, en-dash, or letter `ё`/`Ё` anywhere - use plain ASCII `-` and `е`/`Е`. See `.claude/rules/dev-standards-core.md` § Repository Typography.
+- Comments in code must be terse and motive-only. See `.claude/rules/project_rules.md` § Comments / Human-like comments - no banner separators, no module-header preambles, no narration of the next line.

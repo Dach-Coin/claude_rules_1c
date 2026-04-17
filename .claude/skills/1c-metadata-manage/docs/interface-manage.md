@@ -1,10 +1,10 @@
-# 1C Interface Manage — Edit and Validate Command Interface
+# 1C Interface Manage - Edit and Validate Command Interface
 
 Edit and validate CommandInterface.xml files for 1C subsystems.
 
 ---
 
-## 1. Edit — Modify CommandInterface.xml
+## 1. Edit - Modify CommandInterface.xml
 
 Operations: hide, show, place, order, subsystem-order, group-order. Full reference: [reference.md](skills/1c-metadata-manage/tools/1c-interface-manage/reference.md).
 
@@ -39,7 +39,7 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-interface-man
 ... -Operation hide -Value "Catalog.Товары.StandardCommand.OpenList"
 
 # Show a command
-... -Operation show -Value "Report.Продажи.Command.Отчёт"
+... -Operation show -Value "Report.Продажи.Command.Отчет"
 
 # Place in group
 ... -Operation place -Value '{"command":"Report.X.Command.Y","group":"CommandGroup.Отчеты"}'
@@ -52,7 +52,7 @@ Auto-validation runs after each operation. Suppress with `-NoValidate`.
 
 ---
 
-## 2. Validate — Check CommandInterface.xml Correctness
+## 2. Validate - Check CommandInterface.xml Correctness
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-interface-manage/scripts/interface-validate.ps1 -CIPath '<path>'
@@ -60,9 +60,9 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-interface-man
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| CIPath | yes | — | Path to CommandInterface.xml |
+| CIPath | yes | - | Path to CommandInterface.xml |
 | MaxErrors | no | 30 | Stop after N errors |
-| OutFile | no | — | Write result to file (UTF-8 BOM) |
+| OutFile | no | - | Write result to file (UTF-8 BOM) |
 
 ### Checks (13)
 
@@ -72,14 +72,14 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-interface-man
 | 2 | Allowed child elements (only 5 sections) | ERROR |
 | 3 | Section order correct | ERROR |
 | 4 | No duplicate sections | ERROR |
-| 5 | CommandsVisibility — Command.name + Visibility/xr:Common | ERROR |
-| 6 | CommandsVisibility — no duplicates by name | WARN |
-| 7 | CommandsPlacement — Command.name + CommandGroup + Placement | ERROR |
-| 8 | CommandsOrder — Command.name + CommandGroup | ERROR |
-| 9 | SubsystemsOrder — Subsystem non-empty, format Subsystem.X | ERROR |
-| 10 | SubsystemsOrder — no duplicates | WARN |
-| 11 | GroupsOrder — Group non-empty | ERROR |
-| 12 | GroupsOrder — no duplicates | WARN |
+| 5 | CommandsVisibility - Command.name + Visibility/xr:Common | ERROR |
+| 6 | CommandsVisibility - no duplicates by name | WARN |
+| 7 | CommandsPlacement - Command.name + CommandGroup + Placement | ERROR |
+| 8 | CommandsOrder - Command.name + CommandGroup | ERROR |
+| 9 | SubsystemsOrder - Subsystem non-empty, format Subsystem.X | ERROR |
+| 10 | SubsystemsOrder - no duplicates | WARN |
+| 11 | GroupsOrder - Group non-empty | ERROR |
+| 12 | GroupsOrder - no duplicates | WARN |
 | 13 | Command reference format | WARN |
 
 Exit code: 0 = all checks passed, 1 = errors found.

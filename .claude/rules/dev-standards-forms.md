@@ -97,3 +97,25 @@ EndIf;
 
 ### Form Commands
 - When creating commands that modify data -- enable "Modifies stored data" flag
+- **Buttons are created without a picture by default.** Do not bind `<Picture><xr:Ref>StdPicture.*</xr:Ref></Picture>` from agent-generated XML. The developer attaches a suitable picture later when the form is reviewed; auto-picked pictures usually look out of place.
+
+## 3. Conditional Appearance (Form.xml)
+
+When writing fields into `<dcsset:field>` of a `ConditionalAppearance` rule, the path uses the **field identifier** of the form item, not the data path. The identifier is the table name and the column name **concatenated without a dot**:
+
+```xml
+<!-- ✅ Correct: form item identifier (no dot) -->
+<dcsset:field>ТаблицаЗаказовКлиентаТекстОшибки</dcsset:field>
+<dcsset:field>ТаблицаЗаказовКлиентаДокумент</dcsset:field>
+
+<!-- ❌ Wrong: data path with a dot -- DCS will not bind the appearance -->
+<dcsset:field>ТаблицаЗаказовКлиента.ТекстОшибки</dcsset:field>
+```
+
+The dotted form (`ТаблицаЗаказовКлиента.ТекстОшибки`) is the correct shape **only** for `<DataPath>` of the form item itself and for `<dcsset:left>` / `<dcsset:right>` operands of the filter that drives the appearance condition (those are data-set paths, not item identifiers).
+
+| Place | Format | Example |
+|---|---|---|
+| `<DataPath>` of a form item | dotted | `ТаблицаЗаказовКлиента.ТекстОшибки` |
+| `<dcsset:left>` / `<dcsset:right>` of a `<Filter>` item | dotted | `ТаблицаЗаказовКлиента.ТекстОшибки` |
+| `<dcsset:field>` (target of the appearance) | concatenated, no dot | `ТаблицаЗаказовКлиентаТекстОшибки` |

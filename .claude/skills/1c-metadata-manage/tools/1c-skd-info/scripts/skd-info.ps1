@@ -1,4 +1,4 @@
-﻿# skd-info v1.0 — Analyze 1C DCS structure
+﻿# skd-info v1.0 - Analyze 1C DCS structure
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[Parameter(Mandatory=$true)]
@@ -346,7 +346,7 @@ function Show-Overview {
 		}
 	}
 
-	# Links — only dataset pairs (not field-level)
+	# Links - only dataset pairs (not field-level)
 	$links = $root.SelectNodes("s:dataSetLink", $ns)
 	if ($links.Count -gt 0) {
 		$linkPairs = [ordered]@{}
@@ -366,13 +366,13 @@ function Show-Overview {
 		$lines.Add("Links: " + ($linkStrs -join ", "))
 	}
 
-	# Calculated fields — count only
+	# Calculated fields - count only
 	$calcFields = $root.SelectNodes("s:calculatedField", $ns)
 	if ($calcFields.Count -gt 0) {
 		$lines.Add("Calculated: $($calcFields.Count)")
 	}
 
-	# Totals — count + group flag
+	# Totals - count + group flag
 	$totalFields = $root.SelectNodes("s:totalField", $ns)
 	if ($totalFields.Count -gt 0) {
 		$hasGrouped = $false
@@ -390,7 +390,7 @@ function Show-Overview {
 		}
 	}
 
-	# Templates — count with binding types
+	# Templates - count with binding types
 	$tplDefs = $root.SelectNodes("s:template", $ns)
 	$fieldTpls = $root.SelectNodes("s:fieldTemplate", $ns)
 	$groupTpls = $root.SelectNodes("s:groupTemplate", $ns)
@@ -405,7 +405,7 @@ function Show-Overview {
 		$lines.Add("Templates: $($tplDefs.Count) defined ($($parts -join ', ') bindings)")
 	}
 
-	# Parameters — split visible/hidden
+	# Parameters - split visible/hidden
 	$params = $root.SelectNodes("s:parameter", $ns)
 	if ($params.Count -gt 0) {
 		$visibleNames = @()
@@ -481,7 +481,7 @@ function Show-Overview {
 }
 
 function Show-OverviewHints {
-	# Hints — suggest next commands
+	# Hints - suggest next commands
 	$lines.Add("")
 	$hints = @()
 	# Collect query dataset names for hint
@@ -751,7 +751,7 @@ function Show-Fields {
 	}
 
 	if ($Name) {
-		# Detail for specific field by dataPath — search all datasets
+		# Detail for specific field by dataPath - search all datasets
 		$found = $false
 		$matchedIn = @()
 

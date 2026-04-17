@@ -6,15 +6,18 @@ user-invocable: true
 
 # installation
 **IMPORTANT** if file infobasesettings.md does not exists - create it with following info:
-1) Ask connection for infobase. In this example 'C:\Users\filippov.o\Documents\InfoBase12'
-2) Ask infobase publish URL. In this file it http://localhost/TestForms/ru/
+1) Ask connection for infobase (file path or server connection string).
+2) Ask infobase publish URL (for example `http://localhost/TestForms/ru/`).
 
 
-# setings usage
-1) In commands below replace infobase connection with read from infobasesettings.md. Don't forget to use /S for server infobase and /F for file
-2) replace 'http://localhost/TestForms/ru/' url to url read from infobasesettings.md. If URL not set - just skip testing
-3) E:\Temp\Update.log - just put update log whereever it comfortable
-4) E:\newformsgen - replace it with current project root directory
+# settings usage
+
+Параметры команд:
+- `{PLATFORM_PATH}` - из `.dev.env` (`PLATFORM_PATH=C:\Program Files\1cv8\8.3.27.2074\bin`).
+- `<INFOBASE_PATH>` - путь к ИБ из `infobasesettings.md`. Использовать `/S` для серверной ИБ, `/F` для файловой.
+- `<PROJECT_ROOT>` - корневой каталог текущего проекта (исходники конфигурации).
+- `<LOG_PATH>` - путь к лог-файлу.
+- URL публикации - из `infobasesettings.md`. Если URL не задан, тестирование пропускается.
 
 
 # testing and deployment
@@ -22,23 +25,24 @@ user-invocable: true
 **Step 1 - Load config to base:**
 
 ```powershell
-& 'C:\Program Files\1cv8\8.3.23.1997\bin\1cv8.exe' DESIGNER /F 'C:\Users\filippov.o\Documents\InfoBase12' /DisableStartupMessages /LoadConfigFromFiles E:\newformsgen /Out E:\Temp\Update.log
+& '{PLATFORM_PATH}\1cv8.exe' DESIGNER /F '<INFOBASE_PATH>' /DisableStartupMessages /LoadConfigFromFiles <PROJECT_ROOT> /Out <LOG_PATH>
 ```
 
-Read `E:\Temp\Update.log` to confirm success.
+Read `<LOG_PATH>` to confirm success.
 
 Wait 5-10 seconds
 
 **Step 2 - Update database structure:**
 
 ```powershell
-& 'C:\Program Files\1cv8\8.3.23.1997\bin\1cv8.exe' DESIGNER /F 'C:\Users\filippov.o\Documents\InfoBase12' /DisableStartupMessages /UpdateDBCfg -Dynamic+ -SessionTerminate force /Out E:\Temp\Update.log
+& '{PLATFORM_PATH}\1cv8.exe' DESIGNER /F '<INFOBASE_PATH>' /DisableStartupMessages /UpdateDBCfg -Dynamic+ -SessionTerminate force /Out <LOG_PATH>
 ```
 
-Read `E:\Temp\Update.log` to confirm success.
+Read `<LOG_PATH>` to confirm success.
 
 ## to test infobase use following URL and rules:
 
-http://localhost/TestForms/ru/
+URL берется из `infobasesettings.md` (например, `http://localhost/TestForms/ru/`).
+
 **IMPORTANT** ALWAYS USE **human-like typing** simulation with **DELAY** to fill values during testing
 you can use TAB to select form field

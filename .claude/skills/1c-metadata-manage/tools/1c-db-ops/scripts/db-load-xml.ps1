@@ -1,4 +1,4 @@
-﻿# db-load-xml v1.0 — Load 1C configuration from XML files
+﻿# db-load-xml v1.0 - Load 1C configuration from XML files
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS
@@ -102,6 +102,9 @@ $OutputEncoding = [System.Text.Encoding]::UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 # --- Resolve V8Path ---
+if (-not $V8Path -and $env:PLATFORM_PATH) {
+    $V8Path = $env:PLATFORM_PATH
+}
 if (-not $V8Path) {
     $found = Get-ChildItem "C:\Program Files\1cv8\*\bin\1cv8.exe" -ErrorAction SilentlyContinue | Sort-Object FullName -Descending | Select-Object -First 1
     if ($found) {

@@ -81,7 +81,7 @@ if ($acb) {
 	}
 }
 
-# Scan attribute IDs (including column IDs — same pool)
+# Scan attribute IDs (including column IDs - same pool)
 foreach ($attr in $root.SelectNodes("f:Attributes/f:Attribute", $nsMgr)) {
 	$id = $attr.GetAttribute("id")
 	if ($id) {
@@ -595,7 +595,7 @@ function Emit-Element {
 	}
 	if (-not $typeKey) { Write-Warning "Unknown element type, skipping"; return }
 
-	# Validate known keys — warn about typos
+	# Validate known keys - warn about typos
 	$knownKeys = @{
 		"group"=1;"input"=1;"check"=1;"label"=1;"labelField"=1;"table"=1;"pages"=1;"page"=1
 		"button"=1;"picture"=1;"picField"=1;"calendar"=1;"cmdBar"=1;"popup"=1
@@ -614,7 +614,7 @@ function Emit-Element {
 	}
 	foreach ($p in $el.PSObject.Properties) {
 		if (-not $knownKeys.ContainsKey($p.Name)) {
-			Write-Warning "Element '$($el.$typeKey)': unknown key '$($p.Name)' — ignored."
+			Write-Warning "Element '$($el.$typeKey)': unknown key '$($p.Name)' - ignored."
 		}
 	}
 
@@ -709,7 +709,7 @@ function Insert-IntoContainer($container, $newNode, $afterName, $childIndent) {
 		$container.InsertBefore($ws, $refNode) | Out-Null
 		$container.InsertBefore($newNode, $refNode) | Out-Null
 	} else {
-		# Container is empty (self-closing) — add framing whitespace
+		# Container is empty (self-closing) - add framing whitespace
 		$container.AppendChild($ws) | Out-Null
 		$container.AppendChild($newNode) | Out-Null
 		$parentIndent = if ($childIndent.Length -gt 1) { $childIndent.Substring(0, $childIndent.Length - 1) } else { "" }
@@ -775,7 +775,7 @@ if ($def.elements -and $def.elements.Count -gt 0) {
 	}
 
 	if (-not $targetCI) {
-		# Create ChildItems section in form — insert after Events or AutoCommandBar
+		# Create ChildItems section in form - insert after Events or AutoCommandBar
 		$targetCI = $xmlDoc.CreateElement("ChildItems", $formNs)
 		$insertAfter = $root.SelectSingleNode("f:Events", $nsMgr)
 		if (-not $insertAfter) { $insertAfter = $root.SelectSingleNode("f:AutoCommandBar", $nsMgr) }
@@ -859,7 +859,7 @@ $addedAttrs = @()
 if ($def.attributes -and $def.attributes.Count -gt 0) {
 	$attrsSection = $root.SelectSingleNode("f:Attributes", $nsMgr)
 	if (-not $attrsSection) {
-		# Create Attributes section — insert after ChildItems or after Events
+		# Create Attributes section - insert after ChildItems or after Events
 		$attrsSection = $xmlDoc.CreateElement("Attributes", $formNs)
 		# Find insertion point: after ChildItems or after the last pre-Attributes element
 		$insertAfter = $rootCI
@@ -933,7 +933,7 @@ $addedCmds = @()
 if ($def.commands -and $def.commands.Count -gt 0) {
 	$cmdsSection = $root.SelectSingleNode("f:Commands", $nsMgr)
 	if (-not $cmdsSection) {
-		# Create Commands section — insert after Parameters or Attributes
+		# Create Commands section - insert after Parameters or Attributes
 		$cmdsSection = $xmlDoc.CreateElement("Commands", $formNs)
 		$insertAfter = $root.SelectSingleNode("f:Parameters", $nsMgr)
 		if (-not $insertAfter) { $insertAfter = $root.SelectSingleNode("f:Attributes", $nsMgr) }

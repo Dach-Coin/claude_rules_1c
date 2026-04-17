@@ -129,6 +129,7 @@ Visual form editing in extensions -- **minimize**. Changes -- programmatically t
 - `Execute()` and `Eval()` -- **PROHIBITED** without extreme necessity
 - **Hardcoded credentials are PROHIBITED** -- passwords, tokens, API keys in code are FORBIDDEN
 - **RLS** -- design with access restriction requirements in mind
+- **No "anti-spoofing" reset of form attributes on the server.** Form attribute values cannot be tampered with from the client in 1C -- the client never sees the raw transport, the platform serializes the form context. Patterns like `If FlagFromForm And Not Users.IsFullUser() Then FlagFromForm = False; EndIf;` add no security and clutter the code. Restrict access at its real source: disable the control on the client (`Items.Flag.Enabled = False`) and let role-based / RLS / posting-time checks (e.g. period-end-closing) reject the action. If a server method must enforce a hard boundary, make the check itself authoritative -- do not pretend the form attribute is untrusted input.
 
 ### Error Handling (extends project_rules.md)
 - String localization -- `NStr("en = '...'")` with `StringFunctionsClientServer.SubstituteParametersToString()`

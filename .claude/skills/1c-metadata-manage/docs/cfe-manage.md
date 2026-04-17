@@ -1,24 +1,24 @@
-# 1C Extension Manage — Init, Borrow, Diff, Patch, Validate
+# 1C Extension Manage - Init, Borrow, Diff, Patch, Validate
 
 Comprehensive extension (CFE) management: create scaffold, borrow objects from configuration, analyze changes, generate method interceptors, validate correctness.
 
 ---
 
-## 1. Init — Create Extension Scaffold
+## 1. Init - Create Extension Scaffold
 
 ```powershell
-powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cfe-manage/scripts/cfe-init.ps1 -Name "МоёРасширение"
+powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cfe-manage/scripts/cfe-init.ps1 -Name "МоеРасширение"
 ```
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `Name` | Extension name (required) | — |
+| `Name` | Extension name (required) | - |
 | `Synonym` | Synonym | = Name |
 | `NamePrefix` | Prefix for own objects | = Name + "_" |
 | `OutputDir` | Output directory | `src` |
 | `Purpose` | `Patch` / `Customization` / `AddOn` | `Customization` |
-| `Version` | Extension version | — |
-| `Vendor` | Vendor | — |
+| `Version` | Extension version | - |
+| `Vendor` | Vendor | - |
 | `CompatibilityMode` | Compatibility mode | `Version8_3_24` |
 | `NoRole` | Without main role | false |
 
@@ -37,7 +37,7 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cfe-manage/sc
 
 ---
 
-## 2. Borrow — Borrow Objects from Configuration
+## 2. Borrow - Borrow Objects from Configuration
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cfe-manage/scripts/cfe-borrow.ps1 -ExtensionPath src -ConfigPath <config> -Object "Catalog.Контрагенты"
@@ -55,7 +55,7 @@ Creates XML files with `ObjectBelonging=Adopted` and `ExtendedConfigurationObjec
 
 ---
 
-## 3. Diff — Analyze Extension Changes
+## 3. Diff - Analyze Extension Changes
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cfe-manage/scripts/cfe-diff.ps1 -ExtensionPath src -ConfigPath <config> -Mode A
@@ -63,17 +63,17 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cfe-manage/sc
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `ExtensionPath` | Path to extension (required) | — |
-| `ConfigPath` | Path to configuration (required) | — |
+| `ExtensionPath` | Path to extension (required) | - |
+| `ConfigPath` | Path to configuration (required) | - |
 | `Mode` | `A` (overview) / `B` (transfer check) | `A` |
 
-**Mode A** — overview: For each object shows `[BORROWED]` (interceptors, own attributes/TS/forms) or `[OWN]` (counts).
+**Mode A** - overview: For each object shows `[BORROWED]` (interceptors, own attributes/TS/forms) or `[OWN]` (counts).
 
-**Mode B** — transfer check: For each `&ИзменениеИКонтроль`, extracts `#Вставка`/`#КонецВставки` blocks and searches for them in the configuration module. Statuses: `[TRANSFERRED]`, `[NOT_TRANSFERRED]`, `[NEEDS_REVIEW]`.
+**Mode B** - transfer check: For each `&ИзменениеИКонтроль`, extracts `#Вставка`/`#КонецВставки` blocks and searches for them in the configuration module. Statuses: `[TRANSFERRED]`, `[NOT_TRANSFERRED]`, `[NEEDS_REVIEW]`.
 
 ---
 
-## 4. Patch — Generate Method Interceptor
+## 4. Patch - Generate Method Interceptor
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cfe-manage/scripts/cfe-patch-method.ps1 -ExtensionPath src -ModulePath "Catalog.Контрагенты.ObjectModule" -MethodName "ПриЗаписи" -InterceptorType Before
@@ -81,10 +81,10 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cfe-manage/sc
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `ExtensionPath` | Path to extension (required) | — |
-| `ModulePath` | Module path (required) | — |
-| `MethodName` | Method to intercept (required) | — |
-| `InterceptorType` | `Before` / `After` / `ModificationAndControl` (required) | — |
+| `ExtensionPath` | Path to extension (required) | - |
+| `ModulePath` | Module path (required) | - |
+| `MethodName` | Method to intercept (required) | - |
+| `InterceptorType` | `Before` / `After` / `ModificationAndControl` (required) | - |
 | `Context` | Context directive | `НаСервере` |
 | `IsFunction` | Method is a function (adds `Return`) | false |
 
@@ -109,7 +109,7 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cfe-manage/sc
 
 ---
 
-## 5. Validate — Check Extension Correctness
+## 5. Validate - Check Extension Correctness
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cfe-manage/scripts/cfe-validate.ps1 -ExtensionPath src
@@ -136,18 +136,18 @@ Exit code: 0 = OK, 1 = errors.
 ## Typical Extension Workflow
 
 ```
-1c-cf-manage info <config>          — get base config version/compatibility
-1c-cfe-manage init                  — create extension scaffold
-1c-cfe-manage borrow               — borrow objects to modify
-1c-cfe-manage patch                 — generate interceptors
-1c-cfe-manage validate              — check correctness
-1c-cfe-manage diff -Mode A          — review changes overview
-1c-cfe-manage diff -Mode B          — check transfer status
+1c-cf-manage info <config>          - get base config version/compatibility
+1c-cfe-manage init                  - create extension scaffold
+1c-cfe-manage borrow               - borrow objects to modify
+1c-cfe-manage patch                 - generate interceptors
+1c-cfe-manage validate              - check correctness
+1c-cfe-manage diff -Mode A          - review changes overview
+1c-cfe-manage diff -Mode B          - check transfer status
 ```
 
 ## MCP Integration
 
-Use `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`) to find objects to borrow and verify module paths. Use `mcp__rlm-tools-bsl__rlm_execute` (`grep`, `find_callers`, `extract_procedures`) to find methods to intercept. Use `claude-code-bsl-lsp` to verify generated BSL code.
+Use `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`) to find objects to borrow and verify module paths. Use `mcp__rlm-tools-bsl__rlm_execute` (`grep`, `find_callers`, `extract_procedures`) to find methods to intercept. Use `bsl-language-server` to verify generated BSL code.
 
 ## SDD Integration
 

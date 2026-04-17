@@ -1,11 +1,11 @@
-# 1C Role Manage — Compile, Info, Validate
+# 1C Role Manage - Compile, Info, Validate
 
 Create, analyze, and validate 1C roles (metadata + Rights.xml) for access rights management.
 
 ---
-## 1. Compile — Create Role
+## 1. Compile - Create Role
 
-Creates role files (metadata + Rights.xml) from a rights description. No script — the agent generates XML using templates below.
+Creates role files (metadata + Rights.xml) from a rights description. No script - the agent generates XML using templates below.
 
 ## Usage
 
@@ -13,8 +13,8 @@ Creates role files (metadata + Rights.xml) from a rights description. No script 
 1c-role-compile <RoleName> <RolesDir>
 ```
 
-- **RoleName** — programmatic role name
-- **RolesDir** — `Roles/` directory in configuration sources
+- **RoleName** - programmatic role name
+- **RolesDir** - `Roles/` directory in configuration sources
 
 ## File Structure and Registration
 
@@ -82,7 +82,7 @@ NB: namespace `http://v8.1c.ru/8.2/roles` (historically 8.2, not 8.3).
 </object>
 ```
 
-Object name — dot notation: `ObjectType.Name[.NestedType.NestedName]`.
+Object name - dot notation: `ObjectType.Name[.NestedType.NestedName]`.
 
 ## Common Rights Sets
 
@@ -107,7 +107,7 @@ Object name — dot notation: `ObjectType.Name[.NestedType.NestedName]`.
 | Read | Read, View |
 | Full | Read, Update, View, Edit |
 
-TotalsControl — only for totals management, usually not needed.
+TotalsControl - only for totals management, usually not needed.
 
 ### Simple Types
 
@@ -133,7 +133,7 @@ TotalsControl — only for totals management, usually not needed.
 
 ### Types WITHOUT Rights in Roles
 
-Enum, FunctionalOption, DefinedType, CommonModule, CommonPicture, CommonTemplate — do not appear in Rights.xml.
+Enum, FunctionalOption, DefinedType, CommonModule, CommonPicture, CommonTemplate - do not appear in Rights.xml.
 
 ### Nested Objects (rights: View, Edit)
 
@@ -153,7 +153,7 @@ Used for granular denial: `<value>false</value>` on a specific attribute.
 
 Object: `Configuration.ConfigName`. Key rights: Administration, DataAdministration, ThinClient, WebClient, ThickClient, MobileClient, ExternalConnection, Output, SaveUserData, InteractiveOpenExtDataProcessors, InteractiveOpenExtReports, MainWindowModeNormal, MainWindowModeWorkplace, MainWindowModeEmbeddedWorkplace, MainWindowModeFullscreenWorkplace, MainWindowModeKiosk, AnalyticsSystemClient.
 
-> DataHistory rights (ReadDataHistory, UpdateDataHistory, etc.) exist for Catalog, Document, Register, Constant — but are rarely used in standard roles.
+> DataHistory rights (ReadDataHistory, UpdateDataHistory, etc.) exist for Catalog, Document, Register, Constant - but are rarely used in standard roles.
 
 ## RLS (Row-Level Security)
 
@@ -169,7 +169,7 @@ Inside `<right>`, after `<value>`. Applies to Read, Update, Insert, Delete.
 </right>
 ```
 
-Templates — at the end of Rights.xml, after all `<object>` blocks:
+Templates - at the end of Rights.xml, after all `<object>` blocks:
 
 ```xml
 <restrictionTemplate>
@@ -198,12 +198,12 @@ Templates — at the end of Rights.xml, after all `<object>` blocks:
 </object>
 ```
 
-Background jobs do not require Interactive/View/Edit rights or configuration rights (ThinClient, WebClient, etc.) — only programmatic rights (Read, Insert, Update, Delete, Posting).
+Background jobs do not require Interactive/View/Edit rights or configuration rights (ThinClient, WebClient, etc.) - only programmatic rights (Read, Insert, Update, Delete, Posting).
 
 ---
-## 2. Info — Analyze Rights
+## 2. Info - Analyze Rights
 
-Parses a role's `Rights.xml` and outputs a compact summary: objects grouped by type, showing only allowed rights. Compression: thousands of XML lines → 50–150 lines of text.
+Parses a role's `Rights.xml` and outputs a compact summary: objects grouped by type, showing only allowed rights. Compression: thousands of XML lines → 50-150 lines of text.
 
 ## Usage
 
@@ -211,7 +211,7 @@ Parses a role's `Rights.xml` and outputs a compact summary: objects grouped by t
 1c-role-info <RightsPath>
 ```
 
-**RightsPath** — path to the role's `Rights.xml` file (typically `Roles/RoleName/Ext/Rights.xml`).
+**RightsPath** - path to the role's `Rights.xml` file (typically `Roles/RoleName/Ext/Rights.xml`).
 
 ## Command
 
@@ -226,8 +226,8 @@ powershell.exe -File skills/1c-metadata-manage/tools/1c-role-info/scripts/role-i
 | `-RightsPath` | yes | Path to Rights.xml |
 | `-ShowDenied` | no | Show denied rights (hidden by default) |
 | `-Limit` | no | Max output lines (default `150`). `0` = unlimited |
-| `-Offset` | no | Skip N lines — for pagination (default `0`) |
-| `-OutFile` | no | Write result to file (UTF-8 BOM). Without this — console output |
+| `-Offset` | no | Skip N lines - for pagination (default `0`) |
+| `-OutFile` | no | Write result to file (UTF-8 BOM). Without this - console output |
 
 **Important:** Always use `-OutFile` and read result via Read tool. Direct console output may corrupt Cyrillic characters.
 
@@ -273,12 +273,12 @@ Use `-Offset N` and `-Limit N` for paginated viewing.
 
 ### Notation
 
-- `[RLS]` — right with row-level security restriction (restrictionByCondition)
-- `-View`, `-Edit` — denied rights (in Denied section, with `-ShowDenied`)
+- `[RLS]` - right with row-level security restriction (restrictionByCondition)
+- `-View`, `-Edit` - denied rights (in Denied section, with `-ShowDenied`)
 - Nested objects shown with suffix: `Contractors.StandardAttribute.PredefinedDataName`
 
 ---
-## 3. Validate — Check Correctness
+## 3. Validate - Check Correctness
 
 Checks correctness of a role's `Rights.xml`: XML format, namespace, global flags, object types, right names, RLS restrictions, templates. Optionally checks role metadata (UUID, name, synonym).
 
@@ -294,14 +294,14 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-role-validate
 |-----------|:--------:|-------------|
 | `-RightsPath` | yes | Path to `Rights.xml` of the role |
 | `-MetadataPath` | no | Path to role metadata (`Roles/RoleName.xml`) |
-| `-OutFile` | no | Write result to file (UTF-8 BOM). Without this — console output |
+| `-OutFile` | no | Write result to file (UTF-8 BOM). Without this - console output |
 
 **Important:** For Cyrillic paths, use `-OutFile` and read the result via the Read tool.
 
 ## Checks
 
 ### Rights.xml
-1. XML well-formed — parses without errors
+1. XML well-formed - parses without errors
 2. Root element `<Rights>` with namespace `http://v8.1c.ru/8.2/roles`
 3. Three global flags: `setForNewObjects`, `setForAttributesByDefault`, `independentRightsOfChildObjects`
 4. For each `<object>`:
@@ -327,7 +327,7 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-role-validate
 | `WARN` | Warning (unknown object type, suspicious right name) |
 | `ERR` | Error (invalid XML, missing required elements) |
 
-Exit code: `0` — no errors, `1` — errors found.
+Exit code: `0` - no errors, `1` - errors found.
 
 ## Examples
 
@@ -354,16 +354,16 @@ Exit code: `0` — no errors, `1` — errors found.
 ## Typical Workflow
 
 ```
-1c-role-compile <RoleName> <RolesDir>                    — create role from description
-1c-role-validate -RightsPath <path> -MetadataPath <path>  — validate correctness
-1c-role-info <RightsPath>                                — analyze existing role before modification
+1c-role-compile <RoleName> <RolesDir>                    - create role from description
+1c-role-validate -RightsPath <path> -MetadataPath <path>  - validate correctness
+1c-role-info <RightsPath>                                - analyze existing role before modification
 ```
 
 ---
 ## MCP Integration
 
-- Verify metadata object names when defining rights; verify objects referenced in role rights exist in the configuration — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
-- Find SSL/БСП role patterns — `mcp__rlm-tools-bsl__rlm_execute` (`glob_files` on `Roles/*/Ext/Rights.xml`, `grep` over role names). See also `.claude/skills/1c-metadata-manage/docs/ssl-patterns.md`.
+- Verify metadata object names when defining rights; verify objects referenced in role rights exist in the configuration - `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
+- Find SSL/БСП role patterns - `mcp__rlm-tools-bsl__rlm_execute` (`glob_files` on `Roles/*/Ext/Rights.xml`, `grep` over role names). See also `.claude/skills/1c-metadata-manage/docs/ssl-patterns.md`.
 
 ## SDD Integration
 

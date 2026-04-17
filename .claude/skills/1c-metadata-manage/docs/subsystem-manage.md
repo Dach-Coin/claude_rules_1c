@@ -1,10 +1,10 @@
-# 1C Subsystem Manage — Create, Edit, Analyze, Validate Subsystems
+# 1C Subsystem Manage - Create, Edit, Analyze, Validate Subsystems
 
 Comprehensive subsystem management: create from JSON, edit content/properties, analyze structure, validate correctness.
 
 ---
 
-## 1. Compile — Create Subsystem from JSON
+## 1. Compile - Create Subsystem from JSON
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-subsystem-manage/scripts/subsystem-compile.ps1 -Value '<json>' -OutputDir '<ConfigDir>'
@@ -35,13 +35,13 @@ Minimal: only `name` required. Everything else has defaults.
 
 ### What Gets Generated
 
-- `{OutputDir}/Subsystems/{Name}.xml` — subsystem definition
-- `{OutputDir}/Subsystems/{Name}/` — directory (if children exist)
-- `Configuration.xml` or parent subsystem — registration in `<ChildObjects>`
+- `{OutputDir}/Subsystems/{Name}.xml` - subsystem definition
+- `{OutputDir}/Subsystems/{Name}/` - directory (if children exist)
+- `Configuration.xml` or parent subsystem - registration in `<ChildObjects>`
 
 ---
 
-## 2. Edit — Modify Existing Subsystem
+## 2. Edit - Modify Existing Subsystem
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-subsystem-manage/scripts/subsystem-edit.ps1 -SubsystemPath '<path>' -Operation <op> -Value '<value>'
@@ -67,7 +67,7 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-subsystem-man
 
 ---
 
-## 3. Info — Analyze Subsystem Structure
+## 3. Info - Analyze Subsystem Structure
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-subsystem-manage/scripts/subsystem-info.ps1 -SubsystemPath "<path>"
@@ -84,14 +84,14 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-subsystem-man
 | Mode | What It Shows |
 |------|---------------|
 | `overview` | Compact summary: properties, content (grouped by type), children, CI presence |
-| `content` | Content list grouped by object type. `-Name Catalog` — catalogs only |
+| `content` | Content list grouped by object type. `-Name Catalog` - catalogs only |
 | `ci` | CommandInterface.xml breakdown: visibility, placement, command/subsystem/group order |
 | `tree` | Recursive hierarchy tree with markers [CI], [OneCmd], [Hidden] |
 | `full` | Full summary: overview + content + ci in one call |
 
 ---
 
-## 4. Validate — Check Subsystem Correctness
+## 4. Validate - Check Subsystem Correctness
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-subsystem-manage/scripts/subsystem-validate.ps1 -SubsystemPath '<path>'
@@ -100,17 +100,17 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-subsystem-man
 ### Checks (13)
 
 1. XML well-formedness + root structure (MetaDataObject/Subsystem)
-2. Properties — 9 required properties
-3. Name — non-empty, valid identifier
-4. Synonym — non-empty
-5. Boolean properties — contain true/false
-6. Content — xr:Item format, xsi:type
-7. Content — no duplicates
-8. ChildObjects — elements non-empty
-9. ChildObjects — no duplicates
+2. Properties - 9 required properties
+3. Name - non-empty, valid identifier
+4. Synonym - non-empty
+5. Boolean properties - contain true/false
+6. Content - xr:Item format, xsi:type
+7. Content - no duplicates
+8. ChildObjects - elements non-empty
+9. ChildObjects - no duplicates
 10. ChildObjects → files exist
-11. CommandInterface.xml — well-formedness
-12. Picture — reference format
+11. CommandInterface.xml - well-formedness
+12. Picture - reference format
 13. UseOneCommand=true → exactly 1 Content element
 
 Exit code: 0 = OK, 1 = errors.
@@ -120,15 +120,15 @@ Exit code: 0 = OK, 1 = errors.
 ## Typical Workflow
 
 ```
-1c-subsystem-manage compile   — create subsystem
-1c-subsystem-manage validate  — check correctness
-1c-subsystem-manage edit      — add objects to content
-1c-subsystem-manage info      — view structure
+1c-subsystem-manage compile   - create subsystem
+1c-subsystem-manage validate  - check correctness
+1c-subsystem-manage edit      - add objects to content
+1c-subsystem-manage info      - view structure
 ```
 
 ## MCP Integration
 
-Use `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`) to verify that objects referenced in subsystem content exist in the configuration. To find related objects to include, use descriptive grep over synonyms and object names via `mcp__rlm-tools-bsl__rlm_execute` (NL/semantic search is not available — see Capability boundaries in `.claude/rules/mcp-tools.md`).
+Use `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`) to verify that objects referenced in subsystem content exist in the configuration. To find related objects to include, use descriptive grep over synonyms and object names via `mcp__rlm-tools-bsl__rlm_execute` (NL/semantic search is not available - see Capability boundaries in `.claude/rules/mcp-tools.md`).
 
 ## SDD Integration
 

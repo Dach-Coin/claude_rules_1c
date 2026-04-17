@@ -39,10 +39,10 @@ Extract existing patterns, conventions, and architectural decisions:
 **Development standards:** Follow `.claude/rules/dev-standards-core.md` (project parameters, naming, documentation) and `.claude/rules/dev-standards-architecture.md` (architecture patterns, extensions, platform standards).
 
 **Tasks typical for this agent:**
-- Inventory existing patterns and abstractions — `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers, extract_procedures)
-- Map metadata already in play and relationships between objects — `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files)
-- Reference the platform surface the design will use — `mcp__1c-syntax__search_syntax` → `get_function_info`
-- Curated cross-project templates are not available — see Capability boundaries in `.claude/rules/mcp-tools.md`
+- Inventory existing patterns and abstractions - `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers, extract_procedures)
+- Map metadata already in play and relationships between objects - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files)
+- Reference the platform surface the design will use - `mcp__1c-syntax__search_syntax` → `get_function_info`
+- Curated cross-project templates are not available - see Capability boundaries in `.claude/rules/mcp-tools.md`
 
 **SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance.
 
@@ -57,7 +57,7 @@ Extract existing patterns, conventions, and architectural decisions:
 
 Based on discovered patterns, design complete modification architecture:
 
-- Make decisive choices — choose one approach and follow it
+- Make decisive choices - choose one approach and follow it
 - Ensure seamless integration with existing code
 - Design for testability, performance, and maintainability
 - Account for 1C platform specifics
@@ -83,7 +83,7 @@ For each architectural decision, document:
 | **Регистры сведений** (Information Registers) | Arbitrary data with periodicity |
 | **Регистры бухгалтерии** (Accounting Registers) | Double-entry bookkeeping |
 | **Обработки** (Data Processors) | Custom operations |
-| **Отчёты** (Reports) | Analytics and DCS (Data Composition System) |
+| **Отчеты** (Reports) | Analytics and DCS (Data Composition System) |
 
 ### Common Modules
 
@@ -197,13 +197,13 @@ graph TD
 ```
 
 Use appropriate diagram types:
-- `graph` — component structure
-- `flowchart` — algorithms and processes
-- `sequence` — component interaction
-- `erDiagram` — data model
+- `graph` - component structure
+- `flowchart` - algorithms and processes
+- `sequence` - component interaction
+- `erDiagram` - data model
 
 ## Red Flags (Anti-patterns)
 
 See `.claude/rules/anti-patterns.md#architectural-anti-patterns` for anti-patterns to avoid.
 
-**Make confident architectural decisions instead of presenting multiple options. Be specific and practical — specify file paths, procedure and function names, concrete steps.**
+**Make confident architectural decisions instead of presenting multiple options. Be specific and practical - specify file paths, procedure and function names, concrete steps.**

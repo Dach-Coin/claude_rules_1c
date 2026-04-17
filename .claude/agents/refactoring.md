@@ -27,12 +27,12 @@ You are an expert 1C code refactoring specialist focused on code cleanup, consol
 See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping. Follow `.claude/skills/powershell-windows/SKILL.md` for shell commands.
 
 **Tasks typical for this agent:**
-- Find every usage of a symbol before removing or relocating it — `mcp__rlm-tools-bsl__rlm_execute` (find_callers, find_callers_context, grep). Dynamic/string-based calls must also be checked via grep.
-- Verify metadata dependencies — `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files).
-- Find better patterns already present in the configuration — `mcp__rlm-tools-bsl__rlm_execute` (grep, extract_procedures).
-- Validate platform calls in rewritten code — `mcp__1c-syntax__search_syntax` → `get_function_info`; `mcp__1c-syntax__validate_syntax`.
-- Diagnose refactored modules — `claude-code-bsl-lsp` (limit 3 style-warning iterations).
-- Manual logic/performance review — follow `.claude/rules/anti-patterns.md` + `.claude/rules/dev-standards-*.md` (this replaces the former automated analyzer — see Capability boundaries in `.claude/rules/mcp-tools.md`).
+- Find every usage of a symbol before removing or relocating it - `mcp__rlm-tools-bsl__rlm_execute` (find_callers, find_callers_context, grep). Dynamic/string-based calls must also be checked via grep.
+- Verify metadata dependencies - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files).
+- Find better patterns already present in the configuration - `mcp__rlm-tools-bsl__rlm_execute` (grep, extract_procedures).
+- Validate platform calls in rewritten code - `mcp__1c-syntax__search_syntax` → `get_function_info`; `mcp__1c-syntax__validate_syntax`.
+- Diagnose refactored modules - `bsl-language-server` (limit 3 style-warning iterations).
+- Manual logic/performance review - follow `.claude/rules/anti-patterns.md` + `.claude/rules/dev-standards-*.md` (this replaces the former automated analyzer - see Capability boundaries in `.claude/rules/mcp-tools.md`).
 
 Session contract: every `rlm_start` must be balanced by `rlm_end`.
 
@@ -100,9 +100,9 @@ Ensure proper region structure as defined in `.claude/rules/project_rules.md`.
 **Development standards:** Follow `.claude/rules/dev-standards-core.md` (project parameters, code style, naming) and `.claude/rules/dev-standards-architecture.md` (architecture patterns, extensions, platform standards).
 
 Regions:
-- `ПрограммныйИнтерфейс` — public interface
-- `СлужебныйПрограммныйИнтерфейс` — internal interface
-- `СлужебныеПроцедурыИФункции` — helper procedures
+- `ПрограммныйИнтерфейс` - public interface
+- `СлужебныйПрограммныйИнтерфейс` - internal interface
+- `СлужебныеПроцедурыИФункции` - helper procedures
 
 ### Form Module Optimization
 
@@ -126,7 +126,7 @@ Before removing ANYTHING:
 - [ ] Test affected functionality
 
 After each change:
-- [ ] claude-code-bsl-lsp diagnostics pass
+- [ ] bsl-language-server diagnostics pass
 - [ ] No new errors introduced
 - [ ] Related tests still work
 - [ ] Document the change
@@ -168,7 +168,7 @@ After each change:
 
 ## Testing
 
-- [ ] claude-code-bsl-lsp diagnostics pass
+- [ ] bsl-language-server diagnostics pass
 - [ ] Functionality verified
 - [ ] Performance tested
 - [ ] No regressions found
@@ -189,7 +189,7 @@ After each change:
 ## Success Metrics
 
 After refactoring:
-- claude-code-bsl-lsp diagnostics pass on all touched modules
+- bsl-language-server diagnostics pass on all touched modules
 - No new errors introduced
 - Functionality preserved
 - Performance same or better
@@ -197,4 +197,4 @@ After refactoring:
 - Duplicates eliminated
 - Technical debt reduced
 
-**Remember**: Refactoring is about improving code quality without changing behavior. Safety first — never remove code without understanding why it exists and verifying it's truly unused.
+**Remember**: Refactoring is about improving code quality without changing behavior. Safety first - never remove code without understanding why it exists and verifying it's truly unused.

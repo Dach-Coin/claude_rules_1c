@@ -2,8 +2,8 @@
 
 This skill provides **advanced** query patterns beyond basic rules in `project_rules.md` and `anti-patterns.md`.
 
-For basic query rules (formatting, aliases, parameters, no queries in loops) — see `project_rules.md`.
-For anti-patterns with examples (query in loop, subquery in SELECT, virtual table filter in WHERE, missing TOP N) — see `anti-patterns.md`.
+For basic query rules (formatting, aliases, parameters, no queries in loops) - see `project_rules.md`.
+For anti-patterns with examples (query in loop, subquery in SELECT, virtual table filter in WHERE, missing TOP N) - see `anti-patterns.md`.
 
 ## When to Use
 
@@ -84,7 +84,7 @@ Use temporary tables for:
 
 ## Composite Type Dereferencing (ITS Standard)
 
-Avoid dereferencing composite type reference fields directly — the system creates queries for **ALL** possible types.
+Avoid dereferencing composite type reference fields directly - the system creates queries for **ALL** possible types.
 
 ```bsl
 // ❌ SLOW: Dereferences ALL registrar types (can be hundreds)
@@ -131,7 +131,7 @@ When you only need text representation, use `ПРЕДСТАВЛЕНИЕ()` to av
 
 ## Avoid Joins with Subqueries (ITS Standard)
 
-Never use subqueries in JOIN — use temporary tables instead:
+Never use subqueries in JOIN - use temporary tables instead:
 
 ```bsl
 // ❌ WRONG: Join with subquery
@@ -193,7 +193,7 @@ Extract virtual table results to temporary table before joining:
 |		ПО Номенклатура.Ссылка = Остатки.Номенклатура"
 ```
 
-## Avoid OR in WHERE — Use ОБЪЕДИНИТЬ ВСЕ (ITS Standard)
+## Avoid OR in WHERE - Use ОБЪЕДИНИТЬ ВСЕ (ITS Standard)
 
 `OR` in `WHERE` prevents index usage. Split into UNION queries:
 
@@ -253,13 +253,13 @@ Ensure query conditions match available indexes:
 ```bsl
 // Given index: (Организация, Контрагент, Дата)
 
-// ✅ Index will be used — fields are at the beginning
+// ✅ Index will be used - fields are at the beginning
 "ГДЕ Организация = &Орг И Контрагент = &Контр"
 
-// ❌ Index NOT used — skipped first field
+// ❌ Index NOT used - skipped first field
 "ГДЕ Контрагент = &Контр И Дата = &Дата"
 
-// ⚠️ Partial use — gap in fields
+// ⚠️ Partial use - gap in fields
 "ГДЕ Организация = &Орг И Дата = &Дата"
 ```
 

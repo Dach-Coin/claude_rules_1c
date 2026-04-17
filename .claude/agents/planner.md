@@ -36,9 +36,9 @@ You are an expert planning specialist focused on creating comprehensive, actiona
 **Tool Usage:** See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping. Follow `.claude/skills/powershell-windows/SKILL.md` for shell commands.
 
 **Tasks typical for this agent:**
-- Survey existing implementations of similar features — `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers, extract_procedures)
-- Map affected metadata before committing to a plan — `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files)
-- Reference platform capabilities the plan relies on — `mcp__1c-syntax__search_syntax` → `get_function_info`
+- Survey existing implementations of similar features - `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers, extract_procedures)
+- Map affected metadata before committing to a plan - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files)
+- Reference platform capabilities the plan relies on - `mcp__1c-syntax__search_syntax` → `get_function_info`
 
 **Diagrams:** Follow `.claude/skills/mermaid-diagrams/SKILL.md` for Mermaid compatibility rules and templates.
 
@@ -81,23 +81,23 @@ Consider which objects need to be created/modified:
 | Регистр накопления | Quantities with balances/turnovers |
 | Регистр сведений | Configuration data, logs |
 | Обработка | Batch operations, utilities |
-| Отчёт | Analytics, data export |
+| Отчет | Analytics, data export |
 | Общий модуль | Shared business logic |
 
 ### Module Structure
 
 Plan where code will reside:
-- Object Module — object-specific logic
-- Manager Module — factory methods, queries
-- Form Module — UI interactions
-- Common Module — shared utilities
+- Object Module - object-specific logic
+- Manager Module - factory methods, queries
+- Form Module - UI interactions
+- Common Module - shared utilities
 
 ### Client-Server Architecture
 
 Consider execution context:
-- `&НаКлиенте` — UI interactions
-- `&НаСервере` — server with form context
-- `&НаСервереБезКонтекста` — server without context (preferred)
+- `&НаКлиенте` - UI interactions
+- `&НаСервере` - server with form context
+- `&НаСервереБезКонтекста` - server without context (preferred)
 
 ### Data Access Patterns
 

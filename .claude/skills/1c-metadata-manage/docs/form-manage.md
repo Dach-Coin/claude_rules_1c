@@ -1,10 +1,10 @@
-# 1C Form Manage — Patterns, Scaffold, Compile, Edit, Info, Validate
+# 1C Form Manage - Patterns, Scaffold, Compile, Edit, Info, Validate
 
 Comprehensive managed form management: design patterns reference, create/remove forms, compile from JSON, edit elements, analyze structure, validate correctness.
 
 ---
 
-## 1. Patterns — Design Reference
+## 1. Patterns - Design Reference
 
 Reference of standard managed form design patterns for 1C. Load **before** designing a form via `1c-form-compile` when user requirements do not specify element placement details.
 
@@ -54,12 +54,12 @@ Action buttons
 Filters (group: alwaysHorizontal)
 ├─ FilterGroup[Field] (H): Checkbox + InputField (for each filter)
 List (table, DynamicList)
-├─ Columns: labelField (not input — data is read-only)
+├─ Columns: labelField (not input - data is read-only)
 ```
 
 **Events:** OnCreateAtServer, OnOpen, NotificationProcessing, OnLoadDataFromSettingsAtServer
 **Properties:** autoSaveDataInSettings=Use
-**Filters:** pair of attributes per filter — `Filter[Field]` (value) + `Filter[Field]Use` (boolean)
+**Filters:** pair of attributes per filter - `Filter[Field]` (value) + `Filter[Field]Use` (boolean)
 
 #### Catalog Item Form
 
@@ -147,13 +147,13 @@ Form handlers: `ПриСозданииНаСервере`, `ПриОткрыти
 
 ### Layout Principles
 
-1. **Reading order.** Top to bottom, left to right. Most important — at top.
+1. **Reading order.** Top to bottom, left to right. Most important - at top.
 2. **Two-column header.** Main attributes on left (contractor, warehouse), organizational on right (organization, department).
-3. **Action buttons at bottom.** Main button — `defaultButton: true`. Close — always last.
+3. **Action buttons at bottom.** Main button - `defaultButton: true`. Close - always last.
 4. **Tables are the main area.** Tabular sections occupy most of the form, usually on Pages.
 5. **Totals near table.** In footer, horizontal group, all fields readOnly.
 6. **Filters as separate zone.** Above list, alwaysHorizontal, pair of "checkbox + field" per filter.
-7. **Hidden elements for states.** Banners, warnings — `visible: false`, shown programmatically.
+7. **Hidden elements for states.** Banners, warnings - `visible: false`, shown programmatically.
 8. **Hyperlink labels for dialogs.** `labelField` with `hyperlink: true` and Click event.
 
 ---
@@ -253,7 +253,7 @@ Instead of a button for opening subforms (PricesAndCurrency, AccountingPolicy):
 
 ---
 
-## 2. Scaffold — Create or Remove Form
+## 2. Scaffold - Create or Remove Form
 
 Creates a managed form (metadata XML + Form.xml + Module.bsl) and registers it in the root XML of a 1C metadata object. Supports all object types: DataProcessor, Document, Catalog, InformationRegister, and more. Also supports form removal.
 
@@ -267,8 +267,8 @@ Creates a managed form (metadata XML + Form.xml + Module.bsl) and registers it i
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| ObjectPath | yes | — | Path to object XML file (e.g., `Documents/Doc.xml`) |
-| FormName | yes | — | Form name |
+| ObjectPath | yes | - | Path to object XML file (e.g., `Documents/Doc.xml`) |
+| FormName | yes | - | Form name |
 | Purpose | no | Object | Purpose: Object, List, Choice, Record |
 | Synonym | no | = FormName | Form synonym |
 | --set-default | no | auto | Set as default form |
@@ -286,8 +286,8 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-form-scaffold
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| ProcessorName | yes | — | Processor name (must exist) |
-| FormName | yes | — | Form name |
+| ProcessorName | yes | - | Processor name (must exist) |
+| FormName | yes | - | Form name |
 | Synonym | no | = FormName | Form synonym |
 | --main | no | auto | Set as default form (auto for first form) |
 | SrcDir | no | `src` | Source directory |
@@ -297,7 +297,7 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-form-scaffold
 pwsh -NoProfile -File skills/1c-metadata-manage/tools/1c-form-scaffold/scripts/add-form.ps1 -ProcessorName "<ProcessorName>" -FormName "<FormName>" [-Synonym "<Synonym>"] [-Main] [-SrcDir "<SrcDir>"]
 ```
 
-#### Purpose — Form Assignment
+#### Purpose - Form Assignment
 
 | Purpose | Allowed Object Types | Main Attribute | DefaultForm Property |
 |---------|---------------------|---------------|---------------------|
@@ -320,7 +320,7 @@ pwsh -NoProfile -File skills/1c-metadata-manage/tools/1c-form-scaffold/scripts/a
 
 #### What Gets Modified
 
-- `<ObjectPath>` — adds `<Form>` to `ChildObjects` (before `<Template>` or `<TabularSection>`), updates Default*Form (auto if empty, or explicit with `--set-default`)
+- `<ObjectPath>` - adds `<Form>` to `ChildObjects` (before `<Template>` or `<TabularSection>`), updates Default*Form (auto if empty, or explicit with `--set-default`)
 
 #### Details
 
@@ -350,8 +350,8 @@ Remove form files and unregister from the object's root XML.
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| ProcessorName | yes | — | Processor name |
-| FormName | yes | — | Form name to remove |
+| ProcessorName | yes | - | Processor name |
+| FormName | yes | - | Form name to remove |
 | SrcDir | no | `src` | Source directory |
 
 **Command:**
@@ -368,8 +368,8 @@ pwsh -NoProfile -File skills/1c-metadata-manage/tools/1c-form-scaffold/scripts/r
 
 #### What Gets Modified
 
-- `<SrcDir>/<ProcessorName>.xml` — removes `<Form>` from `ChildObjects`
-- If removed form was DefaultForm — clears DefaultForm value
+- `<SrcDir>/<ProcessorName>.xml` - removes `<Form>` from `ChildObjects`
+- If removed form was DefaultForm - clears DefaultForm value
 
 ---
 
@@ -400,11 +400,11 @@ pwsh -NoProfile -File skills/1c-metadata-manage/tools/1c-form-scaffold/scripts/r
 
 ---
 
-## 3. Compile — Generate from JSON
+## 3. Compile - Generate from JSON
 
-Takes a compact JSON definition (20–50 lines) and generates a complete, valid Form.xml (100–500+ lines) with namespace declarations, auto-generated companion elements, and sequential IDs.
+Takes a compact JSON definition (20-50 lines) and generates a complete, valid Form.xml (100-500+ lines) with namespace declarations, auto-generated companion elements, and sequential IDs.
 
-> **When designing a form from scratch (5+ elements or unclear requirements)** — load the `1c-form-patterns` skill first for archetypes, naming conventions, and advanced patterns. For simple forms (1–3 fields with clear requirements) — not needed.
+> **When designing a form from scratch (5+ elements or unclear requirements)** - load the `1c-form-patterns` skill first for archetypes, naming conventions, and advanced patterns. For simple forms (1-3 fields with clear requirements) - not needed.
 
 ### Usage
 
@@ -440,10 +440,10 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-form-compile/
 }
 ```
 
-- `title` — form title (multilingual). Can also be in `properties`, but top-level is preferred
-- `properties` — form properties: `autoTitle`, `windowOpeningMode`, `commandBarLocation`, `saveDataInSettings`, `width`, `height`, etc.
-- `events` — form event handlers (key: 1C event name, value: procedure name)
-- `excludedCommands` — excluded standard commands
+- `title` - form title (multilingual). Can also be in `properties`, but top-level is preferred
+- `properties` - form properties: `autoTitle`, `windowOpeningMode`, `commandBarLocation`, `saveDataInSettings`, `width`, `height`, etc.
+- `events` - form event handlers (key: 1C event name, value: procedure name)
+- `excludedCommands` - excluded standard commands
 
 #### Elements (key determines type)
 
@@ -478,7 +478,7 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-form-compile/
 
 #### Allowed Event Names (`on`)
 
-The compiler warns about unknown events. Names are case-sensitive — use exactly as shown.
+The compiler warns about unknown events. Names are case-sensitive - use exactly as shown.
 
 **Form** (`events`): `OnCreateAtServer`, `OnOpen`, `BeforeClose`, `OnClose`, `NotificationProcessing`, `ChoiceProcessing`, `OnReadAtServer`, `BeforeWriteAtServer`, `OnWriteAtServer`, `AfterWriteAtServer`, `BeforeWrite`, `AfterWrite`, `FillCheckProcessingAtServer`, `BeforeLoadDataFromSettingsAtServer`, `OnLoadDataFromSettingsAtServer`, `ExternalEvent`, `Opening`
 
@@ -500,7 +500,7 @@ The compiler warns about unknown events. Names are case-sensitive — use exactl
 
 | Key | Description | Example |
 |-----|-------------|---------|
-| `path` | DataPath — data binding | `"Object.Organization"` |
+| `path` | DataPath - data binding | `"Object.Organization"` |
 | `titleLocation` | Title location | `"none"`, `"left"`, `"top"` |
 | `multiLine: true` | Multi-line field | text field, comment |
 | `passwordMode: true` | Password mode (asterisks) | password input |
@@ -548,7 +548,7 @@ Value of the key sets orientation: `"horizontal"`, `"vertical"`, `"alwaysHorizon
 | Key | Description |
 |-----|-------------|
 | `path` | DataPath (binding to table attribute) |
-| `columns: [...]` | Columns — array of elements (usually `input`) |
+| `columns: [...]` | Columns - array of elements (usually `input`) |
 | `changeRowSet: true` | Allow adding/removing rows |
 | `changeRowOrder: true` | Allow row reordering |
 | `height` | Height in table rows |
@@ -617,7 +617,7 @@ Used inside `cmdBar` to group buttons:
 ]}
 ```
 
-- `savedData: true` — saved data
+- `savedData: true` - saved data
 
 #### Commands
 
@@ -625,8 +625,8 @@ Used inside `cmdBar` to group buttons:
 { "name": "Import", "action": "ImportHandler", "shortcut": "Ctrl+Enter" }
 ```
 
-- `title` — title (if different from name)
-- `picture` — command picture
+- `title` - title (if different from name)
+- `picture` - command picture
 
 #### Type System
 
@@ -647,7 +647,7 @@ Used inside `cmdBar` to group buttons:
 
 Tables and some fields require an associated attribute. Elements reference attributes via `path`.
 
-**Table** — `table` element + `ValueTable` attribute:
+**Table** - `table` element + `ValueTable` attribute:
 ```json
 {
   "elements": [
@@ -694,19 +694,19 @@ Or, if table is bound to a form attribute (not Object):
 ### Verification
 
 ```
-1c-form-validate <OutputPath>    — check XML correctness
-1c-form-info <OutputPath>        — visual structure summary
+1c-form-validate <OutputPath>    - check XML correctness
+1c-form-info <OutputPath>        - visual structure summary
 ```
 
 ### Notes for External Data Processors (EPF)
 
 - **Main attribute type**: `ExternalDataProcessorObject.ProcessorName` (not `DataProcessorObject`)
-- **DataPath**: use form attributes (`AttributeName`), not `Object.AttributeName` — external data processors have no object attributes in metadata
-- **Reference types**: `CatalogRef.XXX`, `DocumentRef.XXX`, etc. may not build in an empty infobase — use `string` or basic types for standalone builds
+- **DataPath**: use form attributes (`AttributeName`), not `Object.AttributeName` - external data processors have no object attributes in metadata
+- **Reference types**: `CatalogRef.XXX`, `DocumentRef.XXX`, etc. may not build in an empty infobase - use `string` or basic types for standalone builds
 
 ---
 
-## 4. Edit — Add Elements, Attributes, Commands
+## 4. Edit - Add Elements, Attributes, Commands
 
 Adds elements, attributes, and/or commands to an existing Form.xml. Automatically allocates IDs from the correct pool, generates companion elements (ContextMenu, ExtendedTooltip, etc.) and event handlers.
 
@@ -815,7 +815,7 @@ Run 1c-form-validate to verify.
 
 ---
 
-## 5. Info — Analyze Structure
+## 5. Info - Analyze Structure
 
 Reads a Form.xml of a managed form and outputs a compact summary: element tree, typed attributes, commands, events. Replaces the need to read thousands of XML lines.
 
@@ -827,7 +827,7 @@ Reads a Form.xml of a managed form and outputs a compact summary: element tree, 
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| FormPath | yes | — | Path to Form.xml file |
+| FormPath | yes | - | Path to Form.xml file |
 | Limit | no | `150` | Max output lines (overflow protection) |
 | Offset | no | `0` | Skip N lines (for pagination) |
 
@@ -847,12 +847,12 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-form-info/scr
 #### Header
 
 ```
-=== Form: DocumentForm — "Sales of Goods and Services" (Documents.SalesInvoice) ===
+=== Form: DocumentForm - "Sales of Goods and Services" (Documents.SalesInvoice) ===
 ```
 
 Form name, Title, and object context are determined from the file path and XML.
 
-#### Properties — Form Properties
+#### Properties - Form Properties
 
 Only non-default properties are shown. Title is shown in the header, not here:
 
@@ -860,7 +860,7 @@ Only non-default properties are shown. Title is shown in the header, not here:
 Properties: AutoTitle=false, WindowOpeningMode=LockOwnerWindow, CommandBarLocation=Bottom
 ```
 
-#### Events — Form Event Handlers
+#### Events - Form Event Handlers
 
 ```
 Events:
@@ -868,7 +868,7 @@ Events:
   OnOpen -> OnOpenHandler
 ```
 
-#### Elements — UI Element Tree
+#### Elements - UI Element Tree
 
 Compact tree with types, data bindings, flags, and events:
 
@@ -910,20 +910,20 @@ Elements:
 | `[BtnGroup]` | ButtonGroup |
 
 **Flags** (only when deviating from default):
-- `[visible:false]` — element is hidden (Visible=false)
-- `[enabled:false]` — element is disabled (Enabled=false)
-- `[ro]` — ReadOnly=true
-- `,collapse` — Behavior=Collapsible (for groups)
+- `[visible:false]` - element is hidden (Visible=false)
+- `[enabled:false]` - element is disabled (Enabled=false)
+- `[ro]` - ReadOnly=true
+- `,collapse` - Behavior=Collapsible (for groups)
 
-**Data binding**: `-> Object.Field` — DataPath
+**Data binding**: `-> Object.Field` - DataPath
 
-**Command binding**: `-> CommandName [cmd]` — form command, `-> Close [std]` — standard command
+**Command binding**: `-> CommandName [cmd]` - form command, `-> Close [std]` - standard command
 
-**Events**: `{OnChange, StartChoice}` — handler names
+**Events**: `{OnChange, StartChoice}` - handler names
 
-**Title**: `[title:Text]` — only if different from element name
+**Title**: `[title:Text]` - only if different from element name
 
-#### Attributes — Form Attributes
+#### Attributes - Form Attributes
 
 ```
 Attributes:
@@ -934,11 +934,11 @@ Attributes:
   List: DynamicList -> Catalog.Users
 ```
 
-- `*` and `(main)` — main form attribute (MainAttribute)
+- `*` and `(main)` - main form attribute (MainAttribute)
 - ValueTable/ValueTree types expand columns in `[...]`
 - DynamicList shows MainTable via `->`
 
-#### Parameters — Form Parameters
+#### Parameters - Form Parameters
 
 ```
 Parameters:
@@ -946,9 +946,9 @@ Parameters:
   Basis: DocumentRef.*
 ```
 
-- `(key)` — key parameter (KeyParameter)
+- `(key)` - key parameter (KeyParameter)
 
-#### Commands — Form Commands
+#### Commands - Form Commands
 
 ```
 Commands:
@@ -967,7 +967,7 @@ The script removes 80%+ of XML volume:
 - Namespace declarations
 - ID attributes
 
-For detailed inspection — use grep on element name from the summary.
+For detailed inspection - use grep on element name from the summary.
 
 ### When to Use
 
@@ -986,7 +986,7 @@ Use `-Offset N` and `-Limit N` for paginated viewing.
 
 ---
 
-## 6. Validate — Check Correctness
+## 6. Validate - Check Correctness
 
 Checks Form.xml of a managed form for structural errors: ID uniqueness, companion element presence, DataPath and command reference correctness.
 
@@ -998,7 +998,7 @@ Checks Form.xml of a managed form for structural errors: ID uniqueness, companio
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| FormPath | yes | — | Path to Form.xml file |
+| FormPath | yes | - | Path to Form.xml file |
 | MaxErrors | no | 30 | Stop after N errors |
 
 ### Command
@@ -1057,17 +1057,17 @@ Return code: 0 = all checks passed, 1 = errors found.
 
 ## Typical Workflow
 
-1. `1c-form-manage patterns` — review design patterns
-2. `1c-form-manage scaffold` — create/remove form
-3. `1c-form-manage compile` — generate Form.xml from JSON
-4. `1c-form-manage edit` — add elements to existing form
-5. `1c-form-manage info` — analyze form structure
-6. `1c-form-manage validate` — check correctness
+1. `1c-form-manage patterns` - review design patterns
+2. `1c-form-manage scaffold` - create/remove form
+3. `1c-form-manage compile` - generate Form.xml from JSON
+4. `1c-form-manage edit` - add elements to existing form
+5. `1c-form-manage info` - analyze form structure
+6. `1c-form-manage validate` - check correctness
 
 ## MCP Integration
 
-- Find real form examples in the codebase and similar form implementations — `mcp__rlm-tools-bsl__rlm_execute` (`glob_files` on `Forms/**/Form.xml`, `read_file`, `grep`). Cross-project curated form templates are not available in the current toolset — see Capability boundaries in `.claude/rules/mcp-tools.md`.
-- Verify metadata object existence and structure before creating forms; verify object types, attribute names and types when defining attributes or editing forms — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
+- Find real form examples in the codebase and similar form implementations - `mcp__rlm-tools-bsl__rlm_execute` (`glob_files` on `Forms/**/Form.xml`, `read_file`, `grep`). Cross-project curated form templates are not available in the current toolset - see Capability boundaries in `.claude/rules/mcp-tools.md`.
+- Verify metadata object existence and structure before creating forms; verify object types, attribute names and types when defining attributes or editing forms - `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
 - **1c-form-info**: Analyze form structure before editing to find the right group for inserting elements.
 
 ## SDD Integration

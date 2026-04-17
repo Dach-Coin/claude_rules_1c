@@ -1,10 +1,10 @@
-# 1C Configuration Manage — Init, Edit, Info, Validate
+# 1C Configuration Manage - Init, Edit, Info, Validate
 
 Comprehensive configuration management: create scaffold, edit properties/composition, analyze structure, validate correctness.
 
 ---
 
-## 1. Init — Create Configuration Scaffold
+## 1. Init - Create Configuration Scaffold
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cf-manage/scripts/cf-init.ps1 -Name "<Name>" [-OutputDir "<path>"]
@@ -14,7 +14,7 @@ Creates minimal configuration structure: `Configuration.xml`, `Languages/Рус�
 
 ---
 
-## 2. Edit — Modify Configuration Properties
+## 2. Edit - Modify Configuration Properties
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cf-manage/scripts/cf-edit.ps1 -ConfigPath '<path>' -Operation <op> -Value '<value>'
@@ -56,7 +56,7 @@ Full property reference: [cf-edit-reference.md](skills/1c-metadata-manage/tools/
 
 ---
 
-## 3. Info — Analyze Configuration Structure
+## 3. Info - Analyze Configuration Structure
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cf-manage/scripts/cf-info.ps1 -ConfigPath "<path>"
@@ -66,7 +66,7 @@ Displays configuration properties, object counts by type, compatibility mode, ve
 
 ---
 
-## 4. Validate — Check Configuration Correctness
+## 4. Validate - Check Configuration Correctness
 
 ```powershell
 powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-cf-manage/scripts/cf-validate.ps1 -ConfigPath "<path>"
@@ -98,10 +98,10 @@ Exit code: 0 = OK, 1 = errors.
 ## Typical Workflow
 
 ```
-1c-cf-manage init        — create configuration scaffold
-1c-cf-manage edit        — set properties, add objects
-1c-cf-manage validate    — check correctness
-1c-cf-manage info        — view structure summary
+1c-cf-manage init        - create configuration scaffold
+1c-cf-manage edit        - set properties, add objects
+1c-cf-manage validate    - check correctness
+1c-cf-manage info        - view structure summary
 ```
 
 ## MCP Integration

@@ -1,4 +1,4 @@
-﻿# cf-init v1.0 — Create empty 1C configuration scaffold
+﻿# cf-init v1.0 - Create empty 1C configuration scaffold
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[Parameter(Mandatory)]

@@ -30,7 +30,9 @@ This file consolidates all anti-patterns, performance issues, and best practice 
 РезультатЗапроса = Запрос.Выполнить();
 ```
 
-### 2. Direct Attribute Access (Dot Notation)
+### 2. Direct Attribute Access (Dot Notation) - in BSL code only
+
+**Scope:** This anti-pattern applies to **BSL code** (loading attributes from a reference variable). It does **NOT** apply to query text - see "Dot notation in query text" below.
 
 **Impact:** Loads entire object from database
 **Severity:** CRITICAL
@@ -50,6 +52,25 @@ This file consolidates all anti-patterns, performance issues, and best practice 
 ```
 
 **SSL Methods Reference:** See `rules/project_rules.md` → "Reference Attribute Access" section.
+
+#### Dot notation in query text - ALLOWED for ordinary references
+
+In query text, dot dereference of a reference field (`Документ.Контрагент.ИНН`, `Заказ.Договор.Валюта`) is the **standard 1C way** to express an automatic LEFT JOIN; the platform optimizes it correctly. Do not flag this as the same anti-pattern.
+
+**Restriction - composite-type fields:**
+- In **JOIN conditions** (`ПО ... = ...`) and `ГДЕ` predicates - dereferencing a composite-type field through a dot is **PROHIBITED** (each branch generates a separate JOIN, plan blows up).
+- In the **SELECT list** - allowed only when the field is wrapped in `ВЫРАЗИТЬ(... КАК Документ.ИмяТипа)` to fix the type.
+
+```sql
+// ✅ OK: ordinary reference, automatic JOIN
+ВЫБРАТЬ Заказ.Контрагент.Наименование КАК Контрагент
+
+// ❌ NOT OK: composite type in WHERE / JOIN ON
+ГДЕ ЗП.ДокументОснование.Дата > &Дата
+
+// ✅ OK: composite type in SELECT, wrapped in ВЫРАЗИТЬ
+ВЫБРАТЬ ВЫРАЗИТЬ(ЗП.ДокументОснование КАК Документ.ЗаказКлиента).Номер КАК Номер
+```
 
 ### 3. Subquery in SELECT
 
@@ -361,10 +382,10 @@ Rate findings on a scale from 0 to 100:
 
 | Score | Description |
 |-------|-------------|
-| **0-25** | Low confidence — might be false positive |
-| **26-50** | Moderate — worth discussing |
-| **51-75** | High — likely real issue |
-| **76-100** | Very high — confirmed issue with evidence |
+| **0-25** | Low confidence - might be false positive |
+| **26-50** | Moderate - worth discussing |
+| **51-75** | High - likely real issue |
+| **76-100** | Very high - confirmed issue with evidence |
 
 **Report only findings with confidence ≥ 75 for code review, ≥ 50 for architecture review.**
 
@@ -373,7 +394,7 @@ Rate findings on a scale from 0 to 100:
 | Anti-Pattern | Severity | Check For |
 |--------------|----------|-----------|
 | Query in loop | CRITICAL | `Для Каждого` followed by `Новый Запрос` |
-| Dot notation | CRITICAL | `.Реквизит` on references |
+| Dot notation in BSL code | CRITICAL | `.Реквизит` on references in code (NOT in query text - there it is allowed) |
 | Subquery in SELECT | CRITICAL | Nested `ВЫБРАТЬ` in field list |
 | Virtual table WHERE | HIGH | Conditions on virtual table results |
 | Missing TOP N | HIGH | Large queries without `ПЕРВЫЕ` |

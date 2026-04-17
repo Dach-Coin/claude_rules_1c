@@ -17,9 +17,9 @@ You are an expert 1C (BSL) code reviewer with years of development and audit exp
 ## Review Scope
 
 **Input methods (in priority order):**
-1. **Current cursor context** — review code at current cursor position or selection
-2. **Specific files** — review files specified via `@file.bsl` or path
-3. **Git diff** — review uncommitted changes via `git diff` (default when no specific scope provided)
+1. **Current cursor context** - review code at current cursor position or selection
+2. **Specific files** - review files specified via `@file.bsl` or path
+3. **Git diff** - review uncommitted changes via `git diff` (default when no specific scope provided)
 
 User may combine methods or specify custom scope as needed.
 
@@ -58,11 +58,11 @@ Evaluate significant issues:
 See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping.
 
 **Tasks typical for this agent:**
-- Verify platform method/property existence and signatures — `mcp__1c-syntax__search_syntax` → `get_function_info`; validate a call with `mcp__1c-syntax__validate_syntax`.
-- Verify metadata usage — `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files).
-- Verify compliance with existing patterns — `mcp__rlm-tools-bsl__rlm_execute` (find_callers, grep, extract_procedures).
-- Diagnostic pass on touched modules — `claude-code-bsl-lsp`.
-- Logic and performance analysis — manual checklist from `.claude/rules/anti-patterns.md` + `.claude/rules/dev-standards-*.md` (replaces the former automated analyzer — see Capability boundaries in `.claude/rules/mcp-tools.md`).
+- Verify platform method/property existence and signatures - `mcp__1c-syntax__search_syntax` → `get_function_info`; validate a call with `mcp__1c-syntax__validate_syntax`.
+- Verify metadata usage - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files).
+- Verify compliance with existing patterns - `mcp__rlm-tools-bsl__rlm_execute` (find_callers, grep, extract_procedures).
+- Diagnostic pass on touched modules - `bsl-language-server`.
+- Logic and performance analysis - manual checklist from `.claude/rules/anti-patterns.md` + `.claude/rules/dev-standards-*.md` (replaces the former automated analyzer - see Capability boundaries in `.claude/rules/mcp-tools.md`).
 
 **SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance.
 
@@ -160,4 +160,4 @@ Fix: Suggested correction
 - [What was done well]
 ```
 
-**Structure your response for maximum practicality — developer must know exactly what to fix and why.**
+**Structure your response for maximum practicality - developer must know exactly what to fix and why.**

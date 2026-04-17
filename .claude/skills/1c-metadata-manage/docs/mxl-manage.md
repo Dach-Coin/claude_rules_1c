@@ -1,9 +1,9 @@
-# 1C MXL Manage — Compile, Decompile, Info, Validate
+# 1C MXL Manage - Compile, Decompile, Info, Validate
 
 Comprehensive spreadsheet document (MXL) management: create from JSON, reverse-engineer to JSON, analyze structure, validate correctness.
 
 ---
-## 1. Compile — Create from JSON
+## 1. Compile - Create from JSON
 
 Takes a compact JSON definition and generates a correct Template.xml for a 1C spreadsheet document. The agent describes *what* is needed (areas, parameters, styles), the script ensures XML *correctness* (palettes, indices, merges, namespaces).
 
@@ -31,7 +31,7 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-mxl-compile/s
 3. Run `1c-mxl-validate` to verify correctness
 4. Run `1c-mxl-info` to verify structure
 
-**If creating a layout from an image** (screenshot, scanned print form) — first use `img-grid-analysis` skill to overlay a grid, determine column boundaries and proportions, then use `"Nx"` widths + `"page"` for automatic size calculation.
+**If creating a layout from an image** (screenshot, scanned print form) - first use `img-grid-analysis` skill to overlay a grid, determine column boundaries and proportions, then use `"Nx"` widths + `"page"` for automatic size calculation.
 
 ### JSON DSL Schema
 
@@ -50,14 +50,14 @@ Brief structure:
 ```
 
 Key rules:
-- `page` — page format (`"A4-landscape"`, `"A4-portrait"` or number). Automatically calculates `defaultWidth` from sum of `"Nx"` proportions
-- `col` — 1-based column position
-- `rowStyle` — auto-fills empty cells with style (borders across full width)
+- `page` - page format (`"A4-landscape"`, `"A4-portrait"` or number). Automatically calculates `defaultWidth` from sum of `"Nx"` proportions
+- `col` - 1-based column position
+- `rowStyle` - auto-fills empty cells with style (borders across full width)
 - Fill type is determined automatically: `param` → Parameter, `text` → Text, `template` → Template
-- `rowspan` — vertical cell merging (rowStyle accounts for occupied cells)
+- `rowspan` - vertical cell merging (rowStyle accounts for occupied cells)
 
 ---
-## 2. Decompile — Extract to JSON
+## 2. Decompile - Extract to JSON
 
 Takes a Template.xml of a 1C spreadsheet document and generates a compact JSON definition (DSL). Reverse operation of `1c-mxl-compile`.
 
@@ -70,7 +70,7 @@ Takes a Template.xml of a 1C spreadsheet document and generates a compact JSON d
 | Parameter | Required | Description |
 |-----------|:--------:|-------------|
 | TemplatePath | yes | Path to Template.xml |
-| OutputPath | no | Path for JSON output (if not specified — stdout) |
+| OutputPath | no | Path for JSON output (if not specified - stdout) |
 
 ### Command
 
@@ -95,15 +95,15 @@ Full format specification is in Section 1 above.
 
 The script automatically generates meaningful names:
 
-- **Fonts**: `default`, `bold`, `header`, `small`, `italic` — or descriptive names by properties
-- **Styles**: `bordered`, `bordered-center`, `bold-right`, `border-top`, etc. — by property combination
+- **Fonts**: `default`, `bold`, `header`, `small`, `italic` - or descriptive names by properties
+- **Styles**: `bordered`, `bordered-center`, `bold-right`, `border-top`, etc. - by property combination
 
 ### rowStyle Detection
 
-If a row has empty cells (no parameters/text) and all of them share the same format — that format is recognized as `rowStyle`, and empty cells are excluded from output.
+If a row has empty cells (no parameters/text) and all of them share the same format - that format is recognized as `rowStyle`, and empty cells are excluded from output.
 
 ---
-## 3. Info — Analyze Structure
+## 3. Info - Analyze Structure
 
 Reads Template.xml of a spreadsheet document and outputs a compact summary: named areas, parameters, column sets. Replaces the need to read thousands of XML lines.
 
@@ -116,9 +116,9 @@ Reads Template.xml of a spreadsheet document and outputs a compact summary: name
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| TemplatePath | no | — | Direct path to Template.xml |
-| ProcessorName | no | — | Processor name (alternative to path) |
-| TemplateName | no | — | Template name (alternative to path) |
+| TemplatePath | no | - | Direct path to Template.xml |
+| ProcessorName | no | - | Processor name (alternative to path) |
+| TemplateName | no | - | Template name (alternative to path) |
 | SrcDir | no | `src` | Source directory |
 | Format | no | `text` | Output format: `text` or `json` |
 | WithText | no | false | Include static text and templates |
@@ -149,9 +149,9 @@ Additional flags:
 
 ### Reading the Output
 
-#### Areas — Sorted Top to Bottom
+#### Areas - Sorted Top to Bottom
 
-Areas are listed in document order (by row position), not alphabetically. This matches the area output order in fill code — top to bottom.
+Areas are listed in document order (by row position), not alphabetically. This matches the area output order in fill code - top to bottom.
 
 ```
 --- Named areas ---
@@ -162,10 +162,10 @@ Areas are listed in document order (by row position), not alphabetically. This m
 ```
 
 Area types:
-- **Rows** — horizontal area (row range). Access: `Template.GetArea("Name")`
-- **Columns** — vertical area (column range). Access: `Template.GetArea("Name")`
-- **Rectangle** — fixed area (rows + columns). Usually uses a separate column set.
-- **Drawing** — named drawing/barcode.
+- **Rows** - horizontal area (row range). Access: `Template.GetArea("Name")`
+- **Columns** - vertical area (column range). Access: `Template.GetArea("Name")`
+- **Rectangle** - fixed area (rows + columns). Usually uses a separate column set.
+- **Drawing** - named drawing/barcode.
 
 #### Column Sets
 
@@ -239,13 +239,13 @@ Shows static text (labels, headers) and template strings with substitutions `[Pa
     Templates: "Inv No. [InventoryNumber]"
 ```
 
-- **Text** — static labels (fillType=Text). Useful for understanding column purposes.
-- **Templates** — text with substitutions `[ParameterName]` (fillType=Template). Parameter inside `[]` is filled programmatically.
+- **Text** - static labels (fillType=Text). Useful for understanding column purposes.
+- **Templates** - text with substitutions `[ParameterName]` (fillType=Template). Parameter inside `[]` is filled programmatically.
 
 ### When to Use
 
 - **Before writing fill code**: run `1c-mxl-info` to understand area names and parameter lists, then write BSL output code following area order top to bottom
-- **With `-WithText`**: when context is needed — column headers, labels near parameters, template strings
+- **With `-WithText`**: when context is needed - column headers, labels near parameters, template strings
 - **With `-Format json`**: when structured data is needed for programmatic processing
 - **For existing layouts**: analyze loaded or configuration layouts without reading raw XML
 
@@ -259,7 +259,7 @@ Output is limited to 150 lines by default. When exceeded:
 Use `-Offset N` and `-Limit N` for paginated viewing.
 
 ---
-## 4. Validate — Check Correctness
+## 4. Validate - Check Correctness
 
 Checks Template.xml for structural errors that the 1C platform may silently ignore (potentially causing data loss or layout corruption).
 
@@ -272,9 +272,9 @@ Checks Template.xml for structural errors that the 1C platform may silently igno
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| TemplatePath | no | — | Direct path to Template.xml |
-| ProcessorName | no | — | Processor name (alternative to path) |
-| TemplateName | no | — | Template name (alternative to path) |
+| TemplatePath | no | - | Direct path to Template.xml |
+| ProcessorName | no | - | Processor name (alternative to path) |
+| TemplateName | no | - | Template name (alternative to path) |
 | SrcDir | no | `src` | Source directory |
 | MaxErrors | no | 20 | Stop after N errors |
 
@@ -344,8 +344,8 @@ Stops after 20 errors by default (configurable via `-MaxErrors`). Summary line w
 ---
 ## MCP Integration
 
-- Find existing layout examples in the codebase — `mcp__rlm-tools-bsl__rlm_execute` (`glob_files` on `**/Template.mxl`, `read_file`). Cross-project curated MXL templates are not available — see Capability boundaries in `.claude/rules/mcp-tools.md`.
-- Verify object names used in parameters; find template paths in the configuration — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
+- Find existing layout examples in the codebase - `mcp__rlm-tools-bsl__rlm_execute` (`glob_files` on `**/Template.mxl`, `read_file`). Cross-project curated MXL templates are not available - see Capability boundaries in `.claude/rules/mcp-tools.md`.
+- Verify object names used in parameters; find template paths in the configuration - `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
 
 ## SDD Integration
 

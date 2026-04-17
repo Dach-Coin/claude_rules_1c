@@ -1,4 +1,4 @@
-# 1C Template Manage — Add/Remove Templates
+# 1C Template Manage - Add/Remove Templates
 
 Creates or removes a template (layout) of specified type and registers/unregisters it in the root XML of a 1C metadata object. Works with any object type that supports templates: DataProcessor, Document, Catalog, Report, etc.
 
@@ -10,9 +10,9 @@ Creates or removes a template (layout) of specified type and registers/unregiste
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| ObjectName | yes | — | Object name (for EPF) or object path |
-| TemplateName | yes | — | Template name |
-| TemplateType | yes | — | Type: HTML, Text, SpreadsheetDocument, BinaryData |
+| ObjectName | yes | - | Object name (for EPF) or object path |
+| TemplateName | yes | - | Template name |
+| TemplateType | yes | - | Type: HTML, Text, SpreadsheetDocument, BinaryData |
 | Synonym | no | = TemplateName | Template synonym |
 | SrcDir | no | `src` | Source directory |
 
@@ -56,7 +56,7 @@ If user provides a name without prefix but context is a print form, **add the `P
 
 ### What Gets Modified
 
-- `<SrcDir>/<ObjectName>.xml` — adds `<Template>` to the end of `ChildObjects`
+- `<SrcDir>/<ObjectName>.xml` - adds `<Template>` to the end of `ChildObjects`
 
 ---
 
@@ -68,8 +68,8 @@ If user provides a name without prefix but context is a print form, **add the `P
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| ObjectName | yes | — | Object name |
-| TemplateName | yes | — | Template name to remove |
+| ObjectName | yes | - | Object name |
+| TemplateName | yes | - | Template name to remove |
 | SrcDir | no | `src` | Source directory |
 
 ### Command (EPF)
@@ -87,17 +87,17 @@ pwsh -NoProfile -File skills/1c-metadata-manage/tools/1c-template-manage/scripts
 
 ### What Gets Modified
 
-- `<SrcDir>/<ObjectName>.xml` — removes `<Template>` from `ChildObjects`
+- `<SrcDir>/<ObjectName>.xml` - removes `<Template>` from `ChildObjects`
 
 ---
 
 ## Workflow
 
-1. `1c-template-manage add` — create template scaffold
+1. `1c-template-manage add` - create template scaffold
 2. For SpreadsheetDocument: use `1c-mxl-compile` to generate the template content
-3. `1c-mxl-validate` — validate template structure
-4. `1c-mxl-info` — analyze template structure
+3. `1c-mxl-validate` - validate template structure
+4. `1c-mxl-info` - analyze template structure
 
 ## MCP Integration
 
-Use `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`) to verify the parent object exists and supports templates. To find similar template implementations inside the configuration, use `glob_files` on `**/Template.mxl` / `**/Template.xml` + `read_file`. Cross-project curated templates are not available — see Capability boundaries in `.claude/rules/mcp-tools.md`.
+Use `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`) to verify the parent object exists and supports templates. To find similar template implementations inside the configuration, use `glob_files` on `**/Template.mxl` / `**/Template.xml` + `read_file`. Cross-project curated templates are not available - see Capability boundaries in `.claude/rules/mcp-tools.md`.

@@ -27,10 +27,10 @@ You are an expert 1C error resolution specialist focused on fixing syntax errors
 See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping. Follow `.claude/skills/powershell-windows/SKILL.md` for shell commands.
 
 **Tasks typical for this agent:**
-- Diagnose BSL after a fix — `claude-code-bsl-lsp` (limit: 3 iterations on style warnings)
-- Verify a built-in function name/signature — `mcp__1c-syntax__search_syntax` → `get_function_info`; validate a call with `mcp__1c-syntax__validate_syntax`
-- Locate the exact call site and its callers — `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers)
-- Verify a metadata object exists — `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files)
+- Diagnose BSL after a fix - `bsl-language-server` (limit: 3 iterations on style warnings)
+- Verify a built-in function name/signature - `mcp__1c-syntax__search_syntax` → `get_function_info`; validate a call with `mcp__1c-syntax__validate_syntax`
+- Locate the exact call site and its callers - `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers)
+- Verify a metadata object exists - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files)
 
 Do not use `Grep`/`find` on BSL when `rlm-tools-bsl` is available. Follow coding rules from `.claude/rules/project_rules.md`.
 
@@ -44,7 +44,7 @@ Do not use `Grep`/`find` on BSL when `rlm-tools-bsl` is available. Follow coding
 
 ```
 a) Run syntax check
-   - Run claude-code-bsl-lsp diagnostics
+   - Run bsl-language-server diagnostics
    - Capture ALL errors, not just first
 
 b) Categorize errors by type
@@ -73,7 +73,7 @@ For each error:
    - Don't add "improvements"
 
 3. Verify fix
-   - Run claude-code-bsl-lsp diagnostics after each fix
+   - Run bsl-language-server diagnostics after each fix
    - Ensure no new errors introduced
 
 4. Iterate until working
@@ -179,7 +179,7 @@ Improve code style (unless BSL-LS warning)
 
 ## Verification
 
-- [ ] claude-code-bsl-lsp diagnostics pass
+- [ ] bsl-language-server diagnostics pass
 - [ ] No new errors introduced
 - [ ] Minimal lines changed
 ```
@@ -219,7 +219,7 @@ Improve code style (unless BSL-LS warning)
 ## Success Metrics
 
 After error fixing:
-- claude-code-bsl-lsp diagnostics pass (errors 0)
+- bsl-language-server diagnostics pass (errors 0)
 - No new errors introduced
 - Minimal lines changed (<5% of affected file)
 - Code functionality preserved

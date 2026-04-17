@@ -114,6 +114,20 @@ In modules of new objects (with `{PREFIX}`) -- markers per method are **NOT NEED
 - `TODO` / `FIXME` must contain a task reference: `// TODO No.14752: description`
 - **Pseudo-regions via comments are PROHIBITED** -- use only `#Region` / `#EndRegion`
 
+### References to other code in comments
+When pointing to a sample/source procedure, use **1C metadata notation**, not filesystem paths or line numbers. Configurator users navigate by metadata names; paths and line numbers rot on every refactor.
+
+| OK / NOT OK | Form |
+|---|---|
+| ✅ OK | `// Взято по образцу Обработка.ФормированиеПеремещенийПоЗаказамНаПроизводство.ЗаполнитьИПровестиДокумент()` |
+| ✅ OK | `// См. ОбщийМодуль.ОбеспечениеВДокументахСервер.ЗаполнитьВариантОбеспечения...` |
+| ✅ OK | `// См. Документ.ЗаказКлиента.МодульОбъекта.ПередЗаписью` |
+| ❌ NOT OK | `// DataProcessors/ФормированиеПеремещенийПоЗаказамНаПроизводство/Ext/ManagerModule.bsl:399` |
+| ❌ NOT OK | `// см. CommonModules/ОбеспечениеВДокументахСервер/Ext/Module.bsl` |
+| ❌ NOT OK | `// строка 4030 в модуле ОбеспечениеВДокументахСервер` |
+
+The same applies to git/PR descriptions inside the codebase, agent reports written to BSL comments, and `// TODO` references - always 1C-metadata notation, no `*.bsl:NNN`.
+
 ## 4. Metadata Naming
 
 | Element | Rule |
@@ -164,3 +178,35 @@ Function ActualWorkwearForPosition(ActionDate, Position) Export
 - DO NOT start with "Procedure...", "Function..." or the function name
 - For structure parameters -- describe keys via `*`
 - For arrays -- specify element type
+
+## 6. Repository Typography
+
+Two characters are banned across the whole repository - in `.bsl`, `.md`, `.ps1`, `.json`, anywhere.
+
+### Typographic dashes (em-dash U+2014 and en-dash U+2013)
+
+Use the plain ASCII hyphen-minus (`-`) only.
+
+| Where | Why it matters |
+|---|---|
+| `.bsl` | BSL Language Server reports `—` and `–` as `InvalidCharacterInFile` (error). |
+| `.ps1` | Encoding drift under Windows PowerShell - the same file rendered through cp1251 and utf-8 produces different bytes for `—`, breaks diffs and signatures. |
+| `.md` | Consistency. Markdown renderers handle `-` identically; em-dashes only add visual noise and a class of git-diff false positives. |
+
+### Letter `ё` / `Ё`
+
+Use `е` / `Е` instead. Classic 1C convention - sidesteps the long-standing encoding ambiguity (some files store `ё` as a separate code point, some normalise to `е`, some sources strip it). Has nothing to do with linguistic correctness; this is purely a repo-hygiene rule.
+
+### Enforcement
+
+Mechanical scan before commit:
+
+```powershell
+# em-dash / en-dash
+Select-String -Pattern "[\u2014\u2013]" -Path .\**\* -Recurse
+
+# ё / Ё
+Select-String -Pattern "[\u0451\u0401]" -Path .\**\* -Recurse
+```
+
+The only legitimate occurrence of these characters in the repo is *inside backticks as a citation of the rule itself* (i.e. when a rule needs to name the prohibited character). Everywhere else - replace.

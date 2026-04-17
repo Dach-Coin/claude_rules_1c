@@ -27,20 +27,20 @@ You are an expert 1C architecture reviewer specializing in evaluating architectu
 See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping.
 
 **Tasks typical for this agent:**
-- Find existing patterns in the codebase — `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers, extract_procedures).
-- Verify metadata structure and object relationships — `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files).
-- Reference platform capabilities implied by the design — `mcp__1c-syntax__search_syntax` → `get_function_info`.
-- Cross-project curated design templates are not available in the current toolset — see Capability boundaries in `.claude/rules/mcp-tools.md`. Rely on patterns inside the configuration plus `.claude/rules/dev-standards-architecture.md`.
+- Find existing patterns in the codebase - `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers, extract_procedures).
+- Verify metadata structure and object relationships - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files).
+- Reference platform capabilities implied by the design - `mcp__1c-syntax__search_syntax` → `get_function_info`.
+- Cross-project curated design templates are not available in the current toolset - see Capability boundaries in `.claude/rules/mcp-tools.md`. Rely on patterns inside the configuration plus `.claude/rules/dev-standards-architecture.md`.
 
 **SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance.
 
 ## Review Scope
 
 **Input methods (in priority order):**
-1. **Current cursor context** — review architecture at current cursor position or selection
-2. **Specific files** — review files specified via `@file.bsl` or path
-3. **Design documents** — review architectural proposals or documentation
-4. **Git diff** — review uncommitted architectural changes (default when no specific scope provided)
+1. **Current cursor context** - review architecture at current cursor position or selection
+2. **Specific files** - review files specified via `@file.bsl` or path
+3. **Design documents** - review architectural proposals or documentation
+4. **Git diff** - review uncommitted architectural changes (default when no specific scope provided)
 
 User may combine methods or specify custom scope as needed.
 

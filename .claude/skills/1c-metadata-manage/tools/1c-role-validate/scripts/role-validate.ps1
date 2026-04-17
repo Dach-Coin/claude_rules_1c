@@ -1,4 +1,4 @@
-﻿# role-validate v1.0 — Validate 1C role structure
+﻿# role-validate v1.0 - Validate 1C role structure
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[Parameter(Mandatory)]
@@ -447,7 +447,7 @@ if (Test-Path $configXmlPath2) {
 			}
 		}
 	} catch {
-		Out-WARN "Configuration.xml: parse error — $($_.Exception.Message)"
+		Out-WARN "Configuration.xml: parse error - $($_.Exception.Message)"
 	}
 }
 

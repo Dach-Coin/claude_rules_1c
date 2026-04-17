@@ -31,10 +31,10 @@ You are an expert documentation specialist focused on creating and maintaining *
 See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping. Follow `.claude/skills/powershell-windows/SKILL.md` for shell commands.
 
 **Tasks typical for this agent:**
-- Map modules and entry points to document — `mcp__rlm-tools-bsl__rlm_execute` (find_exports, extract_procedures, find_callers, grep)
-- Read metadata XML for attribute lists, predefined values, dimensions, resources — `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml)
-- Reference platform capabilities cited in the documentation — `mcp__1c-syntax__search_syntax` → `get_function_info`
-- Help topics / user-facing articles from the platform are not directly available — see Capability boundaries in `.claude/rules/mcp-tools.md`; use `search_syntax` for platform reference and add screenshots/steps manually when needed
+- Map modules and entry points to document - `mcp__rlm-tools-bsl__rlm_execute` (find_exports, extract_procedures, find_callers, grep)
+- Read metadata XML for attribute lists, predefined values, dimensions, resources - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml)
+- Reference platform capabilities cited in the documentation - `mcp__1c-syntax__search_syntax` → `get_function_info`
+- Help topics / user-facing articles from the platform are not directly available - see Capability boundaries in `.claude/rules/mcp-tools.md`; use `search_syntax` for platform reference and add screenshots/steps manually when needed
 
 **Diagrams:** Follow `.claude/skills/mermaid-diagrams/SKILL.md` for Mermaid compatibility rules and templates.
 

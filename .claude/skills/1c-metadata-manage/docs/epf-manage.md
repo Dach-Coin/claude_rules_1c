@@ -1,10 +1,10 @@
-# 1C EPF/ERF Manage — Scaffold, Build, Dump, Validate
+# 1C EPF/ERF Manage - Scaffold, Build, Dump, Validate
 
 Comprehensive external data processor (EPF) and external report (ERF) management: create empty scaffold, compile from XML, disassemble to XML, validate correctness.
 
 ---
 
-## 1. Scaffold EPF — Create Empty Data Processor
+## 1. Scaffold EPF - Create Empty Data Processor
 
 Generates the minimal set of XML source files for a 1C external data processor: root metadata file and the processor directory structure.
 
@@ -16,7 +16,7 @@ Generates the minimal set of XML source files for a 1C external data processor: 
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| Name | yes | — | Processor name (Latin/Cyrillic) |
+| Name | yes | - | Processor name (Latin/Cyrillic) |
 | Synonym | no | = Name | Synonym (display name) |
 | SrcDir | no | `src` | Source directory relative to CWD |
 
@@ -52,7 +52,7 @@ After scaffolding, use these skills to build out the processor:
 
 ---
 
-## 2. Scaffold ERF — Create Empty External Report
+## 2. Scaffold ERF - Create Empty External Report
 
 Generates the minimal set of XML source files for a 1C external report: root metadata file, the report directory structure, and optionally an empty Data Composition Schema (DCS).
 
@@ -64,10 +64,10 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-erf-scaffold/
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| Name | yes | — | Report name (Latin/Cyrillic) |
+| Name | yes | - | Report name (Latin/Cyrillic) |
 | Synonym | no | = Name | Synonym (display name) |
 | SrcDir | no | `src` | Source directory relative to CWD |
-| WithSKD | no | — | Create empty DCS and bind to MainDataCompositionSchema |
+| WithSKD | no | - | Create empty DCS and bind to MainDataCompositionSchema |
 
 ### What Gets Created
 
@@ -91,7 +91,7 @@ With `--WithSKD` additionally:
 ```
 
 - Root XML contains `MetaDataObject/ExternalReport` with empty `DefaultForm`, `MainDataCompositionSchema`, and `ChildObjects`
-- With `--WithSKD` — `MainDataCompositionSchema` is filled with template reference, `ChildObjects` contains `<Template>`
+- With `--WithSKD` - `MainDataCompositionSchema` is filled with template reference, `ChildObjects` contains `<Template>`
 - ClassId is fixed: `e41aff26-25cf-4bb6-b6c1-3f478a75f374`
 - File is created in UTF-8 with BOM
 
@@ -108,7 +108,7 @@ After scaffolding, use these skills to build out the report:
 
 ---
 
-## 3. Build — Compile from XML Sources
+## 3. Build - Compile from XML Sources
 
 Builds an EPF or ERF file from XML sources using the 1C platform. The same script handles both data processors and reports.
 
@@ -129,11 +129,11 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-epf-build/scr
 | `-SourceFile <path>` | yes | Path to root XML source file |
 | `-OutputFile <path>` | yes | Path to output EPF/ERF file |
 
-> `*` — either `-InfoBasePath` or the `-InfoBaseServer` + `-InfoBaseRef` pair is required.
+> `*` - either `-InfoBasePath` or the `-InfoBaseServer` + `-InfoBaseRef` pair is required.
 
 ### Database Resolution
 
-Read `.v8-project.json` from the project root (see `1c-db-manage` skill for the full algorithm). If no databases are configured — create an empty infobase in `./base`.
+Read `.v8-project.json` from the project root (see `1c-db-manage` skill for the full algorithm). If no databases are configured - create an empty infobase in `./base`.
 
 ### Return Codes
 
@@ -144,7 +144,7 @@ Read `.v8-project.json` from the project root (see `1c-db-manage` skill for the 
 
 ### Reference Types
 
-If the processor/report uses configuration reference types (`CatalogRef.XXX`, `DocumentRef.XXX`) — building in an empty database will fail with an XDTO error. Register a database with the target configuration via `1c-db-manage add`.
+If the processor/report uses configuration reference types (`CatalogRef.XXX`, `DocumentRef.XXX`) - building in an empty database will fail with an XDTO error. Register a database with the target configuration via `1c-db-manage add`.
 
 ### Examples
 
@@ -153,7 +153,7 @@ If the processor/report uses configuration reference types (`CatalogRef.XXX`, `D
 ... -InfoBasePath "C:\Bases\MyDB" -SourceFile "src\МояОбработка.xml" -OutputFile "build\МояОбработка.epf"
 
 # Build report (server database)
-... -InfoBaseServer "srv01" -InfoBaseRef "MyDB" -UserName "Admin" -Password "secret" -SourceFile "src\МойОтчёт.xml" -OutputFile "build\МойОтчёт.erf"
+... -InfoBaseServer "srv01" -InfoBaseRef "MyDB" -UserName "Admin" -Password "secret" -SourceFile "src\МойОтчет.xml" -OutputFile "build\МойОтчет.erf"
 ```
 
 ### Verification
@@ -162,7 +162,7 @@ After building, test by running: `1c-db-ops db-run ... -Execute build/MyProcesso
 
 ---
 
-## 4. Dump — Disassemble to XML Sources
+## 4. Dump - Disassemble to XML Sources
 
 Disassembles an EPF or ERF file into XML sources using the 1C platform (hierarchical format). The same script handles both data processors and reports.
 
@@ -184,11 +184,11 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-epf-dump/scri
 | `-OutputDir <path>` | yes | Directory for XML source output |
 | `-Format <format>` | no | `Hierarchical` (default) / `Plain` |
 
-> `*` — either `-InfoBasePath` or the `-InfoBaseServer` + `-InfoBaseRef` pair is required.
+> `*` - either `-InfoBasePath` or the `-InfoBaseServer` + `-InfoBaseRef` pair is required.
 
 ### Database Resolution
 
-Read `.v8-project.json` from the project root (see `1c-db-manage` skill). If no databases — create an empty infobase in `./base`.
+Read `.v8-project.json` from the project root (see `1c-db-manage` skill). If no databases - create an empty infobase in `./base`.
 
 ### Hierarchical Format Output
 
@@ -226,12 +226,12 @@ Read `.v8-project.json` from the project root (see `1c-db-manage` skill). If no 
 ... -InfoBasePath "C:\Bases\MyDB" -InputFile "build\МояОбработка.epf" -OutputDir "src"
 
 # Dump report
-... -InfoBasePath "C:\Bases\MyDB" -InputFile "build\МойОтчёт.erf" -OutputDir "src"
+... -InfoBasePath "C:\Bases\MyDB" -InputFile "build\МойОтчет.erf" -OutputDir "src"
 ```
 
 ---
 
-## 5. Validate — Check Correctness
+## 5. Validate - Check Correctness
 
 Checks structural correctness of XML sources for external data processors (EPF) and external reports (ERF): root structure, InternalInfo, properties, ChildObjects, attributes, tabular sections, name uniqueness, form/template file existence.
 
@@ -245,11 +245,11 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-epf-validate/
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| ObjectPath | yes | — | Path to root XML or processor/report directory |
+| ObjectPath | yes | - | Path to root XML or processor/report directory |
 | MaxErrors | no | 30 | Stop after N errors |
-| OutFile | no | — | Write result to file (UTF-8 BOM) |
+| OutFile | no | - | Write result to file (UTF-8 BOM) |
 
-`ObjectPath` auto-resolve: if a directory is given — looks for `<dirName>/<dirName>.xml`.
+`ObjectPath` auto-resolve: if a directory is given - looks for `<dirName>/<dirName>.xml`.
 
 ### Checks Performed
 
@@ -282,17 +282,17 @@ Exit code: 0 = all checks passed, 1 = errors found.
 ### Data Processor
 
 ```
-1c-epf-scaffold <Name>                — create processor
-1c-epf-validate src/<Name>.xml        — check result
-1c-epf-build <Name>                   — build EPF
+1c-epf-scaffold <Name>                - create processor
+1c-epf-validate src/<Name>.xml        - check result
+1c-epf-build <Name>                   - build EPF
 ```
 
 ### Report
 
 ```
-1c-erf-scaffold <Name> --with-skd    — create report with DCS
-1c-epf-validate src/<Name>.xml        — check result (same script)
-1c-epf-build <Name>                   — build ERF
+1c-erf-scaffold <Name> --with-skd    - create report with DCS
+1c-epf-validate src/<Name>.xml        - check result (same script)
+1c-epf-build <Name>                   - build ERF
 ```
 
 ### Fix a Bug in a Data Processor
@@ -306,10 +306,10 @@ Exit code: 0 = all checks passed, 1 = errors found.
 
 ## MCP Integration
 
-- Verify metadata object names and types when setting up the processor/report — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
-- Analyze code in extracted modules after dumping — `mcp__rlm-tools-bsl__rlm_execute` (`grep`, `find_callers`, `extract_procedures`). Logic and performance review is manual — follow `.claude/rules/anti-patterns.md` + `.claude/rules/dev-standards-*.md` (see Capability boundaries in `.claude/rules/mcp-tools.md`).
-- BSL syntax verification before building — `claude-code-bsl-lsp`.
-- Look up valid property values when investigating validation errors — `mcp__1c-syntax__search_syntax` → `get_function_info`.
+- Verify metadata object names and types when setting up the processor/report - `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
+- Analyze code in extracted modules after dumping - `mcp__rlm-tools-bsl__rlm_execute` (`grep`, `find_callers`, `extract_procedures`). Logic and performance review is manual - follow `.claude/rules/anti-patterns.md` + `.claude/rules/dev-standards-*.md` (see Capability boundaries in `.claude/rules/mcp-tools.md`).
+- BSL syntax verification before building - `bsl-language-server`.
+- Look up valid property values when investigating validation errors - `mcp__1c-syntax__search_syntax` → `get_function_info`.
 
 ## SDD Integration
 

@@ -1,4 +1,4 @@
-﻿# skd-compile v1.0 — Compile 1C DCS from JSON
+﻿# skd-compile v1.0 - Compile 1C DCS from JSON
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[string]$DefinitionFile,
@@ -97,10 +97,10 @@ foreach ($ds in $def.dataSets) {
 
 # --- 4. Type system ---
 
-# Type synonyms — normalize Russian/common names to canonical DSL types
+# Type synonyms - normalize Russian/common names to canonical DSL types
 # Use case-sensitive hashtable to avoid PS 5.1 DuplicateKeyInHashLiteral
 $script:typeSynonyms = New-Object System.Collections.Hashtable
-# Russian names (case doesn't matter — we'll also do case-insensitive lookup)
+# Russian names (case doesn't matter - we'll also do case-insensitive lookup)
 $script:typeSynonyms["число"] = "decimal"
 $script:typeSynonyms["строка"] = "string"
 $script:typeSynonyms["булево"] = "boolean"
@@ -219,7 +219,7 @@ function Emit-ValueType {
 		return
 	}
 
-	# Fallback — assume dot-qualified types are also config references
+	# Fallback - assume dot-qualified types are also config references
 	if ($typeStr.Contains('.')) {
 		X "$indent<v8:Type xmlns:d5p1=`"http://v8.1c.ru/8.1/data/enterprise/current-config`">d5p1:$(Esc-Xml $typeStr)</v8:Type>"
 		return
@@ -451,7 +451,7 @@ function Parse-FilterShorthand {
 			}
 		}
 	} else {
-		# No operator found — just a field name
+		# No operator found - just a field name
 		$result.field = $s
 	}
 
@@ -518,7 +518,7 @@ function Emit-Field {
 			if ($fieldDef.role -is [string]) {
 				$f.roles = @($fieldDef.role)
 			} else {
-				# Object form — collect truthy keys
+				# Object form - collect truthy keys
 				$roleObj = $fieldDef.role
 				foreach ($prop in $roleObj.PSObject.Properties) {
 					if ($prop.Value -eq $true) { $f.roles += $prop.Name }

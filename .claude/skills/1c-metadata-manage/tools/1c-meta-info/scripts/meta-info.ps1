@@ -1,4 +1,4 @@
-﻿# meta-info v1.0 — Compact summary of 1C metadata object
+﻿# meta-info v1.0 - Compact summary of 1C metadata object
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[Parameter(Mandatory=$true)][string]$ObjectPath,
@@ -453,7 +453,7 @@ if ($Name -and $childObjs) {
 					elseif ($fvText -eq "true") { $fvText = "Истина" }
 					Out "  Значение заполнения: $fvText"
 				} else {
-					Out "  Значение заполнения: —"
+					Out "  Значение заполнения: -"
 				}
 				if ($tag -eq "Dimension") {
 					$master = $ap.SelectSingleNode("md:Master", $ns)
@@ -573,7 +573,7 @@ if (-not $drillDone) {
 
 	# --- Build header ---
 	$header = "=== $ruTypeName`: $objName"
-	if ($synonym -and $synonym -ne $objName) { $header += " — `"$synonym`"" }
+	if ($synonym -and $synonym -ne $objName) { $header += " - `"$synonym`"" }
 	$header += " ==="
 	Out $header
 
@@ -639,7 +639,7 @@ if (-not $drillDone) {
 			}
 		}
 
-		# CommonModule brief (same as overview — already compact)
+		# CommonModule brief (same as overview - already compact)
 		if ($mdType -eq "CommonModule") {
 			$flags = @()
 			if ($props.SelectSingleNode("md:Global", $ns).InnerText -eq "true") { $flags += "Глобальный" }
@@ -657,7 +657,7 @@ if (-not $drillDone) {
 			if ($flags.Count -gt 0) { Out ($flags -join " | ") }
 		}
 
-		# ScheduledJob brief (same as overview — already compact)
+		# ScheduledJob brief (same as overview - already compact)
 		if ($mdType -eq "ScheduledJob") {
 			$method = $props.SelectSingleNode("md:MethodName", $ns)
 			if ($method -and $method.InnerText) {
@@ -1000,7 +1000,7 @@ if (-not $drillDone) {
 						}
 					}
 				} else {
-					# overview — just names with column counts
+					# overview - just names with column counts
 					Out ""
 					$tsParts = $tss | ForEach-Object { "$($_.Name)($($_.ColCount))" }
 					Out "ТЧ ($($tss.Count)): $($tsParts -join ', ')"

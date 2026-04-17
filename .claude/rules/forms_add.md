@@ -2,7 +2,7 @@
 ---
 # Use following instructions only if you need to generate or modify 1C form
 
-> **Note**: These MCP tools provide design assistance (examples, schemas, instructions). For actual form compilation, editing, and validation — use the **1c-metadata-manage** skill (form-manage section).
+> **Note**: These MCP tools provide design assistance (examples, schemas, instructions). For actual form compilation, editing, and validation - use the **1c-metadata-manage** skill (form-manage section).
 
 ## To generate new form:
    Step 1: use **'genterate_example_form'** tool to generate most relevant exemple of form you need. Provide full form description to tool to find and generate appropriate

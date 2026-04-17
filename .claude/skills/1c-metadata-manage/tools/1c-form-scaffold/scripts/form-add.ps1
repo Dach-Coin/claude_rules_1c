@@ -224,7 +224,7 @@ if ($Purpose -eq "List" -or $Purpose -eq "Choice") {
 </Form>
 "@
 } else {
-	# Object — форма объекта
+	# Object - форма объекта
 	$mainAttrName = "Объект"
 
 	# Маппинг типа объекта на тип реквизита
@@ -331,7 +331,7 @@ if ($insertBefore) {
 	$whitespace = $xmlDoc.CreateWhitespace("`n`t`t`t")
 	$childObjects.InsertBefore($formElem, $insertBefore) | Out-Null
 	$childObjects.InsertBefore($whitespace, $formElem) | Out-Null
-	# Переставляем: whitespace перед formElem — неправильный порядок
+	# Переставляем: whitespace перед formElem - неправильный порядок
 	# Правильно: formElem, затем whitespace перед insertBefore
 	# InsertBefore возвращает вставленный узел, порядок: ... formElem whitespace insertBefore ...
 	# На самом деле нам нужно: ... \n\t\t\tformElem \n\t\t\tinsertBefore

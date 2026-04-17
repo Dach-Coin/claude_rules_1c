@@ -1,4 +1,4 @@
-# 1C Help Manage — Built-in Help Management
+# 1C Help Manage - Built-in Help Management
 
 Adds built-in help to a 1C metadata object: help metadata file (`Help.xml`), HTML page, and optionally updates form metadata.
 
@@ -10,7 +10,7 @@ Adds built-in help to a 1C metadata object: help metadata file (`Help.xml`), HTM
 
 | Parameter | Required | Default | Description |
 |-----------|:--------:|---------|-------------|
-| ObjectName | yes | — | Object name (e.g., data processor name) |
+| ObjectName | yes | - | Object name (e.g., data processor name) |
 | Lang | no | `ru` | Help language code |
 | SrcDir | no | `src` | Source directory |
 
@@ -30,9 +30,9 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-help-manage/s
             ru.html                 # HTML help page
 ```
 
-- `Help.xml` — fixed structure with `<Page>ru</Page>` (namespace `http://v8.1c.ru/8.3/xcf/extrnprops`)
-- `ru.html` — HTML 4.0 Transitional with 1C stylesheet link (`v8help://service_book/service_style`)
-- Help is **not registered** in `ChildObjects` of the root XML — file presence is sufficient
+- `Help.xml` - fixed structure with `<Page>ru</Page>` (namespace `http://v8.1c.ru/8.3/xcf/extrnprops`)
+- `ru.html` - HTML 4.0 Transitional with 1C stylesheet link (`v8help://service_book/service_style`)
+- Help is **not registered** in `ChildObjects` of the root XML - file presence is sufficient
 
 ## What Gets Modified
 
@@ -71,8 +71,8 @@ Review all `id="..."` in `Form.xml` and choose the next free numeric ID. Typical
 
 ### Important
 
-- `Form.StandardCommand.Help` — standard platform command, no declaration needed in `<Commands>`
-- No handler needed in Module.bsl — the platform finds `Help.xml` and opens HTML automatically
+- `Form.StandardCommand.Help` - standard platform command, no declaration needed in `<Commands>`
+- No handler needed in Module.bsl - the platform finds `Help.xml` and opens HTML automatically
 
 ## Editing Help
 

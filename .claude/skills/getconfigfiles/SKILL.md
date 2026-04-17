@@ -10,8 +10,15 @@ commands:
 
 **Step 1 - Load config to base:**
 
+Параметры команды:
+- `{PLATFORM_PATH}` - из `.dev.env` (`PLATFORM_PATH=C:\Program Files\1cv8\8.3.27.2074\bin`).
+- `<INFOBASE_PATH>` - путь к информационной базе.
+- `<USER>` - имя пользователя ИБ (если требуется аутентификация).
+- `<CONFIG_DUMP_DIR>` - целевой каталог выгрузки.
+- `<LOG_PATH>` - путь к лог-файлу.
+
 ```powershell
-& 'C:\Program Files\1cv8\8.3.23.1997\bin\1cv8.exe' DESIGNER /F 'C:\Users\filippov.o\Documents\1C\DemoHRMCorp1' /N'Савинская З.Ю. (Системный программист)' /DisableStartupMessages /DumpConfigToFiles E:\AgenticTest -listFile repoobjects.txt -Extension OneAPA /Out E:\Temp\Update.log
+& '{PLATFORM_PATH}\1cv8.exe' DESIGNER /F '<INFOBASE_PATH>' /N'<USER>' /DisableStartupMessages /DumpConfigToFiles <CONFIG_DUMP_DIR> -listFile repoobjects.txt -Extension OneAPA /Out <LOG_PATH>
 ```
 
 Выгружай объекты полностью. Строго в текущий каталог - не создавая нового подкаталога.

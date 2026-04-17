@@ -26,9 +26,9 @@ A built-in persistent memory system in Claude Code that stores context, patterns
 
 ### Core Concepts
 
-- **Always available** — no installation required, built into Claude Code
-- **Session-persistent** — memories survive across conversations
-- **Hierarchical** — `MEMORY.md` as index, topic files for detail
+- **Always available** - no installation required, built into Claude Code
+- **Session-persistent** - memories survive across conversations
+- **Hierarchical** - `MEMORY.md` as index, topic files for detail
 - **Memory directory**: `~/.claude/projects/[project-path]/memory/`
 
 ### Memory Files
@@ -45,7 +45,7 @@ A built-in persistent memory system in Claude Code that stores context, patterns
 
 When working with Claude Auto Memory:
 
-1. **Read at session start**: `MEMORY.md` is loaded automatically — consult before starting work
+1. **Read at session start**: `MEMORY.md` is loaded automatically - consult before starting work
 2. **Write after discoveries**: Save stable patterns and decisions, not session-specific state
 3. **Update, don't duplicate**: Check existing entries before writing new ones
 4. **Organize semantically**: By topic, not chronologically
@@ -83,8 +83,8 @@ A lightweight spec-driven framework with two-folder architecture for specificati
 
 ### Core Concepts
 
-- **Specs folder**: `openspec/specs/` — source of truth for requirements
-- **Changes folder**: `openspec/changes/` — active proposals
+- **Specs folder**: `openspec/specs/` - source of truth for requirements
+- **Changes folder**: `openspec/changes/` - active proposals
 - **Workflow**: Draft → Review → Implement → Complete → Archive
 
 ### Directory Structure
@@ -191,13 +191,13 @@ AI-powered task management MCP server for structured development workflows.
 ### Available Tools
 
 Core tools (always available):
-- **get_tasks** — List all tasks with optional status filter
-- **get_task** — Get detailed task information
-- **next_task** — Find the next task to work on
-- **set_task_status** — Update task status (pending, in-progress, done, blocked)
-- **update_subtask** — Add implementation notes to subtasks
-- **parse_prd** — Generate tasks from PRD document
-- **expand_task** — Break down tasks into subtasks
+- **get_tasks** - List all tasks with optional status filter
+- **get_task** - Get detailed task information
+- **next_task** - Find the next task to work on
+- **set_task_status** - Update task status (pending, in-progress, done, blocked)
+- **update_subtask** - Add implementation notes to subtasks
+- **parse_prd** - Generate tasks from PRD document
+- **expand_task** - Break down tasks into subtasks
 
 ### Task Structure
 
@@ -327,9 +327,9 @@ ls spec.md constitution.md boundaries.md glossary.md
 
 When multiple frameworks exist, prioritize:
 
-1. **TaskMaster** — for task tracking and status updates
-2. **OpenSpec** — for specification management
-3. **Spec Kit** — for architectural constraints
-4. **Memory Bank** — for workflow and context management
+1. **TaskMaster** - for task tracking and status updates
+2. **OpenSpec** - for specification management
+3. **Spec Kit** - for architectural constraints
+4. **Memory Bank** - for workflow and context management
 
-All frameworks complement each other — use them together for maximum benefit.
+All frameworks complement each other - use them together for maximum benefit.

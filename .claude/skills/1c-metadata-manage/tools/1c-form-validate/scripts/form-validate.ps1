@@ -192,7 +192,7 @@ foreach ($attr in $attrNodes) {
 		}
 	}
 
-	# Column IDs are a separate sub-pool per attribute — check uniqueness within parent
+	# Column IDs are a separate sub-pool per attribute - check uniqueness within parent
 	$colIds = @{}
 	foreach ($col in $attr.SelectNodes("f:Columns/f:Column", $nsMgr)) {
 		$colId = $col.GetAttribute("id")
@@ -321,7 +321,7 @@ if (-not $stopped) {
 		$rootAttr = $segments[0]
 
 		if (-not $attrMap.ContainsKey($rootAttr)) {
-			Report-Error "[$tag] '$elName': DataPath='$dataPath' — attribute '$rootAttr' not found"
+			Report-Error "[$tag] '$elName': DataPath='$dataPath' - attribute '$rootAttr' not found"
 			$pathErrors++
 		}
 	}
@@ -358,11 +358,11 @@ if (-not $stopped) {
 			$cmdName = $Matches[1]
 			$cmdChecked++
 			if (-not $cmdMap.ContainsKey($cmdName)) {
-				Report-Error "[Button] '$elName': CommandName='$cmdRef' — command '$cmdName' not found in Commands"
+				Report-Error "[Button] '$elName': CommandName='$cmdRef' - command '$cmdName' not found in Commands"
 				$cmdErrors++
 			}
 		}
-		# Form.StandardCommand.XXX — skip, standard commands always exist
+		# Form.StandardCommand.XXX - skip, standard commands always exist
 	}
 
 	if ($cmdErrors -eq 0 -and $cmdChecked -gt 0) {
@@ -470,7 +470,7 @@ if (-not $stopped) {
 	if ($titleNode) {
 		$v8items = $titleNode.SelectNodes("v8:item", $nsMgr)
 		if ($v8items.Count -eq 0 -and $titleNode.InnerText.Trim() -ne "") {
-			Report-Error "Form Title is plain text ('$($titleNode.InnerText.Trim())') — must be multilingual XML (<v8:item>). Use top-level 'title' key in form-compile DSL."
+			Report-Error "Form Title is plain text ('$($titleNode.InnerText.Trim())') - must be multilingual XML (<v8:item>). Use top-level 'title' key in form-compile DSL."
 		} else {
 			Report-OK "Title: multilingual XML"
 		}

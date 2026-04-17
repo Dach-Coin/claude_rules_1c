@@ -1,4 +1,4 @@
-﻿# skd-validate v1.0 — Validate 1C DCS structure
+﻿# skd-validate v1.0 - Validate 1C DCS structure
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[Parameter(Mandatory)]
@@ -650,7 +650,7 @@ function Check-Settings {
 			if ($field -and $field.InnerText -and $field.InnerText -ne "SystemFields.Number") {
 				$basePath = ($field.InnerText -split '\.')[0]
 				if (-not $knownFields.ContainsKey($field.InnerText) -and -not $knownFields.ContainsKey($basePath)) {
-					# Soft check — autoFillFields may add fields not listed explicitly
+					# Soft check - autoFillFields may add fields not listed explicitly
 				}
 			}
 		}

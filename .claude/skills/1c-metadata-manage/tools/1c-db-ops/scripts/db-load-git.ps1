@@ -1,4 +1,4 @@
-﻿# db-load-git v1.0 — Load Git changes into 1C database
+﻿# db-load-git v1.0 - Load Git changes into 1C database
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS
@@ -117,6 +117,9 @@ function Get-ObjectXmlFromBsl {
 
 # --- Resolve V8Path (skip if DryRun) ---
 if (-not $DryRun) {
+    if (-not $V8Path -and $env:PLATFORM_PATH) {
+        $V8Path = $env:PLATFORM_PATH
+    }
     if (-not $V8Path) {
         $found = Get-ChildItem "C:\Program Files\1cv8\*\bin\1cv8.exe" -ErrorAction SilentlyContinue | Sort-Object FullName -Descending | Select-Object -First 1
         if ($found) {

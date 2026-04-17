@@ -21,7 +21,7 @@ Available compilation directives for form module methods:
 | `&НаСервереБезКонтекста` | Server-side without form context | **Preferred** for data operations when form context is not needed (reduces data transfer) |
 | `&НаКлиентеНаСервереБезКонтекста` | Both client and server without context | Shared utility functions |
 
-- Prefer `&НаСервереБезКонтекста` over `&НаСервере` when form context is not required — it reduces network traffic.
+- Prefer `&НаСервереБезКонтекста` over `&НаСервере` when form context is not required - it reduces network traffic.
 
 ## Async Programming
 
@@ -31,4 +31,4 @@ Available compilation directives for form module methods:
 ## Form Data
 
 - Use `ДанныеФормыВЗначение()` / `ЗначениеВДанныеФормы()` to convert between form data and actual objects.
-- Remember that form attributes are not the same as object attributes — they are form-specific representations.
+- Remember that form attributes are not the same as object attributes - they are form-specific representations.
