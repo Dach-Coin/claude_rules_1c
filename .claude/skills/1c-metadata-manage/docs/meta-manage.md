@@ -488,12 +488,12 @@ Exit code: 0 = all checks passed, 1 = errors found.
 ---
 ## MCP Integration
 
-- **search_metadata** — Verify object names don't conflict, check attribute types and object references, find objects to remove and their relationships.
-- **docsearch** — Look up platform documentation for metadata type properties and valid property values when investigating validation errors.
-- **business_search** — Semantic search of related objects when creating configuration objects.
-- **answer_metadata_question** — Natural-language questions about object structure (meta-info provides more detailed structural analysis).
-- **search_code** — Find code references to objects before removal.
-- **check_1c_code** — Verify BSL code in object modules after fixing structural issues.
+- Verify object names don't conflict, check attribute types, find objects to remove and their relationships — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`, `grep`).
+- Look up platform documentation for metadata type properties and valid property values when investigating validation errors — `mcp__1c-syntax__search_syntax` → `get_function_info`.
+- Semantic/NL search for related metadata objects — not available as a dedicated tool; use descriptive grep and synonym-based `parse_object_xml` iterations via `mcp__rlm-tools-bsl__rlm_execute` (see Capability boundaries in `.claude/rules/mcp-tools.md`).
+- Questions about object structure — parse the XML directly via `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`); `1c-meta-info` provides more detailed structural analysis.
+- Find code references to objects before removal — `mcp__rlm-tools-bsl__rlm_execute` (`grep`, `find_callers`, `find_callers_context`).
+- Verify BSL code in object modules after fixing structural issues — `claude-code-bsl-lsp` for diagnostics plus manual review against `.claude/rules/anti-patterns.md`.
 
 ## SDD Integration
 

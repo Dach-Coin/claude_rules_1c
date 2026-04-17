@@ -371,8 +371,8 @@ After loading: offer to run `db-update`.
 
 ## MCP Integration
 
-- **search_metadata**: Verify object names when doing partial loads.
-- **docsearch**: Platform documentation on Designer command-line parameters.
+- Verify object names when doing partial loads — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
+- Platform reference on Designer command-line parameters and helper APIs — `mcp__1c-syntax__search_syntax` → `get_function_info`.
 
 ## SDD Integration
 

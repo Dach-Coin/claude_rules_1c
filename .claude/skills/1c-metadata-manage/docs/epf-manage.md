@@ -306,10 +306,10 @@ Exit code: 0 = all checks passed, 1 = errors found.
 
 ## MCP Integration
 
-- **search_metadata**: Verify metadata object names and types when setting up the processor/report for integration with existing configuration objects.
-- **check_1c_code**: Verify BSL code quality before building; analyze code in extracted modules after dumping.
-- **syntaxcheck**: BSL syntax verification before building.
-- **docsearch**: Look up valid property values when investigating validation errors.
+- Verify metadata object names and types when setting up the processor/report — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
+- Analyze code in extracted modules after dumping — `mcp__rlm-tools-bsl__rlm_execute` (`grep`, `find_callers`, `extract_procedures`). Logic and performance review is manual — follow `.claude/rules/anti-patterns.md` + `.claude/rules/dev-standards-*.md` (see Capability boundaries in `.claude/rules/mcp-tools.md`).
+- BSL syntax verification before building — `claude-code-bsl-lsp`.
+- Look up valid property values when investigating validation errors — `mcp__1c-syntax__search_syntax` → `get_function_info`.
 
 ## SDD Integration
 

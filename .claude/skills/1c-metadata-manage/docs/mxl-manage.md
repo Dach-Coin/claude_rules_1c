@@ -344,8 +344,8 @@ Stops after 20 errors by default (configurable via `-MaxErrors`). Summary line w
 ---
 ## MCP Integration
 
-- **templatesearch** — Find existing layout examples in the codebase
-- **search_metadata** — Verify object names used in parameters; find template paths in the configuration
+- Find existing layout examples in the codebase — `mcp__rlm-tools-bsl__rlm_execute` (`glob_files` on `**/Template.mxl`, `read_file`). Cross-project curated MXL templates are not available — see Capability boundaries in `.claude/rules/mcp-tools.md`.
+- Verify object names used in parameters; find template paths in the configuration — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
 
 ## SDD Integration
 

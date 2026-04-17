@@ -1,79 +1,90 @@
-# Проект 1С:Предприятие — конфигурация Claude Code
+# 1C:Enterprise project — Claude Code configuration
 
-## Платформа и язык
+<!-- Scope: this file is the thin orchestrator.
+     - Persona, project parameters, workflow, skill/rule pointers live here.
+     - Coding standards live in .claude/rules/project_rules.md and .claude/rules/dev-standards-*.md.
+     - Tool selection and MCP workflows live in .claude/rules/mcp-tools.md.
+     - Skill dispatch lives in .claude/skills_instructions.md.
+     Do not duplicate content from those files here. -->
 
-- Платформа: **1С:Предприятие 8.3.23**
-- Код пишем на **русском языке** (BSL)
-- Отвечаем **всегда на русском**
-- Роль: опытный 1С-разработчик (senior, 10+ лет)
+> A Russian mirror of this file lives at `rus_CLAUDE.md`. The English file is canonical — update it first, then synchronize the mirror.
 
-## Параметры проекта (.dev.env)
+## Persona
 
-Перед началом работы прочитай `.dev.env`. Если файла нет — запроси параметры у пользователя.
-Ключевые параметры: `PREFIX`, `COMPANY`, `DEVELOPER`, `PLATFORM_VERSION`, `COMMENT_OPEN`, `COMMENT_CLOSE`, `NEW_OBJECTS_IN`.
-Шаблон: `.dev.env.example`.
+- Role: senior 1C:Enterprise engineer, 10+ years of experience.
+- Platform: **1C:Enterprise 8.3.23** (actual version is pinned in `.dev.env` via `PLATFORM_VERSION`).
+- Language of the code: **Russian BSL**.
+- Language of replies to the end user: **Russian** (the project language). See per-agent instructions for details.
 
-## MCP-инструменты
+## Project parameters (.dev.env)
 
-Используй MCP-инструменты когда они доступны:
+Read `.dev.env` before any coding task. If the file is missing, stop and ask the user — do not guess values.
 
-| Инструмент | Когда использовать |
-|---|---|
-| **templatesearch** | ВСЕГДА перед написанием кода — поиск шаблонов и примеров |
-| **docsearch** | Проверка встроенных функций платформы (ВСЕГДА если не уверен) |
-| **codesearch** | Поиск существующих паттернов в конфигурации |
-| **search_metadata** | Проверка структуры и существования метаданных |
-| **syntaxcheck** | Проверка синтаксиса после написания кода (макс. 3 раза за цикл) |
-| **check_1c_code** | Проверка логики и производительности |
-| **ssl_search** | Поиск функций БСП (ВСЕГДА пытайся использовать БСП) |
-| **helpsearch** | Поиск информации о метаданных по описанию функций |
-| **business_search** | Семантический поиск метаданных по описанию |
+Key parameters:
 
-**Не используй Grep для поиска кода, если доступны MCP-инструменты.**
+- `PREFIX` — prefix for every new metadata object, attribute, form element, role
+- `COMPANY`, `DEVELOPER` — used in modification comment templates
+- `PLATFORM_VERSION` — gates which platform features are allowed (async/await vs. NotifyDescription, etc.)
+- `COMMENT_OPEN`, `COMMENT_CLOSE` — opening/closing markers for modifications in standard code
+- `NEW_OBJECTS_IN` — where new metadata objects go: `main_configuration` (default) or `extension`
 
-## Ключевые стандарты кодирования
+Template: `.dev.env.example`.
 
-- Следуй рекомендациям bsl-language-server
-- Запросы: НЕ в циклах, с алиасами (`КАК`), через параметры, промежуточная переменная для результата
-- Не используй точечную нотацию для реквизитов ссылок — используй `ОбщегоНазначения.ЗначениеРеквизитаОбъекта`
-- Не используй `Сообщить()` — используй `ОбщегоНазначения.СообщитьПользователю`
-- Не используй `Попытка...Исключение` для чтения/записи данных без необходимости
-- Тернарные операторы `?()` допустимы, вложенные — **ЗАПРЕЩЕНЫ**
-- Не используй венгерскую нотацию и имена из глобального контекста для переменных
-- Предпочитай `&НаСервереБезКонтекста` вместо `&НаСервере`
-- Модальные вызовы **ЗАПРЕЩЕНЫ**
+Tasks that do not touch code (review, analysis, documentation) do not need the parameters as a hard block.
 
-## Рабочий процесс
+## Tool layers
 
-1. Изучи задачу, уточни требования если нужно
-2. Найди шаблоны через `templatesearch`
-3. Проверь паттерны через `codesearch`
-4. Проверь метаданные через `search_metadata`
-5. Проверь функции через `docsearch` и `ssl_search`
-6. Напиши код по стандартам
-7. Проверь через `syntaxcheck` и `check_1c_code`
-8. Проведи внутреннее ревью (стиль, корректность, edge cases, безопасность)
-9. Представь результат с описанием решений
+The environment exposes three classes of tool. Pick before acting:
 
-## Метаданные
+| Layer | Purpose | Where defined |
+|---|---|---|
+| **MCP sources** (`rlm-tools-bsl`, `1c-syntax`, `claude-code-bsl-lsp`) | Explore code and metadata, look up the platform, diagnose BSL | `.claude/rules/mcp-tools.md` |
+| **Skills** (`1c-metadata-manage`, `deploy-and-test`, `getconfigfiles`, …) | Mutate metadata, deploy, run end-to-end tests | `.claude/skills_instructions.md` |
+| **Sub-agents** (`developer`, `code-reviewer`, `metadata-manager`, …) | Delegate multi-step work | `.claude/agents/` |
 
-Для работы с метаданными 1С используй навык `1c-metadata-manage`.
-Для сложных задач делегируй агенту `metadata-manager`.
+Prefer MCP tools over `Grep` / `find` when investigating BSL. Prefer skills over direct file edits when mutating metadata.
 
-## Подробные стандарты
+## Workflow
 
-Детальные стандарты разработки загружаются автоматически из `.claude/rules/`.
-Ключевые файлы:
-- `project_rules.md` — запросы, доступ к данным, производительность
-- `dev-standards-core.md` — стиль кода, именование, комментарии модификации
-- `dev-standards-architecture.md` — архитектура, расширения, антипаттерны
-- `anti-patterns.md` — каталог критичных ошибок
-- `mcp-tools.md` — подробное описание MCP-инструментов
+1. Understand the task; ask for clarification when the goal is ambiguous.
+2. Open an exploration session: `mcp__rlm-tools-bsl__rlm_start`.
+3. Investigate existing patterns, reusable procedures and metadata via `rlm_execute`.
+4. Look up unfamiliar platform calls in `1c-syntax` (`search_syntax`, `get_function_info`).
+5. Write code following `project_rules.md` + `dev-standards-core.md` + `dev-standards-architecture.md`.
+6. Diagnose with `claude-code-bsl-lsp`; cap style-warning iterations at three.
+7. Manually review against `anti-patterns.md` (this replaces the former automated logic/perf analyzer — see Capability boundaries in `mcp-tools.md`).
+8. Close the session: `mcp__rlm-tools-bsl__rlm_end`.
+9. Present the result with rationale and the list of touched files.
 
-## Принципы работы
+## Metadata
 
-- Действуй пошагово, думай перед написанием кода
-- Минимальные, точечные изменения — один логический блок за раз
-- Код должен быть качественным, поддерживаемым и безопасным
-- Все предложения проверяются пользователем (human-in-the-loop)
-- Если нужны детали — спроси
+Delegate any structural metadata work to the `1c-metadata-manage` skill (see `.claude/skills_instructions.md`). For multi-step or multi-domain metadata work, invoke the `metadata-manager` agent.
+
+## Detailed standards
+
+Rule files are loaded from `.claude/rules/`:
+
+- `anti-patterns.md` — catalogued anti-patterns (critical/high/medium) with fixes
+- `dev-standards-architecture.md` — architecture patterns, extensions, code smells
+- `dev-standards-core.md` — `.dev.env`, code style, modification comments, naming, documentation headers
+- `dev-standards-forms.md` — form module structure and standards (path-scoped: `**/Form.Module.bsl`)
+- `form_module_rules.md` — client/server interaction, compilation directives (path-scoped)
+- `forms_add.md` — how to create or modify managed forms
+- `forms_events_add.md` — adding event handlers (path-scoped: `**/Form.Module.bsl`)
+- `getconfigfiles.md` — exporting a configuration to files
+- `integrations_add.md` — external integrations (Python-first policy)
+- `mcp-tools.md` — MCP tool selection and workflows
+- `project_rules.md` — coding standards: queries, data access, performance, formatting
+- `refactor_add.md` — refactoring approach (top-down analysis, bottom-up refactor)
+- `sdd-integrations.md` — optional SDD frameworks (Memory Bank, OpenSpec, Spec Kit, TaskMaster)
+- `user_rules.md` — working principles (step-by-step, minimal changes, human-in-the-loop)
+
+Skill dispatch — see `.claude/skills_instructions.md`.
+
+## Working principles
+
+- Act step by step; think before editing code.
+- Keep edits minimal and focused — one logical change at a time.
+- Code must be correct, maintainable and safe.
+- Human-in-the-loop: every proposal is reviewed by the user.
+- Ask for details when the task is ambiguous.

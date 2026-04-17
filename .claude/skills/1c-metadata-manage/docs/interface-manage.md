@@ -86,4 +86,4 @@ Exit code: 0 = all checks passed, 1 = errors found.
 
 ## MCP Integration
 
-Use `search_metadata` to verify command and subsystem names referenced in the interface configuration.
+Use `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`) to verify command and subsystem names referenced in the interface configuration.

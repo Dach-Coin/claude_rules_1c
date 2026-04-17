@@ -147,7 +147,7 @@ Exit code: 0 = OK, 1 = errors.
 
 ## MCP Integration
 
-Use `search_metadata` MCP tool to find objects to borrow and verify module paths. Use `search_code` to find methods to intercept. Use `syntaxcheck` to verify generated BSL code.
+Use `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`) to find objects to borrow and verify module paths. Use `mcp__rlm-tools-bsl__rlm_execute` (`grep`, `find_callers`, `extract_procedures`) to find methods to intercept. Use `claude-code-bsl-lsp` to verify generated BSL code.
 
 ## SDD Integration
 

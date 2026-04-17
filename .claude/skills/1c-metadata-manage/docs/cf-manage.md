@@ -106,7 +106,7 @@ Exit code: 0 = OK, 1 = errors.
 
 ## MCP Integration
 
-Use `search_metadata` MCP tool to explore existing configuration structure. Use `docsearch` for platform documentation on configuration properties.
+Use `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`) to explore existing configuration structure. Use `mcp__1c-syntax__search_syntax` / `get_function_info` for platform documentation on configuration properties.
 
 ## SDD Integration
 

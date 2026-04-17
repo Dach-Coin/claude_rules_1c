@@ -378,9 +378,9 @@ powershell.exe -NoProfile -File skills/1c-metadata-manage/tools/1c-skd-validate/
 ---
 ## MCP Integration
 
-- **search_metadata** — Verify object and attribute names used in queries; cross-reference field names with actual metadata objects
-- **templatesearch** — Find similar DCS patterns in the codebase
-- **docsearch** — Look up valid DCS element types and properties when investigating validation errors; DCS platform documentation
+- Verify object and attribute names used in queries; cross-reference field names with actual metadata objects — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
+- Find similar DCS patterns in the codebase — `mcp__rlm-tools-bsl__rlm_execute` (`glob_files` on `**/Templates/*/Ext/Template.xml` + `read_file`). Cross-project curated DCS templates are not available — see Capability boundaries in `.claude/rules/mcp-tools.md`.
+- Look up valid DCS element types and properties when investigating validation errors; DCS platform documentation — `mcp__1c-syntax__search_syntax` → `get_function_info`.
 
 ## SDD Integration
 

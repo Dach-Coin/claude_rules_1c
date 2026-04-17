@@ -100,4 +100,4 @@ pwsh -NoProfile -File skills/1c-metadata-manage/tools/1c-template-manage/scripts
 
 ## MCP Integration
 
-Use `search_metadata` MCP tool to verify the parent object exists and supports templates. Use `templatesearch` to find similar template implementations.
+Use `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`) to verify the parent object exists and supports templates. To find similar template implementations inside the configuration, use `glob_files` on `**/Template.mxl` / `**/Template.xml` + `read_file`. Cross-project curated templates are not available — see Capability boundaries in `.claude/rules/mcp-tools.md`.

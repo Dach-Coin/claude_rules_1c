@@ -362,8 +362,8 @@ Exit code: `0` — no errors, `1` — errors found.
 ---
 ## MCP Integration
 
-- **search_metadata** — Verify metadata object names when defining rights; verify objects referenced in role rights exist in the configuration.
-- **ssl_search** — Find SSL role patterns.
+- Verify metadata object names when defining rights; verify objects referenced in role rights exist in the configuration — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
+- Find SSL/БСП role patterns — `mcp__rlm-tools-bsl__rlm_execute` (`glob_files` on `Roles/*/Ext/Rights.xml`, `grep` over role names). See also `.claude/skills/1c-metadata-manage/docs/ssl-patterns.md`.
 
 ## SDD Integration
 

@@ -1066,8 +1066,8 @@ Return code: 0 = all checks passed, 1 = errors found.
 
 ## MCP Integration
 
-- **templatesearch**: Find real form examples in the codebase, similar form implementations, and similar form patterns when designing forms.
-- **search_metadata**: Verify metadata object existence and structure before creating forms; verify object types, attribute names, and metadata types when defining attributes; verify attribute types and object names when editing forms.
+- Find real form examples in the codebase and similar form implementations — `mcp__rlm-tools-bsl__rlm_execute` (`glob_files` on `Forms/**/Form.xml`, `read_file`, `grep`). Cross-project curated form templates are not available in the current toolset — see Capability boundaries in `.claude/rules/mcp-tools.md`.
+- Verify metadata object existence and structure before creating forms; verify object types, attribute names and types when defining attributes or editing forms — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
 - **1c-form-info**: Analyze form structure before editing to find the right group for inserting elements.
 
 ## SDD Integration

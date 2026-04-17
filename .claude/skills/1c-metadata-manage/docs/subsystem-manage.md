@@ -128,7 +128,7 @@ Exit code: 0 = OK, 1 = errors.
 
 ## MCP Integration
 
-Use `search_metadata` MCP tool to verify that objects referenced in subsystem content exist in the configuration. Use `business_search` to find related objects to include.
+Use `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`) to verify that objects referenced in subsystem content exist in the configuration. To find related objects to include, use descriptive grep over synonyms and object names via `mcp__rlm-tools-bsl__rlm_execute` (NL/semantic search is not available — see Capability boundaries in `.claude/rules/mcp-tools.md`).
 
 ## SDD Integration
 

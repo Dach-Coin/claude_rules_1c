@@ -388,9 +388,9 @@ If procedure already exists — add `ИначеЕсли` branch.
 
 ## MCP Integration
 
-- **ssl_search**: Find SSL module methods for BSP registration and verify correct API method names.
-- **search_metadata**: Verify target metadata object names.
-- **search_code**: Find existing handler patterns in the codebase.
+- Find SSL/BSP module methods for registration and verify API method names — `mcp__rlm-tools-bsl__rlm_execute` (grep over `ОбщегоНазначения*`, `ИнтеграцияСовместной*` etc. + `find_exports`, `extract_procedures`). Signatures of BSP-specific procedures are read from the module source via the same `rlm_execute` (`extract_procedures`) — `1c-syntax` only covers platform built-ins, not BSP modules. See also `.claude/skills/1c-metadata-manage/docs/ssl-patterns.md`.
+- Verify target metadata object names — `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`).
+- Find existing handler patterns in the codebase — `mcp__rlm-tools-bsl__rlm_execute` (`grep`, `find_callers`, `extract_procedures`).
 
 ## SDD Integration
 

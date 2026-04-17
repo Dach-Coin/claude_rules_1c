@@ -271,4 +271,4 @@ Ensure query conditions match available indexes:
 
 **Reference**: [ITS Query Optimization Standards](https://its.1c.ru/db/v8std/browse/13/-1/26/28)
 
-**Remember**: Verify metadata attributes exist using `search_metadata` before writing queries.
+**Remember**: Verify metadata attributes exist using `mcp__rlm-tools-bsl__rlm_execute` (`parse_object_xml`, `glob_files`) before writing queries.
