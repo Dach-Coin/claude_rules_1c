@@ -1,0 +1,16 @@
+{
+  "name": "Добавление реквизита к справочнику",
+  "preRun": [
+    {
+      "script": "meta-compile/scripts/meta-compile",
+      "input": { "type": "Catalog", "name": "Контрагенты" },
+      "args": { "-JsonPath": "{inputFile}", "-OutputDir": "{workDir}" }
+    }
+  ],
+  "params": { "objectPath": "Catalogs/Контрагенты" },
+  "input": {
+    "operations": [
+      { "op": "add-attribute", "name": "ИНН", "type": "String", "length": 12 }
+    ]
+  }
+}

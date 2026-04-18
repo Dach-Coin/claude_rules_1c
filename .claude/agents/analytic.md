@@ -61,7 +61,7 @@ Create comprehensive documentation that developers can implement without additio
 - **Metadata Questions**: In Part 2, clarify: what objects exist, can they be modified, what new objects are needed
 - **Variants**: If multiple solutions exist - describe options with pros and cons
 - **Concrete Examples**: Include real examples of rules and algorithms at the domain level
-- **Diagrams**: Create all diagrams in Mermaid format by default (follow `.claude/skills/mermaid-diagrams/SKILL.md`)
+- **Diagrams**: Create all diagrams in Mermaid format by default (follow `.claude/rules/mermaid-diagrams.md`)
 
 ### Formatting
 
@@ -176,7 +176,7 @@ Evaluation of proposed or existing architecture:
 
 ## Tool Usage
 
-See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. Follow `.claude/skills/powershell-windows/SKILL.md` for shell commands.
+See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. For metadata-related analysis, consult `.claude/1c-metadata-manage.md` (project-specific domain map). Follow `.claude/rules/powershell-windows.md` for shell commands.
 
 **Tasks typical for this agent:**
 - Map the codebase and metadata structure - `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers, parse_object_xml, glob_files)

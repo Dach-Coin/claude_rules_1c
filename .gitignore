@@ -2,4 +2,7 @@
 .claude/settings.local.json
 CLAUDE.local.md
 .mcp.json
+.v8-project.json
+tests/skills/.cache/
 tmp
+debug/

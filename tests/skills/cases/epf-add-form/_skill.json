@@ -1,0 +1,14 @@
+{
+  "script": "epf-add-form/scripts/add-form",
+  "setup": "none",
+  "args": [
+    { "flag": "-ProcessorName", "from": "case.processorName" },
+    { "flag": "-FormName", "from": "case.formName" },
+    { "flag": "-SrcDir", "from": "workDir" }
+  ],
+  "snapshot": {
+    "root": "workDir",
+    "normalizeUuids": true
+  },
+  "postValidate": { "script": "epf-validate/scripts/epf-validate", "flag": "-ObjectPath", "pathFrom": "validatePath" }
+}

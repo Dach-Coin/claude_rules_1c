@@ -40,7 +40,7 @@ The environment exposes four classes of tool. Pick before acting:
 |---|---|---|
 | **MCP servers** (`rlm-tools-bsl`, `1c-syntax`) | `rlm-tools-bsl` - explore code and metadata (sandbox Python). `1c-syntax` - platform reference (built-in functions/methods/objects). Both listed under `mcpServers` in `~/.claude.json`. | `.claude/rules/mcp-tools.md` |
 | **BSL Language Server** (plugin `bsl-language-server`) | Diagnose BSL - errors and style warnings. Runs as a Claude Code plugin (visible in `SessionStart` hook) and as a local CLI (`bsl-language-server.exe --analyze`). This is NOT an MCP server - don't call it with an `mcp__*` prefix. | `.claude/rules/mcp-tools.md` |
-| **Skills** (`1c-metadata-manage`, `deploy-and-test`, `getconfigfiles`, `1c_syntax_skills`, …) | Mutate metadata, deploy, run end-to-end tests. `1c_syntax_skills` is a slash-command with BSL development rules that points to the `1c-syntax` MCP server for platform lookups - it does not ship a language server itself. | `.claude/skills_instructions.md` |
+| **Skills** (flat upstream set under `.claude/skills/`) | Mutate metadata, build artefacts, deploy, run end-to-end tests. Full list and dispatch - in `.claude/skills_instructions.md`. `1c_syntax_skills` is a slash-command plugin that points to the `1c-syntax` MCP server for platform lookups - it does not ship a language server itself. | `.claude/skills_instructions.md` |
 | **Sub-agents** (`developer`, `code-reviewer`, `metadata-manager`, …) | Delegate multi-step work | `.claude/agents/` |
 
 Prefer MCP tools over `Grep` / `find` when investigating BSL. Prefer skills over direct file edits when mutating metadata.
@@ -59,7 +59,7 @@ Prefer MCP tools over `Grep` / `find` when investigating BSL. Prefer skills over
 
 ## Metadata
 
-Delegate any structural metadata work to the `1c-metadata-manage` skill (see `.claude/skills_instructions.md`). For multi-step or multi-domain metadata work, invoke the `metadata-manager` agent.
+Any work on the structure of metadata - objects, forms, SKD, MXL, roles, extensions, databases, print forms - starts with `.claude/1c-metadata-manage.md` (project-specific domain knowledge map) and the dispatch table in `.claude/skills_instructions.md`. For multi-step or multi-domain metadata work, invoke the `metadata-manager` agent.
 
 ## Detailed standards
 
@@ -72,13 +72,17 @@ Rule files are loaded from `.claude/rules/`:
 - `form_module_rules.md` - client/server interaction, compilation directives (path-scoped)
 - `forms_add.md` - how to create or modify managed forms
 - `forms_events_add.md` - adding event handlers (path-scoped: `**/Form.Module.bsl`)
-- `getconfigfiles.md` - exporting a configuration to files
+- `dump-config.md` - exporting a configuration to files
 - `integrations_add.md` - external integrations (Python-first policy)
 - `mcp-tools.md` - MCP tool selection and workflows
 - `project_rules.md` - coding standards: queries, data access, performance, formatting
 - `refactor_add.md` - refactoring approach (top-down analysis, bottom-up refactor)
 - `sdd-integrations.md` - optional SDD frameworks (Memory Bank, OpenSpec, Spec Kit, TaskMaster)
 - `user_rules.md` - working principles (step-by-step, minimal changes, human-in-the-loop)
+- `mermaid-diagrams.md` - diagram templates and renderer-compatibility guidance
+- `powershell-windows.md` - PowerShell scripting rules for Windows
+
+Metadata domain knowledge map - `.claude/1c-metadata-manage.md` (read after `.claude/skills_instructions.md` for any metadata task).
 
 Skill dispatch - see `.claude/skills_instructions.md`.
 
@@ -95,5 +99,5 @@ Skill dispatch - see `.claude/skills_instructions.md`.
 - Identifiers, comments and user-facing messages use native 1C/Russian terms. No anglicisms borrowed from other stacks: not `дебаунс`, `UI`, `триггерить`, `батч`, `воркфлоу`, `тоггл`, `коммит`, `мердж`, `деплой`, `фолбэк` etc.
 - Equivalents: `дебаунс` → `отложенное обновление / задержка обновления`; `UI` → `форма / интерфейс / состояние формы`; `батч-запрос` → `пакетный запрос`; `триггерить` → `запускать / вызывать`; `коммит` → `фиксация транзакции`.
 - Error text in exception handlers: always `ОбработкаОшибок.ПодробноеПредставлениеОшибки(ИнформацияОбОшибке())`, never the bare `ПодробноеПредставлениеОшибки(...)` (it is deprecated since 8.3.17).
-- Repository typography: no em-dash, en-dash, or letter `ё`/`Ё` anywhere - use plain ASCII `-` and `е`/`Е`. See `.claude/rules/dev-standards-core.md` § Repository Typography.
+- Repository typography: no em-dash, en-dash, or Cyrillic yo (`U+0451` / `U+0401`, HTML entities `&#1105;` / `&#1025;`) anywhere - use plain ASCII `-` and regular `е` / `Е` (`U+0435` / `U+0415`). See `.claude/rules/dev-standards-core.md` § Repository Typography.
 - Comments in code must be terse and motive-only. See `.claude/rules/project_rules.md` § Comments / Human-like comments - no banner separators, no module-header preambles, no narration of the next line.

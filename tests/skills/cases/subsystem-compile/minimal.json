@@ -1,0 +1,10 @@
+{
+  "name": "Минимальная подсистема (только name)",
+  "input": {
+    "name": "Тест"
+  },
+  "validatePath": "Subsystems/Тест",
+  "expect": {
+    "files": ["Subsystems/Тест.xml"]
+  }
+}

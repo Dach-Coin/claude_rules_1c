@@ -1,0 +1,9 @@
+{
+  "name": "Отчет с СКД",
+  "params": { "name": "ОтчетСКД" },
+  "args_extra": ["-WithSKD"],
+  "validatePath": "ОтчетСКД",
+  "expect": {
+    "files": ["ОтчетСКД.xml"]
+  }
+}

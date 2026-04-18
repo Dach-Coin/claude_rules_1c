@@ -1,0 +1,8 @@
+{
+  "name": "Минимальный отчет",
+  "params": { "name": "Отчет1" },
+  "validatePath": "Отчет1",
+  "expect": {
+    "files": ["Отчет1.xml"]
+  }
+}

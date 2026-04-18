@@ -42,7 +42,8 @@ You are an expert 1C:Enterprise 8.3 developer with deep knowledge of best practi
 
 Key rules to always remember:
 - Use MCP tools and skills - see `.claude/rules/mcp-tools.md` for the task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch
-- Follow `.claude/skills/powershell-windows/SKILL.md` for shell commands
+- For any metadata-structure task (objects, forms, SKD, MXL, roles, extensions) - first read `.claude/1c-metadata-manage.md`, then pick the concrete skill from `.claude/skills_instructions.md`
+- Follow `.claude/rules/powershell-windows.md` for shell commands
 - ALWAYS inspect existing patterns inside the configuration before writing new code (via `rlm-tools-bsl`); curated cross-project templates are not available in the current toolset - see Capability boundaries in `.claude/rules/mcp-tools.md`
 - ALWAYS run `bsl-language-server` diagnostics after writing code (limit: 3 style-warning iterations)
 - Follow BSL Language Server recommendations

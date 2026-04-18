@@ -1,0 +1,26 @@
+{
+  "name": "dataParameters: auto — наследование variant для StandardPeriod",
+  "params": { "outputPath": "Template.xml" },
+  "input": {
+    "dataSets": [{
+      "query": "ВЫБРАТЬ 1 КАК Поле",
+      "fields": ["Поле: число"]
+    }],
+    "parameters": [
+      "Период: СтандартныйПериод = LastMonth @autoDates",
+      "ПериодБезДефолта: СтандартныйПериод",
+      "Флаг: boolean = true"
+    ],
+    "settingsVariants": [{
+      "name": "Основной",
+      "settings": {
+        "structure": "details",
+        "dataParameters": "auto"
+      }
+    }]
+  },
+  "validatePath": "Template.xml",
+  "expect": {
+    "files": ["Template.xml"]
+  }
+}
