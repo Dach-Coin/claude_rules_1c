@@ -174,8 +174,8 @@
 
 ### web
 
-- Требует `Node.js` и `Playwright` для `web-test`; без них - skip (sanity-mode).
-- По умолчанию `web-test` вызывается с `-?` (sanity-mode) для проверки, что браузер и URL доступны; полный прогон - только по явному флагу.
+- `web-test` - Node.js 18+ и Playwright. Первичная инициализация: `cd .claude/skills/web-test/scripts && npm install` (тянет Playwright и Chromium). Запуск сценария: `node .claude/skills/web-test/scripts/run.mjs run <url> <scenario.js>`. Без установленных зависимостей скилл падает - help-флага sanity-mode у него нет.
+- URL берётся из `.v8-project.json` (`webUrl` или `http://localhost:8081/<id>`); база должна быть предварительно опубликована через `web-publish`.
 - `web-publish` требует поднятый Apache; статус - `web-info`, остановка сервера - `web-stop`, снятие публикации - `web-unpublish` (сам Apache не трогает).
 
 ## SSL / БСП

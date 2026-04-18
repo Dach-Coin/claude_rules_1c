@@ -132,5 +132,10 @@ LSP-интеграция над `BSL Language Server`. Не входит в сп
 
 ## Runtime notes
 
-- **Runtime**: PowerShell 5.1+ на Windows. Python-порты в upstream-скиллах есть; в этом проекте не активируются - каноничный вызов через `powershell.exe -NoProfile -File .claude/skills/<skill>/scripts/<script>.ps1`.
-- **Путь к платформе**: `$env:PLATFORM_PATH` из `.dev.env` имеет приоритет над upstream-автодетектом во всех скриптах, где нужен `1cv8.exe` (`db-*`, `epf-build`, `erf-build`, `web-publish`). Fallback на автодетект `C:\Program Files\1cv8\*\bin\1cv8.exe` сохраняется.
+- **Runtime**: PowerShell 5.1+ на Windows для большинства скиллов. Точный entrypoint - в `SKILL.md` конкретного скилла; одноимённого `scripts/<skill>.ps1` у части скиллов нет (делят общий скрипт внутри `scripts/` или вообще без PS1).
+- **Исключения из PowerShell**:
+  - `web-test` - Node.js 18+ и Playwright. Запуск: `node .claude/skills/web-test/scripts/run.mjs run <url> <scenario>` после первичного `npm install` в `.claude/skills/web-test/scripts/`. Флага help-sanity нет.
+  - `img-grid` - Python (`.claude/skills/img-grid/scripts/overlay-grid.py`).
+  - `db-list`, `form-patterns`, `erf-build`, `erf-dump`, `erf-validate` - без собственного исполняемого скрипта: это dispatcher/справка, работа по `SKILL.md`.
+- **Python-порты**: у ряда скиллов рядом с `.ps1` лежит `.py`; в проекте используется PowerShell-ветка, Python-порты не активируются.
+- **Путь к платформе**: `$env:PLATFORM_PATH` из `.dev.env` имеет приоритет над upstream-автодетектом. Список скриптов, где эта логика наложена (11 шт.): `db-create`, `db-dump-cf`, `db-dump-xml`, `db-load-cf`, `db-load-git`, `db-load-xml`, `db-run`, `db-update`, `epf-build`, `epf-dump`, `web-publish`. Fallback на автодетект `C:\Program Files\1cv8\*\bin\1cv8.exe` сохраняется.

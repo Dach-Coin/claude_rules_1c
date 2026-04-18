@@ -1,6 +1,6 @@
 ---
 name: 1c-tester
-description: "Expert 1C testing agent. Tests code and functions using web browser automation and the deploy_and_test command. Deploys configuration to test infobase, performs UI testing with human-like interactions, validates functionality. Use PROACTIVELY after code changes to verify they work correctly."
+description: "Expert 1C testing agent. Tests code and functions via web browser automation. Drives the deployment-and-test skill chain listed in .claude/skills_instructions.md (DB config update -> web publish -> web test). Performs UI testing with human-like interactions, validates functionality. Use PROACTIVELY after code changes to verify they work correctly."
 model: opus
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]
 ---
@@ -32,13 +32,11 @@ Follow `.claude/rules/powershell-windows.md` for all PowerShell commands (use `;
 
 Before testing, ensure:
 
-1. **Infobase Settings**: Check if `infobasesettings.md` exists with:
-   - Infobase connection string (file or server)
-   - Infobase publish URL (for web testing)
+1. **Database registry**: `.v8-project.json` in the project root with the target database registered - `id`, `type` (`file`/`server`), `path` (for file IB) or `server`+`ref` (for server IB), credentials and optional `webUrl`. The registry is owned by the skill from the "Базы данных" section in `.claude/skills_instructions.md` - do not edit it by hand; use the skill's `add` / `remove` / `show` subcommands. Format reference - `SKILL.md` of that skill.
 
-2. If settings file doesn't exist, ask user for:
-   - Connection string (e.g., `C:\Users\<user>\Documents\<MyBase>` for file infobase, or server connection)
-   - Web publish URL (e.g., `http://localhost/TestForms/ru/`)
+2. If `.v8-project.json` is missing or the target database is not registered, ask the user for:
+   - Connection details (file path for file IB, or server + infobase ref for server IB) and credentials
+   - Optional `webUrl` for web-client testing; if omitted, the URL is built as `http://localhost:8081/<id>` using the skill from the "Веб-публикация и тестирование" section in `.claude/skills_instructions.md`
 
 ## Deployment Process
 
@@ -69,7 +67,7 @@ Deployment is the combination that replaces the former local end-to-end bundle: 
 ### Important Notes
 
 - Use `/S` for server infobase, `/F` for file infobase
-- Replace paths according to `infobasesettings.md`
+- Resolve `<INFOBASE_PATH>` (or `/S <server>/<ref>`) and credentials by reading `.v8-project.json` for the target database `id`
 - Use current project root directory for configuration files path
 
 ## Web UI Testing
