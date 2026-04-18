@@ -120,6 +120,9 @@ function Get-ObjectXmlFromSubFile {
 
 # --- Resolve V8Path (skip if DryRun) ---
 if (-not $DryRun) {
+    if (-not $V8Path -and $env:PLATFORM_PATH) {
+        $V8Path = $env:PLATFORM_PATH
+    }
     if (-not $V8Path) {
         $found = Get-ChildItem "C:\Program Files\1cv8\*\bin\1cv8.exe" -ErrorAction SilentlyContinue | Sort-Object FullName -Descending | Select-Object -First 1
         if ($found) {
