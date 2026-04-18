@@ -3,13 +3,28 @@
 param(
 	[string]$DefinitionFile,
 	[string]$Value,
-	[Parameter(Mandatory)][string]$OutputDir,
+	[string]$ValueB64,
+	[string]$DefinitionFileB64,
+	[string]$OutputDir,
+	[string]$OutputDirB64,
 	[string]$Parent,
+	[string]$ParentB64,
 	[switch]$NoValidate
 )
 
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+# Decode base64 arguments (workaround for Windows PowerShell child-process Cyrillic marshalling)
+if ($ValueB64) { $Value = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($ValueB64)) }
+if ($DefinitionFileB64) { $DefinitionFile = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($DefinitionFileB64)) }
+if ($OutputDirB64) { $OutputDir = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($OutputDirB64)) }
+if ($ParentB64) { $Parent = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($ParentB64)) }
+
+if (-not $OutputDir) {
+	Write-Error "-OutputDir (or -OutputDirB64) is required"
+	exit 1
+}
 
 # --- 1. Load JSON ---
 if ($DefinitionFile -and $Value) {
@@ -539,7 +554,9 @@ if (-not $NoValidate) {
 	if (Test-Path $validateScript) {
 		Write-Host ""
 		Write-Host "--- Running subsystem-validate ---"
-		& powershell.exe -NoProfile -File $validateScript -SubsystemPath $targetXml
+		# Pass path as base64 so Cyrillic in the path survives child-process marshalling
+		$pathB64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($targetXml))
+		& powershell.exe -NoProfile -File $validateScript -SubsystemPathB64 $pathB64
 	}
 }
 

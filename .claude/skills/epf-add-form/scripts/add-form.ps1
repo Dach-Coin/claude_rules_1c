@@ -1,13 +1,14 @@
 ﻿# epf-add-form v1.1 — Add managed form to 1C processor
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
-	[Parameter(Mandatory)]
 	[string]$ProcessorName,
+	[string]$ProcessorNameB64,
 
-	[Parameter(Mandatory)]
 	[string]$FormName,
+	[string]$FormNameB64,
 
-	[string]$Synonym = $FormName,
+	[string]$Synonym,
+	[string]$SynonymB64,
 
 	[switch]$Main,
 
@@ -15,6 +16,15 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+
+# Decode base64 arguments (workaround for Windows PowerShell child-process Cyrillic marshalling)
+if ($ProcessorNameB64) { $ProcessorName = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($ProcessorNameB64)) }
+if ($FormNameB64)      { $FormName      = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($FormNameB64)) }
+if ($SynonymB64)       { $Synonym       = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($SynonymB64)) }
+
+if (-not $ProcessorName) { Write-Error "Parameter -ProcessorName (or -ProcessorNameB64) is required"; exit 1 }
+if (-not $FormName)      { Write-Error "Parameter -FormName (or -FormNameB64) is required"; exit 1 }
+if (-not $Synonym)       { $Synonym = $FormName }
 
 # --- Detect format version ---
 

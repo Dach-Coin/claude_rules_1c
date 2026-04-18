@@ -21,18 +21,30 @@ allowed-tools:
 /erf-init <Name> [Synonym] [SrcDir] [--with-skd]
 ```
 
-| Параметр  | Обязательный | По умолчанию | Описание                              |
-|-----------|:------------:|--------------|---------------------------------------|
-| Name      | да           | —            | Имя отчёта (латиница/кириллица)       |
-| Synonym   | нет          | = Name       | Синоним (отображаемое имя)            |
-| SrcDir    | нет          | `src`        | Каталог исходников относительно CWD   |
-| --WithSKD | нет          | —            | Создать пустую СКД и привязать к MainDataCompositionSchema |
+| Параметр    | Обязательный | По умолчанию | Описание                              |
+|-------------|:------------:|--------------|---------------------------------------|
+| Name        | *            | —            | Имя отчёта (латиница/кириллица)       |
+| NameB64     | *            | —            | Base64(UTF-8) от имени; альтернатива `-Name` при запуске через дочерний `powershell.exe -File` с кириллицей |
+| Synonym     | нет          | = Name       | Синоним (отображаемое имя)            |
+| SynonymB64  | нет          | —            | Base64(UTF-8) от синонима             |
+| SrcDir      | нет          | `src`        | Каталог исходников относительно CWD   |
+| --WithSKD   | нет          | —            | Создать пустую СКД и привязать к MainDataCompositionSchema |
+
+> `*` - обязательно одно из `-Name` или `-NameB64`.
 
 ## Команда
 
 ```powershell
 powershell.exe -NoProfile -File .claude/skills/erf-init/scripts/init.ps1 -Name "<Name>" [-Synonym "<Synonym>"] [-SrcDir "<SrcDir>"] [-WithSKD]
 ```
+
+> Кириллица в `-Name`/`-Synonym` при вызове через `powershell.exe -NoProfile -File ...` ломается из-за cp866 дочернего процесса. Обход - base64:
+>
+> ```powershell
+> $nameB64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes('МойОтчет'))
+> $synB64  = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes('Мой отчет'))
+> powershell.exe -NoProfile -File .claude/skills/erf-init/scripts/init.ps1 -NameB64 $nameB64 -SynonymB64 $synB64 -WithSKD
+> ```
 
 ## Дальнейшие шаги
 

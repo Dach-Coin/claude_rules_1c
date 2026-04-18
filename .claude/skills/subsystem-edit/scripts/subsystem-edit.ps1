@@ -1,16 +1,29 @@
 ﻿# subsystem-edit v1.2 — Edit existing 1C subsystem XML
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
-	[Parameter(Mandatory)][string]$SubsystemPath,
+	[string]$SubsystemPath,
+	[string]$SubsystemPathB64,
 	[string]$DefinitionFile,
 	[ValidateSet("add-content","remove-content","add-child","remove-child","set-property")]
 	[string]$Operation,
 	[string]$Value,
+	[string]$ValueB64,
+	[string]$DefinitionFileB64,
 	[switch]$NoValidate
 )
 
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+# Decode base64 arguments (workaround for Windows PowerShell child-process Cyrillic marshalling)
+if ($SubsystemPathB64) { $SubsystemPath = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($SubsystemPathB64)) }
+if ($ValueB64) { $Value = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($ValueB64)) }
+if ($DefinitionFileB64) { $DefinitionFile = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($DefinitionFileB64)) }
+
+if (-not $SubsystemPath) {
+	Write-Error "-SubsystemPath (or -SubsystemPathB64) is required"
+	exit 1
+}
 
 # --- Content type normalization (plural→singular, Russian→English) ---
 $script:contentTypeMap = @{
@@ -405,8 +418,14 @@ function Do-RemoveChild([string]$childName) {
 	if (-not $found) { Warn "Child subsystem not found: $childName" }
 }
 
-function Do-SetProperty([string]$jsonVal) {
-	$propDef = $jsonVal | ConvertFrom-Json
+function Do-SetProperty($jsonOrObj) {
+	# Accept either JSON-string (inline -Value) or an already-parsed object
+	# (e.g. when DefinitionFile has an array of operations and $op.value is an object)
+	if ($jsonOrObj -is [string]) {
+		$propDef = $jsonOrObj | ConvertFrom-Json
+	} else {
+		$propDef = $jsonOrObj
+	}
 	$propName = "$($propDef.name)"
 	$propValue = "$($propDef.value)"
 
@@ -492,14 +511,16 @@ if ($DefinitionFile) {
 
 foreach ($op in $operations) {
 	$opName = if ($op.operation) { "$($op.operation)" } else { "$Operation" }
-	$opValue = if ($op.value) { "$($op.value)" } else { "$Value" }
+	$rawValue = if ($null -ne $op.value) { $op.value } else { $Value }
+	# String form for list/name operations; preserve object form for set-property
+	$opValueStr = if ($rawValue -is [string]) { $rawValue } else { "$rawValue" }
 
 	switch ($opName) {
-		"add-content"    { Do-AddContent (Parse-ValueList $opValue) }
-		"remove-content" { Do-RemoveContent (Parse-ValueList $opValue) }
-		"add-child"      { Do-AddChild $opValue }
-		"remove-child"   { Do-RemoveChild $opValue }
-		"set-property"   { Do-SetProperty $opValue }
+		"add-content"    { Do-AddContent (Parse-ValueList $opValueStr) }
+		"remove-content" { Do-RemoveContent (Parse-ValueList $opValueStr) }
+		"add-child"      { Do-AddChild $opValueStr }
+		"remove-child"   { Do-RemoveChild $opValueStr }
+		"set-property"   { Do-SetProperty $rawValue }
 		default          { Write-Error "Unknown operation: $opName"; exit 1 }
 	}
 }
@@ -532,7 +553,9 @@ if (-not $NoValidate) {
 	if (Test-Path $validateScript) {
 		Write-Host ""
 		Write-Host "--- Running subsystem-validate ---"
-		& powershell.exe -NoProfile -File $validateScript -SubsystemPath $resolvedPath
+		# Pass path as base64 so Cyrillic in the path survives child-process marshalling
+		$pathB64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($resolvedPath))
+		& powershell.exe -NoProfile -File $validateScript -SubsystemPathB64 $pathB64
 	}
 }
 

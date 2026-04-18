@@ -68,6 +68,28 @@
 6. **BSL Language Server** - прогнать по тронутым `.bsl` модулям (см. `.claude/rules/mcp-tools.md`). Максимум три итерации по style warnings.
 7. **Отчет** - список измененных файлов, использованные скиллы, нестандартные грабли (если всплыли), CFE vs main_configuration.
 
+## Кириллица в аргументах дочерних `powershell.exe -File`
+
+Запуск скилл-скриптов через `powershell.exe -NoProfile -File ...` проходит через Windows-аргумент-маршаллинг в cp866. В нескольких скиллах это ломает кириллические значения и JSON с кириллицей. Обход введен через base64-варианты параметров - во всех местах сохранено обратно-совместимое текстовое API, а `*B64` используется только когда нужно гарантировать UTF-8 payload в дочернем процессе.
+
+| Скилл | Проблемные параметры | Base64-варианты |
+|---|---|---|
+| `subsystem-compile`  | `-Value` (инлайн JSON), `-DefinitionFile`, `-OutputDir`, `-Parent` | `-ValueB64`, `-DefinitionFileB64`, `-OutputDirB64`, `-ParentB64` |
+| `subsystem-edit`     | `-SubsystemPath`, `-Value`, `-DefinitionFile` | `-SubsystemPathB64`, `-ValueB64`, `-DefinitionFileB64` |
+| `subsystem-validate` | `-SubsystemPath` | `-SubsystemPathB64` |
+| `epf-init`           | `-Name`, `-Synonym` | `-NameB64`, `-SynonymB64` |
+| `epf-add-form`       | `-ProcessorName`, `-FormName`, `-Synonym` | `-ProcessorNameB64`, `-FormNameB64`, `-SynonymB64` |
+| `erf-init`           | `-Name`, `-Synonym` | `-NameB64`, `-SynonymB64` |
+
+Правило: если запускаешь скилл из другого PowerShell-процесса (runner, harness, внешний wrapper) и в значениях/путях есть кириллица - для `subsystem-compile`/`subsystem-edit` можно вынести JSON в `-DefinitionFile` с UTF-8 файлом, но кириллические пути (`-DefinitionFile`, `-OutputDir`, `-Parent`, `-SubsystemPath`) все равно передавай через соответствующий `*B64`-параметр. В inline-режиме из того же процесса, где задана строка, ограничений нет.
+
+Внутренние spawn'ы авто-валидации в `subsystem-compile`/`subsystem-edit` уже автоматически передают путь в `subsystem-validate` через `-SubsystemPathB64` - кириллица в пути к подсистеме не ломает цепочку.
+
+```powershell
+$b64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes('МояПодсистема'))
+powershell.exe -NoProfile -File .claude/skills/epf-init/scripts/init.ps1 -NameB64 $b64
+```
+
 ## Per-домен грабли
 
 Только то, чего нет в upstream `SKILL.md`.
@@ -117,6 +139,7 @@
 ### epf (+ bsp)
 
 - Поток: `epf-init` -> `epf-add-form` (при необходимости) -> `epf-bsp-init` -> `epf-bsp-add-command` -> `epf-build`.
+- Кириллица в `-Name`/`-Synonym`/`-ProcessorName`/`-FormName` при вызове через дочерний `powershell.exe -File` - через `-*B64` (см. «Кириллица в аргументах»).
 - `epf-bsp-init` запускается ровно **один раз** на обработку - он подставляет шаблон `СведенияОВнешнейОбработке()`. Далее каждая новая команда - через `epf-bsp-add-command`.
 - Плейсхолдер `{{TARGET_SECTION}}` остается только для назначаемых видов (`ObjectFilling`, `RelatedObjectCreation`, `PrintForm`, `Report`); для `AdditionalDataProcessor`/`AdditionalReport` - удалять.
 - `PrintForm` требует модификатора `PrintMXL` и макет типа `SpreadsheetDocument` с именем `PF_MXL_*`.
@@ -127,6 +150,7 @@
 
 - Структурно аналогично EPF, но без БСП-интеграции как обязательной ветки.
 - `erf-build` использует те же правила для ссылочных типов, что и `epf-build`.
+- Кириллица в `-Name`/`-Synonym` у `erf-init` - через `-NameB64`/`-SynonymB64`.
 
 ### cfe
 
@@ -146,6 +170,8 @@
 
 - `subsystem-edit` с `UseOneCommand=true` требует ровно одного элемента в Content; иначе команда неуникальна.
 - Вложенные подсистемы - через `-Parent` в `subsystem-compile` или `add-child` в `subsystem-edit`.
+- В пакетном режиме `subsystem-edit` операция `set-property` принимает `value` как JSON-строку (для `-Value`) или вложенный объект (для `-DefinitionFile`); скрипт понимает оба формата.
+- Кириллица в значениях/путях при запуске через дочерний `powershell.exe -File` - через `-*B64`-варианты (включая `-SubsystemPathB64`, `-OutputDirB64`, `-ParentB64`); авто-валидация внутри compile/edit уже переведена на `-SubsystemPathB64`.
 
 ### interface
 

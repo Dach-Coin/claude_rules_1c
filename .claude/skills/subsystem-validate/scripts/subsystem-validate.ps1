@@ -1,7 +1,8 @@
 ﻿# subsystem-validate v1.2 — Validate 1C subsystem XML structure
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
-	[Parameter(Mandatory)][string]$SubsystemPath,
+	[string]$SubsystemPath,
+	[string]$SubsystemPathB64,
 	[switch]$Detailed,
 	[int]$MaxErrors = 30,
 	[string]$OutFile
@@ -9,6 +10,15 @@ param(
 
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+# Decode base64 path (workaround for Windows PowerShell child-process Cyrillic marshalling)
+if ($SubsystemPathB64) {
+	$SubsystemPath = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($SubsystemPathB64))
+}
+if (-not $SubsystemPath) {
+	Write-Host "[ERROR] -SubsystemPath or -SubsystemPathB64 is required"
+	exit 1
+}
 
 # --- Resolve path ---
 if (-not [System.IO.Path]::IsPathRooted($SubsystemPath)) {

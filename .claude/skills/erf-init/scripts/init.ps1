@@ -1,10 +1,11 @@
 ﻿# erf-init v1.0 — Init 1C external report scaffold
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
-	[Parameter(Mandatory)]
 	[string]$Name,
+	[string]$NameB64,
 
-	[string]$Synonym = $Name,
+	[string]$Synonym,
+	[string]$SynonymB64,
 
 	[string]$SrcDir = "src",
 
@@ -12,6 +13,13 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+
+# Decode base64 arguments (workaround for Windows PowerShell child-process Cyrillic marshalling)
+if ($NameB64)    { $Name    = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($NameB64)) }
+if ($SynonymB64) { $Synonym = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($SynonymB64)) }
+
+if (-not $Name) { Write-Error "Parameter -Name (or -NameB64) is required"; exit 1 }
+if (-not $Synonym) { $Synonym = $Name }
 
 $uuid1 = [guid]::NewGuid().ToString()
 $uuid2 = [guid]::NewGuid().ToString()

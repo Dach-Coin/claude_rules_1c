@@ -631,11 +631,8 @@ $json = [regex]::Replace($json, '\\u([0-9A-Fa-f]{4})', {
 
 if ($OutputPath) {
 	$enc = New-Object System.Text.UTF8Encoding($false)
-	[System.IO.File]::WriteAllText(
-		(Join-Path (Get-Location) $OutputPath),
-		$json,
-		$enc
-	)
+	$outPath = if ([System.IO.Path]::IsPathRooted($OutputPath)) { $OutputPath } else { Join-Path (Get-Location).Path $OutputPath }
+	[System.IO.File]::WriteAllText($outPath, $json, $enc)
 	Write-Host "[OK] Decompiled: $OutputPath"
 } else {
 	Write-Output $json

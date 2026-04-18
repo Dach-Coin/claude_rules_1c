@@ -1853,7 +1853,8 @@ $totalLines = $result.Count
 # OutFile
 if ($OutFile) {
 	$utf8Bom = New-Object System.Text.UTF8Encoding($true)
-	[System.IO.File]::WriteAllLines((Join-Path (Get-Location) $OutFile), $result, $utf8Bom)
+	$outPath = if ([System.IO.Path]::IsPathRooted($OutFile)) { $OutFile } else { Join-Path (Get-Location).Path $OutFile }
+	[System.IO.File]::WriteAllLines($outPath, $result, $utf8Bom)
 	Write-Host "Written $totalLines lines to $OutFile"
 	exit 0
 }
