@@ -102,7 +102,7 @@ powershell.exe -NoProfile -File .claude/skills/db-load-xml/scripts/db-load-xml.p
 powershell.exe -NoProfile -File .claude/skills/db-load-xml/scripts/db-load-xml.ps1 -InfoBasePath "C:\Bases\MyDB" -UserName "Admin" -ConfigDir "C:\WS\cfsrc" -Mode Partial -Files "Catalogs/Номенклатура.xml,Catalogs/Номенклатура/Ext/ObjectModule.bsl"
 
 # Загрузка расширения
-powershell.exe -NoProfile -File .claude/skills/db-load-xml/scripts/db-load-xml.ps1 -InfoBasePath "C:\Bases\MyDB" -UserName "Admin" -ConfigDir "C:\WS\ext_src" -Mode Full -Extension "МоёРасширение"
+powershell.exe -NoProfile -File .claude/skills/db-load-xml/scripts/db-load-xml.ps1 -InfoBasePath "C:\Bases\MyDB" -UserName "Admin" -ConfigDir "C:\WS\ext_src" -Mode Full -Extension "МоеРасширение"
 
 # Загрузка + обновление БД в одном запуске
 powershell.exe -NoProfile -File .claude/skills/db-load-xml/scripts/db-load-xml.ps1 -InfoBasePath "C:\Bases\MyDB" -UserName "Admin" -ConfigDir "C:\WS\cfsrc" -Mode Full -UpdateDB

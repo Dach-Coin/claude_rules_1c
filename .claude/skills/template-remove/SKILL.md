@@ -1,6 +1,6 @@
 ---
 name: template-remove
-description: Удалить макет из объекта 1С (обработка, отчёт, справочник, документ и др.)
+description: Удалить макет из объекта 1С (обработка, отчет, справочник, документ и др.)
 argument-hint: <ObjectName> <TemplateName>
 disable-model-invocation: true
 allowed-tools:
@@ -44,4 +44,4 @@ powershell.exe -NoProfile -File .claude/skills/template-remove/scripts/remove-te
 ## Что модифицируется
 
 - `<SrcDir>/<ObjectName>.xml` — убирается `<Template>` из `ChildObjects`
-- Для ExternalReport/Report: если удалённый макет был указан в `MainDataCompositionSchema` — значение очищается
+- Для ExternalReport/Report: если удаленный макет был указан в `MainDataCompositionSchema` — значение очищается

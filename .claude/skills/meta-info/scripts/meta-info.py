@@ -147,11 +147,11 @@ type_name_map = {
     "Catalog": "Справочник", "Document": "Документ", "Enum": "Перечисление",
     "Constant": "Константа", "InformationRegister": "Регистр сведений",
     "AccumulationRegister": "Регистр накопления", "AccountingRegister": "Регистр бухгалтерии",
-    "CalculationRegister": "Регистр расчёта", "ChartOfAccounts": "План счетов",
+    "CalculationRegister": "Регистр расчета", "ChartOfAccounts": "План счетов",
     "ChartOfCharacteristicTypes": "План видов характеристик",
-    "ChartOfCalculationTypes": "План видов расчёта", "BusinessProcess": "Бизнес-процесс",
+    "ChartOfCalculationTypes": "План видов расчета", "BusinessProcess": "Бизнес-процесс",
     "Task": "Задача", "ExchangePlan": "План обмена", "DocumentJournal": "Журнал документов",
-    "Report": "Отчёт", "DataProcessor": "Обработка",
+    "Report": "Отчет", "DataProcessor": "Обработка",
     "DefinedType": "Определяемый тип", "CommonModule": "Общий модуль",
     "ScheduledJob": "Регламентное задание", "EventSubscription": "Подписка на событие",
     "HTTPService": "HTTP-сервис", "WebService": "Веб-сервис",
@@ -711,7 +711,7 @@ if not drill_done:
             use = find(props, "md:Use")
             sj_parts.append(f"Использование: {'да' if use is not None and inner_text(use) == 'true' else 'нет'}")
             predef = find(props, "md:Predefined")
-            sj_parts.append(f"Предопределённое: {'да' if predef is not None and inner_text(predef) == 'true' else 'нет'}")
+            sj_parts.append(f"Предопределенное: {'да' if predef is not None and inner_text(predef) == 'true' else 'нет'}")
             restart_cnt = find(props, "md:RestartCountOnFailure")
             restart_int = find(props, "md:RestartIntervalOnFailure")
             if restart_cnt is not None and inner_text(restart_cnt).isdigit() and int(inner_text(restart_cnt)) > 0:
@@ -755,7 +755,7 @@ if not drill_done:
         if md_type == "WebService":
             ns_url = find(props, "md:Namespace")
             if ns_url is not None and inner_text(ns_url):
-                out(f"Пространство имён: {inner_text(ns_url)}")
+                out(f"Пространство имен: {inner_text(ns_url)}")
             if child_objs is not None:
                 ops = get_ws_operations(child_objs)
                 if ops:
@@ -890,7 +890,7 @@ if not drill_done:
             use = find(props, "md:Use")
             sj_parts.append(f"Использование: {'да' if use is not None and inner_text(use) == 'true' else 'нет'}")
             predef = find(props, "md:Predefined")
-            sj_parts.append(f"Предопределённое: {'да' if predef is not None and inner_text(predef) == 'true' else 'нет'}")
+            sj_parts.append(f"Предопределенное: {'да' if predef is not None and inner_text(predef) == 'true' else 'нет'}")
             restart_cnt = find(props, "md:RestartCountOnFailure")
             restart_int = find(props, "md:RestartIntervalOnFailure")
             if restart_cnt is not None and inner_text(restart_cnt).isdigit() and int(inner_text(restart_cnt)) > 0:
@@ -942,7 +942,7 @@ if not drill_done:
         if md_type == "WebService":
             ns_url = find(props, "md:Namespace")
             if ns_url is not None and inner_text(ns_url):
-                out(f"Пространство имён: {inner_text(ns_url)}")
+                out(f"Пространство имен: {inner_text(ns_url)}")
             if child_objs is not None:
                 ops = get_ws_operations(child_objs)
                 if ops:

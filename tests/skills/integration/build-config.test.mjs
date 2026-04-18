@@ -131,7 +131,7 @@ export const steps = [
     validate: { script: 'meta-validate/scripts/meta-validate', flag: '-ObjectPath', path: 'CommonModules/ОбщиеФункции' },
   },
   {
-    name: 'meta-compile: Отчёт ОстаткиТоваров',
+    name: 'meta-compile: Отчет ОстаткиТоваров',
     script: 'meta-compile/scripts/meta-compile',
     input: {
       type: 'Report', name: 'ОстаткиТоваров',
@@ -152,7 +152,7 @@ export const steps = [
     input: {
       title: 'Контрагент',
       attributes: [
-        { name: 'Объект', type: 'FormDataStructure', main: true },
+        { name: 'Объект', type: 'CatalogObject.Контрагенты', main: true },
       ],
       elements: [
         { input: 'Наименование', path: 'Объект.Description', title: 'Наименование' },
@@ -176,7 +176,7 @@ export const steps = [
     input: {
       title: 'Приходная накладная',
       attributes: [
-        { name: 'Объект', type: 'FormDataStructure', main: true },
+        { name: 'Объект', type: 'DocumentObject.ПриходнаяНакладная', main: true },
       ],
       elements: [
         { input: 'Контрагент', path: 'Объект.Контрагент', title: 'Контрагент' },
@@ -194,7 +194,7 @@ export const steps = [
 
   // ── 5. DCS for report ──
   {
-    name: 'skd-compile: Схема отчёта ОстаткиТоваров',
+    name: 'skd-compile: Схема отчета ОстаткиТоваров',
     script: 'skd-compile/scripts/skd-compile',
     input: {
       dataSets: [{

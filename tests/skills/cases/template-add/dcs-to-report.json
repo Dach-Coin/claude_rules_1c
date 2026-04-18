@@ -1,10 +1,10 @@
 {
-  "name": "Макет СКД к внешнему отчёту (авто MainDataCompositionSchema)",
+  "name": "Макет СКД к внешнему отчету (авто MainDataCompositionSchema)",
   "preRun": [
     {
       "script": "erf-init/scripts/init",
-      "args": { "-Name": "МойОтчёт", "-SrcDir": "{workDir}" }
+      "args": { "-Name": "МойОтчет", "-SrcDir": "{workDir}" }
     }
   ],
-  "params": { "objectName": "МойОтчёт", "templateName": "ОсновнаяСхема", "templateType": "DataCompositionSchema" }
+  "params": { "objectName": "МойОтчет", "templateName": "ОсновнаяСхема", "templateType": "DataCompositionSchema" }
 }

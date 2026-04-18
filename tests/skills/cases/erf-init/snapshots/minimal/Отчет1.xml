@@ -6,17 +6,17 @@
 				<xr:ClassId>UUID-002</xr:ClassId>
 				<xr:ObjectId>UUID-003</xr:ObjectId>
 			</xr:ContainedObject>
-			<xr:GeneratedType name="ExternalReportObject.ТестовыйОтчёт" category="Object">
+			<xr:GeneratedType name="ExternalReportObject.Отчет1" category="Object">
 				<xr:TypeId>UUID-004</xr:TypeId>
 				<xr:ValueId>UUID-005</xr:ValueId>
 			</xr:GeneratedType>
 		</InternalInfo>
 		<Properties>
-			<Name>ТестовыйОтчёт</Name>
+			<Name>Отчет1</Name>
 			<Synonym>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>ТестовыйОтчёт</v8:content>
+					<v8:content>Отчет1</v8:content>
 				</v8:item>
 			</Synonym>
 			<Comment/>

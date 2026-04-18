@@ -224,7 +224,7 @@ Click button, hyperlink, tab, navigation panel link, or grid row (fuzzy match).
   ```
 - Returns `submenu[]` when a menu opens — click again with item name:
   ```js
-  const r = await clickElement('Ещё');
+  const r = await clickElement('Еще');
   // r.submenu = ['Расширенный поиск', 'Настройки', ...]
   await clickElement('Расширенный поиск');
   ```

@@ -10,7 +10,7 @@ allowed-tools:
 
 # /cf-init — Создание пустой конфигурации 1С
 
-Создаёт scaffold исходников пустой конфигурации 1С: `Configuration.xml`, `Languages/Русский.xml`.
+Создает scaffold исходников пустой конфигурации 1С: `Configuration.xml`, `Languages/Русский.xml`.
 
 ## Параметры и команда
 

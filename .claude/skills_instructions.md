@@ -132,7 +132,7 @@ LSP-интеграция над `BSL Language Server`. Не входит в сп
 
 ## Runtime notes
 
-- **Runtime**: PowerShell 5.1+ на Windows для большинства скиллов. Точный entrypoint - в `SKILL.md` конкретного скилла; одноимённого `scripts/<skill>.ps1` у части скиллов нет (делят общий скрипт внутри `scripts/` или вообще без PS1).
+- **Runtime**: PowerShell 5.1+ на Windows для большинства скиллов. Точный entrypoint - в `SKILL.md` конкретного скилла; одноименного `scripts/<skill>.ps1` у части скиллов нет (делят общий скрипт внутри `scripts/` или вообще без PS1).
 - **Исключения из PowerShell**:
   - `web-test` - Node.js 18+ и Playwright. Запуск: `node .claude/skills/web-test/scripts/run.mjs run <url> <scenario>` после первичного `npm install` в `.claude/skills/web-test/scripts/`. Флага help-sanity нет.
   - `img-grid` - Python (`.claude/skills/img-grid/scripts/overlay-grid.py`).

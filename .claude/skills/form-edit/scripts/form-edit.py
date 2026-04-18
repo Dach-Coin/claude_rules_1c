@@ -198,7 +198,7 @@ _FORM_TYPE_SYNONYMS = {
     "перечислениессылка": "EnumRef",
     "плансчетовссылка": "ChartOfAccountsRef",
     "планвидовхарактеристикссылка": "ChartOfCharacteristicTypesRef",
-    "планвидоврасчётассылка": "ChartOfCalculationTypesRef",
+    "планвидоврасчетассылка": "ChartOfCalculationTypesRef",
     "планвидоврасчетассылка": "ChartOfCalculationTypesRef",
     "планобменассылка": "ExchangePlanRef",
     "бизнеспроцессссылка": "BusinessProcessRef",

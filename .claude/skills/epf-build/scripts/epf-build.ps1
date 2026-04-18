@@ -2,7 +2,7 @@
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS
-    Сборка внешней обработки/отчёта 1С из XML-исходников
+    Сборка внешней обработки/отчета 1С из XML-исходников
 
 .DESCRIPTION
     Собирает EPF/ERF-файл из XML-исходников с помощью платформы 1С.
@@ -36,7 +36,7 @@
     .\epf-build.ps1 -InfoBasePath "C:\Bases\MyDB" -SourceFile "src\МояОбработка.xml" -OutputFile "build\МояОбработка.epf"
 
 .EXAMPLE
-    .\epf-build.ps1 -InfoBasePath "C:\Bases\MyDB" -SourceFile "src\МойОтчёт.xml" -OutputFile "build\МойОтчёт.erf"
+    .\epf-build.ps1 -InfoBasePath "C:\Bases\MyDB" -SourceFile "src\МойОтчет.xml" -OutputFile "build\МойОтчет.erf"
 #>
 
 [CmdletBinding()]

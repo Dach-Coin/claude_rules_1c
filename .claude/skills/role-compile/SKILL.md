@@ -24,7 +24,7 @@ allowed-tools:
 powershell.exe -NoProfile -File .claude/skills/role-compile/scripts/role-compile.ps1 -JsonPath "<json>" -OutputDir "<ConfigDir>"
 ```
 
-Создаёт `{OutputDir}/Roles/Имя.xml` и `{OutputDir}/Roles/Имя/Ext/Rights.xml`. Регистрирует `<Role>` в `Configuration.xml`.
+Создает `{OutputDir}/Roles/Имя.xml` и `{OutputDir}/Roles/Имя/Ext/Rights.xml`. Регистрирует `<Role>` в `Configuration.xml`.
 
 ## JSON DSL
 
@@ -55,7 +55,7 @@ powershell.exe -NoProfile -File .claude/skills/role-compile/scripts/role-compile
 
 | Пресет | Действие |
 |--------|----------|
-| `@view` | Просмотр — Read, View (+InputByString для справочников/документов; Use+View для обработок/отчётов) |
+| `@view` | Просмотр — Read, View (+InputByString для справочников/документов; Use+View для обработок/отчетов) |
 | `@edit` | Полное редактирование — CRUD + Interactive* + Posting (документы) |
 
 `@` обязателен в shorthand. В объектной форме — `"preset": "view"` без `@`.

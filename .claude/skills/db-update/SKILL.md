@@ -89,5 +89,5 @@ powershell.exe -NoProfile -File .claude/skills/db-update/scripts/db-update.ps1 -
 powershell.exe -NoProfile -File .claude/skills/db-update/scripts/db-update.ps1 -InfoBaseServer "srv01" -InfoBaseRef "MyDB" -UserName "Admin" -Password "secret" -Dynamic "+"
 
 # Обновление расширения
-powershell.exe -NoProfile -File .claude/skills/db-update/scripts/db-update.ps1 -InfoBasePath "C:\Bases\MyDB" -UserName "Admin" -Extension "МоёРасширение"
+powershell.exe -NoProfile -File .claude/skills/db-update/scripts/db-update.ps1 -InfoBasePath "C:\Bases\MyDB" -UserName "Admin" -Extension "МоеРасширение"
 ```

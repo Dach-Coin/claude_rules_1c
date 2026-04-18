@@ -1,5 +1,5 @@
 {
-  "name": "Макет с объединёнными ячейками (span + rowspan)",
+  "name": "Макет с объединенными ячейками (span + rowspan)",
   "input": {
     "columns": 4,
     "fonts": {

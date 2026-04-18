@@ -15,7 +15,7 @@ allowed-tools:
 1. **JSON DSL** — из JSON-определения формы
 2. **From object** (`-FromObject`) — автоматически из метаданных объекта 1С по пресету ERP
 
-> **При проектировании формы с нуля (5+ элементов или нечёткие требования)** — вызовите `/form-patterns` для загрузки справочника. Для простых форм (1–3 поля) — не нужно.
+> **При проектировании формы с нуля (5+ элементов или нечеткие требования)** — вызовите `/form-patterns` для загрузки справочника. Для простых форм (1–3 поля) — не нужно.
 
 ## Параметры
 
@@ -55,7 +55,7 @@ powershell.exe -NoProfile -File .claude/skills/form-compile/scripts/form-compile
 - `title` — заголовок формы (multilingual). Можно указать и в `properties`, но лучше на верхнем уровне
 - `properties` — свойства формы: `autoTitle`, `windowOpeningMode`, `commandBarLocation`, `saveDataInSettings`, `width`, `height` и др.
 - `events` — обработчики событий формы (ключ: имя события 1С, значение: имя процедуры)
-- `excludedCommands` — исключённые стандартные команды
+- `excludedCommands` — исключенные стандартные команды
 
 ### Элементы (ключ определяет тип)
 
@@ -64,7 +64,7 @@ powershell.exe -NoProfile -File .claude/skills/form-compile/scripts/form-compile
 | `"group"`    | UsualGroup        | `"horizontal"` / `"vertical"` / `"alwaysHorizontal"` / `"alwaysVertical"` / `"collapsible"` |
 | `"input"`    | InputField        | имя элемента                                      |
 | `"check"`    | CheckBoxField     | имя                                               |
-| `"label"`    | LabelDecoration   | имя (текст задаётся через `title`)                |
+| `"label"`    | LabelDecoration   | имя (текст задается через `title`)                |
 | `"labelField"` | LabelField      | имя                                               |
 | `"table"`    | Table             | имя                                               |
 | `"pages"`    | Pages             | имя                                               |
@@ -86,7 +86,7 @@ powershell.exe -NoProfile -File .claude/skills/form-compile/scripts/form-compile
 | `enabled: false` | Сделать недоступным (синоним: `disabled: true`) |
 | `readOnly: true` | Только чтение |
 | `on: [...]` | События с автоименованием обработчиков |
-| `handlers: {...}` | Явное задание имён обработчиков: `{"OnChange": "МоёИмя"}` |
+| `handlers: {...}` | Явное задание имен обработчиков: `{"OnChange": "МоеИмя"}` |
 
 ### Допустимые имена событий (`on`)
 
@@ -115,7 +115,7 @@ powershell.exe -NoProfile -File .claude/skills/form-compile/scripts/form-compile
 | `path` | DataPath — привязка к данным | `"Объект.Организация"` |
 | `titleLocation` | Размещение заголовка | `"none"`, `"left"`, `"top"` |
 | `multiLine: true` | Многострочное поле | текстовое поле, комментарий |
-| `passwordMode: true` | Режим пароля (звёздочки) | поле ввода пароля |
+| `passwordMode: true` | Режим пароля (звездочки) | поле ввода пароля |
 | `choiceButton: true` | Кнопка выбора ("...") | ссылочное поле |
 | `clearButton: true` | Кнопка очистки ("X") | |
 | `spinButton: true` | Кнопка прокрутки | числовые поля |
@@ -144,7 +144,7 @@ powershell.exe -NoProfile -File .claude/skills/form-compile/scripts/form-compile
 
 ### Группа (group)
 
-Значение ключа задаёт ориентацию: `"horizontal"`, `"vertical"`, `"alwaysHorizontal"`, `"alwaysVertical"`, `"collapsible"`.
+Значение ключа задает ориентацию: `"horizontal"`, `"vertical"`, `"alwaysHorizontal"`, `"alwaysVertical"`, `"collapsible"`.
 
 | Ключ | Описание |
 |------|----------|
@@ -268,7 +268,7 @@ powershell.exe -NoProfile -File .claude/skills/form-compile/scripts/form-compile
 | `"CatalogRef.XXX"` / `"CatalogObject.XXX"` | Справочник |
 | `"DocumentRef.XXX"` / `"DocumentObject.XXX"` | Документ |
 | `"EnumRef.XXX"` | Перечисление |
-| `"DataProcessorObject.XXX"` / `"ReportObject.XXX"` | Обработка / Отчёт |
+| `"DataProcessorObject.XXX"` / `"ReportObject.XXX"` | Обработка / Отчет |
 | `"InformationRegisterRecordSet.XXX"` | Набор записей регистра сведений |
 | `"AccumulationRegisterRecordSet.XXX"` | Набор записей регистра накопления |
 | `"DynamicList"` | Динамический список |
@@ -437,7 +437,7 @@ powershell.exe -NoProfile -File .claude/skills/form-compile/scripts/form-compile
 ## Workflow
 
 1. **Компиляция**: `/form-compile` генерирует `Form.xml` и автоматически регистрирует `<Form>` в `ChildObjects` родительского объекта (если OutputPath следует конвенции `.../TypePlural/ObjectName/Forms/FormName/Ext/Form.xml`).
-2. **Метаданные формы** (`ФормаСписка.xml`) и `Module.bsl` создаёт `/form-add`. Если `/form-add` ещё не вызывался — вызови после `/form-compile`. Он не перезаписывает существующий Form.xml.
+2. **Метаданные формы** (`ФормаСписка.xml`) и `Module.bsl` создает `/form-add`. Если `/form-add` еще не вызывался — вызови после `/form-compile`. Он не перезаписывает существующий Form.xml.
 3. **Проверка**: `/form-validate`, `/form-info`.
 
 ## Верификация

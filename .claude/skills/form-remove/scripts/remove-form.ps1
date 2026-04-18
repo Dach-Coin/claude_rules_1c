@@ -35,11 +35,11 @@ if (-not (Test-Path $formMetaPath)) {
 
 if (Test-Path $formDir) {
 	Remove-Item -Path $formDir -Recurse -Force
-	Write-Host "[OK] Удалён каталог: $formDir"
+	Write-Host "[OK] Удален каталог: $formDir"
 }
 
 Remove-Item -Path $formMetaPath -Force
-Write-Host "[OK] Удалён файл: $formMetaPath"
+Write-Host "[OK] Удален файл: $formMetaPath"
 
 # --- Модификация корневого XML ---
 

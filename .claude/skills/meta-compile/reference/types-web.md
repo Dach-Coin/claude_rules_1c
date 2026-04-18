@@ -45,7 +45,7 @@
 
 | Поле JSON | Умолчание | XML элемент |
 |-----------|----------|-------------|
-| `namespace` | `""` | Namespace (URI пространства имён WSDL) |
+| `namespace` | `""` | Namespace (URI пространства имен WSDL) |
 | `xdtoPackages` | `""` | XDTOPackages |
 | `reuseSessions` | `DontUse` | ReuseSessions |
 | `sessionMaxAge` | `20` | SessionMaxAge |

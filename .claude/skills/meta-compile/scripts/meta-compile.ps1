@@ -8,6 +8,13 @@ param(
 	[string]$OutputDir
 )
 
+# --- yo-normalization helper (kept separate so no yo character ever appears in source)
+function Normalize-Yo {
+	param([string]$s)
+	if (-not $s) { return $s }
+	return $s.Replace([char]0x0451, [char]0x0435).Replace([char]0x0401, [char]0x0415)
+}
+
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
@@ -58,17 +65,14 @@ $script:objectTypeSynonyms = @{
 	"РегистрСведений"         = "InformationRegister"
 	"РегистрНакопления"       = "AccumulationRegister"
 	"РегистрБухгалтерии"      = "AccountingRegister"
-	"РегистрРасчёта"          = "CalculationRegister"
 	"РегистрРасчета"          = "CalculationRegister"
 	"ПланСчетов"              = "ChartOfAccounts"
 	"ПланВидовХарактеристик"  = "ChartOfCharacteristicTypes"
-	"ПланВидовРасчёта"        = "ChartOfCalculationTypes"
 	"ПланВидовРасчета"        = "ChartOfCalculationTypes"
 	"БизнесПроцесс"           = "BusinessProcess"
 	"Задача"                  = "Task"
 	"ПланОбмена"              = "ExchangePlan"
 	"ЖурналДокументов"        = "DocumentJournal"
-	"Отчёт"                   = "Report"
 	"Отчет"                   = "Report"
 	"Обработка"               = "DataProcessor"
 	"ОбщийМодуль"             = "CommonModule"
@@ -176,8 +180,8 @@ if (-not $def.type) {
 
 # Resolve type synonym
 $objType = "$($def.type)"
-if ($script:objectTypeSynonyms.ContainsKey($objType)) {
-	$objType = $script:objectTypeSynonyms[$objType]
+if ($script:objectTypeSynonyms.ContainsKey((Normalize-Yo $objType))) {
+	$objType = $script:objectTypeSynonyms[(Normalize-Yo $objType)]
 }
 
 $validTypes = @("Catalog","Document","Enum","Constant","InformationRegister","AccumulationRegister",
@@ -235,7 +239,7 @@ function Split-CamelCase {
 	param([string]$name)
 	if (-not $name) { return $name }
 	# Insert space before uppercase that follows lowercase (Cyrillic + Latin)
-	$result = [regex]::Replace($name, '([а-яё])([А-ЯЁ])', '$1 $2')
+	$result = [regex]::Replace($name, '([а-яе])([А-ЯЕ])', '$1 $2')
 	$result = [regex]::Replace($result, '([a-z])([A-Z])', '$1 $2')
 	# Lowercase all but first character of the result
 	if ($result.Length -gt 1) {
@@ -268,7 +272,6 @@ $script:typeSynonyms["документссылка"]               = "DocumentRe
 $script:typeSynonyms["перечислениессылка"]            = "EnumRef"
 $script:typeSynonyms["плансчетовссылка"]              = "ChartOfAccountsRef"
 $script:typeSynonyms["планвидовхарактеристикссылка"]  = "ChartOfCharacteristicTypesRef"
-$script:typeSynonyms["планвидоврасчётассылка"]         = "ChartOfCalculationTypesRef"
 $script:typeSynonyms["планвидоврасчетассылка"]         = "ChartOfCalculationTypesRef"
 $script:typeSynonyms["планобменассылка"]               = "ExchangePlanRef"
 $script:typeSynonyms["бизнеспроцессссылка"]            = "BusinessProcessRef"
@@ -288,7 +291,7 @@ function Resolve-TypeStr {
 	if ($typeStr -match '^([^(]+)\((.+)\)$') {
 		$baseName = $Matches[1].Trim()
 		$params = $Matches[2]
-		$resolved = $script:typeSynonyms[$baseName.ToLower()]
+		$resolved = $script:typeSynonyms[(Normalize-Yo $baseName.ToLower())]
 		if ($resolved) { return "$resolved($params)" }
 		return $typeStr
 	}
@@ -298,13 +301,13 @@ function Resolve-TypeStr {
 		$dotIdx = $typeStr.IndexOf('.')
 		$prefix = $typeStr.Substring(0, $dotIdx)
 		$suffix = $typeStr.Substring($dotIdx)  # includes the dot
-		$resolved = $script:typeSynonyms[$prefix.ToLower()]
+		$resolved = $script:typeSynonyms[(Normalize-Yo $prefix.ToLower())]
 		if ($resolved) { return "$resolved$suffix" }
 		return $typeStr
 	}
 
 	# Simple name lookup
-	$resolved = $script:typeSynonyms[$typeStr.ToLower()]
+	$resolved = $script:typeSynonyms[(Normalize-Yo $typeStr.ToLower())]
 	if ($resolved) { return $resolved }
 
 	return $typeStr
@@ -1238,8 +1241,8 @@ function Emit-DocumentProperties {
 				$dotIdx = $rrStr.IndexOf('.')
 				$rrPrefix = $rrStr.Substring(0, $dotIdx)
 				$rrSuffix = $rrStr.Substring($dotIdx + 1)
-				if ($script:objectTypeSynonyms.ContainsKey($rrPrefix)) {
-					$rrPrefix = $script:objectTypeSynonyms[$rrPrefix]
+				if ($script:objectTypeSynonyms.ContainsKey((Normalize-Yo $rrPrefix))) {
+					$rrPrefix = $script:objectTypeSynonyms[(Normalize-Yo $rrPrefix)]
 				}
 				$regRecords += "$rrPrefix.$rrSuffix"
 			} else {
@@ -1833,8 +1836,8 @@ function Emit-DocumentJournalProperties {
 				$dotIdx = $rdStr.IndexOf('.')
 				$rdPrefix = $rdStr.Substring(0, $dotIdx)
 				$rdSuffix = $rdStr.Substring($dotIdx + 1)
-				if ($script:objectTypeSynonyms.ContainsKey($rdPrefix)) {
-					$rdPrefix = $script:objectTypeSynonyms[$rdPrefix]
+				if ($script:objectTypeSynonyms.ContainsKey((Normalize-Yo $rdPrefix))) {
+					$rdPrefix = $script:objectTypeSynonyms[(Normalize-Yo $rdPrefix)]
 				}
 				$rdStr = "$rdPrefix.$rdSuffix"
 			}

@@ -35,11 +35,11 @@ if (-not (Test-Path $templateMetaPath)) {
 
 if (Test-Path $templateDir) {
 	Remove-Item -Path $templateDir -Recurse -Force
-	Write-Host "[OK] Удалён каталог: $templateDir"
+	Write-Host "[OK] Удален каталог: $templateDir"
 }
 
 Remove-Item -Path $templateMetaPath -Force
-Write-Host "[OK] Удалён файл: $templateMetaPath"
+Write-Host "[OK] Удален файл: $templateMetaPath"
 
 # --- Модификация корневого XML ---
 
@@ -70,7 +70,7 @@ foreach ($node in $templateNodes) {
 $mainDCS = $xmlDoc.SelectSingleNode("//md:MainDataCompositionSchema", $nsMgr)
 if ($mainDCS -and $mainDCS.InnerText -match "Template\.$([regex]::Escape($TemplateName))$") {
 	$mainDCS.InnerText = ""
-	Write-Host "[OK] Очищён MainDataCompositionSchema"
+	Write-Host "[OK] Очищен MainDataCompositionSchema"
 }
 
 # Сохранить с BOM
@@ -85,4 +85,4 @@ $xmlDoc.Save($writer)
 $writer.Close()
 $stream.Close()
 
-Write-Host "[OK] Макет $TemplateName удалён из $rootXmlPath"
+Write-Host "[OK] Макет $TemplateName удален из $rootXmlPath"

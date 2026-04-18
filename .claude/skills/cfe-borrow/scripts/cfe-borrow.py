@@ -52,7 +52,25 @@ CHILD_TYPE_DIR_MAP = {
     "CommonAttribute": "CommonAttributes", "Style": "Styles",
 }
 
-SYNONYM_MAP = {
+class _YoNormDict(dict):
+    _Y_LO = '\u0451'
+    _Y_UP = '\u0401'
+    _E_LO = '\u0435'
+    _E_UP = '\u0415'
+    @classmethod
+    def _norm(cls, k):
+        if isinstance(k, str):
+            return k.replace(cls._Y_LO, cls._E_LO).replace(cls._Y_UP, cls._E_UP)
+        return k
+    def __contains__(self, k):
+        return super().__contains__(self._norm(k))
+    def __getitem__(self, k):
+        return super().__getitem__(self._norm(k))
+    def get(self, k, default=None):
+        return super().get(self._norm(k), default)
+
+
+SYNONYM_MAP = _YoNormDict({
     "\u0421\u043f\u0440\u0430\u0432\u043e\u0447\u043d\u0438\u043a": "Catalog",
     "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442": "Document",
     "\u041f\u0435\u0440\u0435\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u0435": "Enum",
@@ -62,7 +80,6 @@ SYNONYM_MAP = {
     "\u041e\u0431\u0449\u0438\u0439\u041c\u0430\u043a\u0435\u0442": "CommonTemplate",
     "\u041f\u043b\u0430\u043d\u041e\u0431\u043c\u0435\u043d\u0430": "ExchangePlan",
     "\u041e\u0442\u0447\u0435\u0442": "Report",
-    "\u041e\u0442\u0447\u0451\u0442": "Report",
     "\u041e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0430": "DataProcessor",
     "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0421\u0432\u0435\u0434\u0435\u043d\u0438\u0439": "InformationRegister",
     "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u041d\u0430\u043a\u043e\u043f\u043b\u0435\u043d\u0438\u044f": "AccumulationRegister",
@@ -88,7 +105,7 @@ SYNONYM_MAP = {
     "\u041f\u0430\u043a\u0435\u0442XDTO": "XDTOPackage",
     "HTTP\u0421\u0435\u0440\u0432\u0438\u0441": "HTTPService",
     "\u0421\u0435\u0440\u0432\u0438\u0441\u0418\u043d\u0442\u0435\u0433\u0440\u0430\u0446\u0438\u0438": "IntegrationService",
-}
+})
 
 TYPE_ORDER = [
     "Language", "Subsystem", "StyleItem", "Style",

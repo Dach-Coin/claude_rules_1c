@@ -1,6 +1,6 @@
 ---
 name: erf-dump
-description: Разобрать ERF-файл отчёта 1С в XML-исходники. Используй когда пользователь просит разобрать, декомпилировать отчёт, получить исходники из ERF файла
+description: Разобрать ERF-файл отчета 1С в XML-исходники. Используй когда пользователь просит разобрать, декомпилировать отчет, получить исходники из ERF файла
 argument-hint: <ErfFile>
 allowed-tools:
   - Bash
@@ -9,7 +9,7 @@ allowed-tools:
   - Grep
 ---
 
-# /erf-dump — Разборка отчёта
+# /erf-dump — Разборка отчета
 
 ## Usage
 
@@ -63,9 +63,9 @@ powershell.exe -NoProfile -File .claude/skills/epf-dump/scripts/epf-dump.ps1 <п
 ## Примеры
 
 ```powershell
-# Разборка отчёта (файловая база)
-powershell.exe -NoProfile -File .claude/skills/epf-dump/scripts/epf-dump.ps1 -InfoBasePath "C:\Bases\MyDB" -InputFile "build/МойОтчёт.erf" -OutputDir "src"
+# Разборка отчета (файловая база)
+powershell.exe -NoProfile -File .claude/skills/epf-dump/scripts/epf-dump.ps1 -InfoBasePath "C:\Bases\MyDB" -InputFile "build/МойОтчет.erf" -OutputDir "src"
 
 # Серверная база
-powershell.exe -NoProfile -File .claude/skills/epf-dump/scripts/epf-dump.ps1 -InfoBaseServer "srv01" -InfoBaseRef "MyDB" -UserName "Admin" -Password "secret" -InputFile "build/МойОтчёт.erf" -OutputDir "src"
+powershell.exe -NoProfile -File .claude/skills/epf-dump/scripts/epf-dump.ps1 -InfoBaseServer "srv01" -InfoBaseRef "MyDB" -UserName "Admin" -Password "secret" -InputFile "build/МойОтчет.erf" -OutputDir "src"
 ```

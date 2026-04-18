@@ -19,7 +19,7 @@ tools/ffmpeg/
 └── ...
 ```
 
-Код автоматически найдёт `tools/ffmpeg/bin/ffmpeg.exe` — ничего больше настраивать не нужно.
+Код автоматически найдет `tools/ffmpeg/bin/ffmpeg.exe` — ничего больше настраивать не нужно.
 
 ### Вариант 2: глобально (один раз на машину)
 
@@ -211,7 +211,7 @@ await showCaption('Шаг 2. Открываем заказы клиентов');
 await wait(1.5);
 await openCommand('Заказы клиентов');
 
-await showCaption('Шаг 3. Создаём новый заказ');
+await showCaption('Шаг 3. Создаем новый заказ');
 await wait(1.5);
 await clickElement('Создать');
 await wait(2); // wait for form to load

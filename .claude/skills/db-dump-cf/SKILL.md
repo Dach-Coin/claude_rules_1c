@@ -75,5 +75,5 @@ powershell.exe -NoProfile -File .claude/skills/db-dump-cf/scripts/db-dump-cf.ps1
 powershell.exe -NoProfile -File .claude/skills/db-dump-cf/scripts/db-dump-cf.ps1 -InfoBaseServer "srv01" -InfoBaseRef "MyApp_Dev" -UserName "Admin" -Password "secret" -OutputFile "config.cf"
 
 # Выгрузка расширения
-powershell.exe -NoProfile -File .claude/skills/db-dump-cf/scripts/db-dump-cf.ps1 -InfoBasePath "C:\Bases\MyDB" -UserName "Admin" -OutputFile "ext.cfe" -Extension "МоёРасширение"
+powershell.exe -NoProfile -File .claude/skills/db-dump-cf/scripts/db-dump-cf.ps1 -InfoBasePath "C:\Bases\MyDB" -UserName "Admin" -OutputFile "ext.cfe" -Extension "МоеРасширение"
 ```

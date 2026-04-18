@@ -64,7 +64,7 @@ powershell.exe -NoProfile -File .claude/skills/db-dump-xml/scripts/db-dump-xml.p
 | Режим | Описание |
 |-------|----------|
 | `Full` | Полная выгрузка — все объекты конфигурации |
-| `Changes` | Инкрементальная — только изменённые с последней выгрузки (использует ConfigDumpInfo.xml) |
+| `Changes` | Инкрементальная — только измененные с последней выгрузки (использует ConfigDumpInfo.xml) |
 | `Partial` | Частичная — выбранные объекты из параметра `-Objects` |
 | `UpdateInfo` | Обновить только ConfigDumpInfo.xml без выгрузки файлов |
 
@@ -93,5 +93,5 @@ powershell.exe -NoProfile -File .claude/skills/db-dump-xml/scripts/db-dump-xml.p
 powershell.exe -NoProfile -File .claude/skills/db-dump-xml/scripts/db-dump-xml.ps1 -InfoBaseServer "srv01" -InfoBaseRef "MyApp_Dev" -UserName "Admin" -Password "secret" -ConfigDir "C:\WS\cfsrc" -Mode Full
 
 # Выгрузка расширения
-powershell.exe -NoProfile -File .claude/skills/db-dump-xml/scripts/db-dump-xml.ps1 -InfoBasePath "C:\Bases\MyDB" -UserName "Admin" -ConfigDir "C:\WS\ext_src" -Mode Full -Extension "МоёРасширение"
+powershell.exe -NoProfile -File .claude/skills/db-dump-xml/scripts/db-dump-xml.ps1 -InfoBasePath "C:\Bases\MyDB" -UserName "Admin" -ConfigDir "C:\WS\ext_src" -Mode Full -Extension "МоеРасширение"
 ```

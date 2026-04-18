@@ -1477,7 +1477,7 @@ _FORM_TYPE_SYNONYMS = {
     "перечислениессылка": "EnumRef",
     "плансчетовссылка": "ChartOfAccountsRef",
     "планвидовхарактеристикссылка": "ChartOfCharacteristicTypesRef",
-    "планвидоврасчётассылка": "ChartOfCalculationTypesRef",
+    "планвидоврасчетассылка": "ChartOfCalculationTypesRef",
     "планвидоврасчетассылка": "ChartOfCalculationTypesRef",
     "планобменассылка": "ExchangePlanRef",
     "бизнеспроцессссылка": "BusinessProcessRef",
@@ -2128,7 +2128,7 @@ def emit_attributes(lines, attrs, indent):
     lines.append(f'{indent}<Attributes>')
     for attr in attrs:
         attr_id = new_id()
-        attr_name = str(attr['name'])
+        attr_name = str(attr.get('name') or attr.get('id') or '')
 
         lines.append(f'{indent}\t<Attribute name="{attr_name}" id="{attr_id}">')
         inner = f'{indent}\t\t'
@@ -2207,7 +2207,8 @@ def emit_commands(lines, cmds, indent):
     lines.append(f'{indent}<Commands>')
     for cmd in cmds:
         cmd_id = new_id()
-        lines.append(f'{indent}\t<Command name="{cmd["name"]}" id="{cmd_id}">')
+        cmd_name = str(cmd.get('name') or cmd.get('id') or '')
+        lines.append(f'{indent}\t<Command name="{cmd_name}" id="{cmd_id}">')
         inner = f'{indent}\t\t'
 
         if cmd.get('title'):

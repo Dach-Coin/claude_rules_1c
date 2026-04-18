@@ -201,7 +201,7 @@ powershell.exe -NoProfile -File .claude/skills/epf-init/scripts/init.ps1 -NameB6
 ### web
 
 - `web-test` - Node.js 18+ и Playwright. Первичная инициализация: `cd .claude/skills/web-test/scripts && npm install` (тянет Playwright и Chromium). Запуск сценария: `node .claude/skills/web-test/scripts/run.mjs run <url> <scenario.js>`. Без установленных зависимостей скилл падает - help-флага sanity-mode у него нет.
-- URL берётся из `.v8-project.json` (`webUrl` или `http://localhost:8081/<id>`); база должна быть предварительно опубликована через `web-publish`.
+- URL берется из `.v8-project.json` (`webUrl` или `http://localhost:8081/<id>`); база должна быть предварительно опубликована через `web-publish`.
 - `web-publish` требует поднятый Apache; статус - `web-info`, остановка сервера - `web-stop`, снятие публикации - `web-unpublish` (сам Apache не трогает).
 
 ## SSL / БСП

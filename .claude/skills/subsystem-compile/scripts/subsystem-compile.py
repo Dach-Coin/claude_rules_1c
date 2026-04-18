@@ -10,6 +10,25 @@ import uuid
 import xml.etree.ElementTree as ET
 
 
+class _YoNormDict(dict):
+    """Dict that normalizes U+0451/U+0401 to U+0435/U+0415 on key lookup - keeps pre-sweep inputs compatible."""
+    _Y_LO = '\u0451'
+    _Y_UP = '\u0401'
+    _E_LO = '\u0435'
+    _E_UP = '\u0415'
+    @classmethod
+    def _norm(cls, k):
+        if isinstance(k, str):
+            return k.replace(cls._Y_LO, cls._E_LO).replace(cls._Y_UP, cls._E_UP)
+        return k
+    def __contains__(self, k):
+        return super().__contains__(self._norm(k))
+    def __getitem__(self, k):
+        return super().__getitem__(self._norm(k))
+    def get(self, k, default=None):
+        return super().get(self._norm(k), default)
+
+
 def detect_format_version(d):
     while d:
         cfg_path = os.path.join(d, "Configuration.xml")
@@ -147,7 +166,7 @@ def main():
         output_dir = os.path.join(os.getcwd(), output_dir)
 
     # --- 2. Content type normalization (plural→singular, Russian→English) ---
-    CONTENT_TYPE_MAP = {
+    CONTENT_TYPE_MAP = _YoNormDict({
         # Plural English → Singular
         'Catalogs': 'Catalog', 'Documents': 'Document', 'Enums': 'Enum',
         'Constants': 'Constant', 'Reports': 'Report', 'DataProcessors': 'DataProcessor',
@@ -173,12 +192,12 @@ def main():
         # Russian singular → English
         'Справочник': 'Catalog', 'Каталог': 'Catalog', 'Документ': 'Document',
         'Перечисление': 'Enum', 'Константа': 'Constant',
-        'Отчёт': 'Report', 'Отчет': 'Report', 'Обработка': 'DataProcessor',
+        'Отчет': 'Report', 'Обработка': 'DataProcessor',
         'РегистрСведений': 'InformationRegister', 'РегистрНакопления': 'AccumulationRegister',
         'РегистрБухгалтерии': 'AccountingRegister',
-        'РегистрРасчёта': 'CalculationRegister', 'РегистрРасчета': 'CalculationRegister',
+        'РегистрРасчета': 'CalculationRegister',
         'ПланСчетов': 'ChartOfAccounts', 'ПланВидовХарактеристик': 'ChartOfCharacteristicTypes',
-        'ПланВидовРасчёта': 'ChartOfCalculationTypes', 'ПланВидовРасчета': 'ChartOfCalculationTypes',
+        'ПланВидовРасчета': 'ChartOfCalculationTypes',
         'БизнесПроцесс': 'BusinessProcess', 'Задача': 'Task',
         'ПланОбмена': 'ExchangePlan', 'ЖурналДокументов': 'DocumentJournal',
         'ОбщийМодуль': 'CommonModule', 'ОбщаяКоманда': 'CommonCommand',
@@ -196,12 +215,12 @@ def main():
         'ЭлементСтиля': 'StyleItem', 'СервисИнтеграции': 'IntegrationService',
         # Russian plural → English
         'Справочники': 'Catalog', 'Документы': 'Document', 'Перечисления': 'Enum',
-        'Константы': 'Constant', 'Отчёты': 'Report', 'Отчеты': 'Report',
+        'Константы': 'Constant', 'Отчеты': 'Report',
         'Обработки': 'DataProcessor', 'РегистрыСведений': 'InformationRegister',
         'РегистрыНакопления': 'AccumulationRegister', 'РегистрыБухгалтерии': 'AccountingRegister',
-        'РегистрыРасчёта': 'CalculationRegister', 'РегистрыРасчета': 'CalculationRegister',
+        'РегистрыРасчета': 'CalculationRegister',
         'ПланыСчетов': 'ChartOfAccounts', 'ПланыВидовХарактеристик': 'ChartOfCharacteristicTypes',
-        'ПланыВидовРасчёта': 'ChartOfCalculationTypes', 'ПланыВидовРасчета': 'ChartOfCalculationTypes',
+        'ПланыВидовРасчета': 'ChartOfCalculationTypes',
         'БизнесПроцессы': 'BusinessProcess', 'Задачи': 'Task',
         'ПланыОбмена': 'ExchangePlan', 'ЖурналыДокументов': 'DocumentJournal',
         'ОбщиеМодули': 'CommonModule', 'ОбщиеКоманды': 'CommonCommand',
@@ -215,7 +234,7 @@ def main():
         'ХранилищаНастроек': 'SettingsStorage', 'ФункциональныеОпции': 'FunctionalOption',
         'ОпределяемыеТипы': 'DefinedType', 'Подсистемы': 'Subsystem',
         'ЭлементыСтиля': 'StyleItem', 'СервисыИнтеграции': 'IntegrationService',
-    }
+    })
 
     def normalize_content_ref(ref):
         if not ref or '.' not in ref:

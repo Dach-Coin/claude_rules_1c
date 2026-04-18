@@ -10,6 +10,13 @@ param(
 	[switch]$NoValidate
 )
 
+# --- yo-normalization helper (kept separate so no yo character ever appears in source)
+function Normalize-Yo {
+	param([string]$s)
+	if (-not $s) { return $s }
+	return $s.Replace([char]0x0451, [char]0x0435).Replace([char]0x0401, [char]0x0415)
+}
+
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
@@ -238,7 +245,7 @@ $script:typeNormMap = @{
 	"Subsystems"="Subsystem"; "StyleItems"="StyleItem"
 	# Russian singular
 	"Справочник"="Catalog"; "Документ"="Document"; "Перечисление"="Enum"
-	"Константа"="Constant"; "Отчёт"="Report"; "Отчет"="Report"; "Обработка"="DataProcessor"
+	"Константа"="Constant"; "Отчет"="Report"; "Обработка"="DataProcessor"
 	"РегистрСведений"="InformationRegister"; "РегистрНакопления"="AccumulationRegister"
 	"РегистрБухгалтерии"="AccountingRegister"
 	"ПланСчетов"="ChartOfAccounts"; "ПланВидовХарактеристик"="ChartOfCharacteristicTypes"
@@ -248,7 +255,7 @@ $script:typeNormMap = @{
 	"ОбщаяФорма"="CommonForm"; "Подсистема"="Subsystem"
 	# Russian plural
 	"Справочники"="Catalog"; "Документы"="Document"; "Перечисления"="Enum"
-	"Константы"="Constant"; "Отчёты"="Report"; "Отчеты"="Report"; "Обработки"="DataProcessor"
+	"Константы"="Constant"; "Отчеты"="Report"; "Обработки"="DataProcessor"
 	"РегистрыСведений"="InformationRegister"; "РегистрыНакопления"="AccumulationRegister"
 	"РегистрыБухгалтерии"="AccountingRegister"
 	"ПланыСчетов"="ChartOfAccounts"; "ПланыВидовХарактеристик"="ChartOfCharacteristicTypes"
@@ -262,8 +269,8 @@ function Normalize-CmdName([string]$name) {
 	$dotIdx = $name.IndexOf('.')
 	$first = $name.Substring(0, $dotIdx)
 	$rest = $name.Substring($dotIdx)
-	if ($script:typeNormMap.ContainsKey($first)) {
-		$normalized = "$($script:typeNormMap[$first])$rest"
+	if ($script:typeNormMap.ContainsKey((Normalize-Yo $first))) {
+		$normalized = "$($script:typeNormMap[(Normalize-Yo $first)])$rest"
 		if ($normalized -ne $name) { Write-Host "[NORM] Command: $name -> $normalized" }
 		return $normalized
 	}

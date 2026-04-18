@@ -52,7 +52,25 @@ def write_utf8_bom(path, content):
 
 # --- Russian synonyms -> canonical English names ---
 
-TYPE_ALIASES = {
+class _YoNormDict(dict):
+    _Y_LO = '\u0451'
+    _Y_UP = '\u0401'
+    _E_LO = '\u0435'
+    _E_UP = '\u0415'
+    @classmethod
+    def _norm(cls, k):
+        if isinstance(k, str):
+            return k.replace(cls._Y_LO, cls._E_LO).replace(cls._Y_UP, cls._E_UP)
+        return k
+    def __contains__(self, k):
+        return super().__contains__(self._norm(k))
+    def __getitem__(self, k):
+        return super().__getitem__(self._norm(k))
+    def get(self, k, default=None):
+        return super().get(self._norm(k), default)
+
+
+TYPE_ALIASES = _YoNormDict({
     "Справочник": "Catalog",
     "Документ": "Document",
     "РегистрСведений": "InformationRegister",
@@ -89,9 +107,9 @@ TYPE_ALIASES = {
     "Ресурс": "Resource",
     "Команда": "Command",
     "РеквизитАдресации": "AddressingAttribute",
-}
+})
 
-RIGHT_ALIASES = {
+RIGHT_ALIASES = _YoNormDict({
     "Чтение": "Read",
     "Добавление": "Insert",
     "Изменение": "Update",
@@ -128,7 +146,7 @@ RIGHT_ALIASES = {
     "Вывод": "Output",
     "СохранениеДанныхПользователя": "SaveUserData",
     "МобильныйКлиент": "MobileClient",
-}
+})
 
 # --- Known rights per object type ---
 

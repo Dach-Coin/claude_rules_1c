@@ -99,5 +99,5 @@ Skill dispatch - see `.claude/skills_instructions.md`.
 - Identifiers, comments and user-facing messages use native 1C/Russian terms. No anglicisms borrowed from other stacks: not `дебаунс`, `UI`, `триггерить`, `батч`, `воркфлоу`, `тоггл`, `коммит`, `мердж`, `деплой`, `фолбэк` etc.
 - Equivalents: `дебаунс` → `отложенное обновление / задержка обновления`; `UI` → `форма / интерфейс / состояние формы`; `батч-запрос` → `пакетный запрос`; `триггерить` → `запускать / вызывать`; `коммит` → `фиксация транзакции`.
 - Error text in exception handlers: always `ОбработкаОшибок.ПодробноеПредставлениеОшибки(ИнформацияОбОшибке())`, never the bare `ПодробноеПредставлениеОшибки(...)` (it is deprecated since 8.3.17).
-- Repository typography: no em-dash, en-dash, or letter `ё`/`Ё` anywhere - use plain ASCII `-` and `е`/`Е`. See `.claude/rules/dev-standards-core.md` § Repository Typography.
+- Repository typography: no em-dash, en-dash, or Cyrillic yo (`U+0451` / `U+0401`, HTML entities `&#1105;` / `&#1025;`) anywhere - use plain ASCII `-` and regular `е` / `Е` (`U+0435` / `U+0415`). See `.claude/rules/dev-standards-core.md` § Repository Typography.
 - Comments in code must be terse and motive-only. See `.claude/rules/project_rules.md` § Comments / Human-like comments - no banner separators, no module-header preambles, no narration of the next line.

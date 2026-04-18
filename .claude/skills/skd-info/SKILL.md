@@ -1,6 +1,6 @@
 ---
 name: skd-info
-description: Анализ структуры схемы компоновки данных 1С (СКД) — наборы, поля, параметры, варианты. Используй для понимания отчёта — источник данных (запрос), доступные поля, параметры
+description: Анализ структуры схемы компоновки данных 1С (СКД) — наборы, поля, параметры, варианты. Используй для понимания отчета — источник данных (запрос), доступные поля, параметры
 argument-hint: <TemplatePath> [-Mode overview|query|fields|links|calculated|resources|params|variant|templates|trace|full] [-Name <dataset|variant|field|group>]
 allowed-tools:
   - Bash
@@ -61,7 +61,7 @@ powershell.exe -NoProfile -File .claude/skills/skd-info/scripts/skd-info.ps1 -Te
 ## Типичный workflow
 
 1. `overview` — понять структуру, увидеть подсказки
-2. `trace -Name <поле>` — узнать как считается колонка отчёта (от заголовка до запроса за один вызов)
+2. `trace -Name <поле>` — узнать как считается колонка отчета (от заголовка до запроса за один вызов)
 3. `query -Name <набор>` — посмотреть текст SQL-запроса
 4. `variant -Name <N>` — посмотреть группировки и фильтры варианта
 

@@ -109,7 +109,7 @@ def main():
     module_path = os.path.join(ext_dir, "ObjectModule.bsl")
     write_utf8_bom(module_path, module_bsl)
 
-    print(f"[OK] Создан отчёт: {root_file}")
+    print(f"[OK] Создан отчет: {root_file}")
     print(f"     Каталог: {report_dir}")
     print(f"     Модуль:  {module_path}")
 

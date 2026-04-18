@@ -232,5 +232,5 @@ Write-Host "     Метаданные: $formMetaPath"
 Write-Host "     Описание:   $formXmlPath"
 Write-Host "     Модуль:     $modulePath"
 if ($Main -or $isFirstForm) {
-	Write-Host "     DefaultForm обновлён"
+	Write-Host "     DefaultForm обновлен"
 }

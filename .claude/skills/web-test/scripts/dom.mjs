@@ -413,7 +413,7 @@ export function readSectionsScript() {
 /** Read open tabs bar. */
 export function readTabsScript() {
   return `(() => {
-    const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/ё/gi, 'е');
+    const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/\\u0451/gi, 'е');
     const tabs = [];
     document.querySelectorAll('[id^="openedCell_cmd_"]').forEach(el => {
       const text = norm(el.innerText);
@@ -429,8 +429,8 @@ export function readTabsScript() {
 /** Switch to a tab by name (fuzzy match). Returns matched name or { error, available }. */
 export function switchTabScript(name) {
   return `(() => {
-    const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/ё/gi, 'е');
-    const target = ${JSON.stringify(name.toLowerCase().replace(/ё/g, 'е'))};
+    const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/\\u0451/gi, 'е');
+    const target = ${JSON.stringify(name.toLowerCase().replace(/\u0451/g, 'е'))};
     const tabs = [...document.querySelectorAll('[id^="openedCell_cmd_"]')].filter(el => el.offsetWidth > 0 && norm(el.innerText));
     let best = tabs.find(el => norm(el.innerText).toLowerCase() === target);
     if (!best) best = tabs.find(el => norm(el.innerText).toLowerCase().includes(target));
@@ -478,8 +478,8 @@ export function resolveGridScript(formNum, tableName) {
   const p = `form${formNum}_`;
   return `(() => {
     const p = ${JSON.stringify(p)};
-    const target = ${JSON.stringify(tableName.toLowerCase().replace(/ё/g, 'е'))};
-    const norm = s => (s || '').replace(/ё/gi, 'е');
+    const target = ${JSON.stringify(tableName.toLowerCase().replace(/\u0451/g, 'е'))};
+    const norm = s => (s || '').replace(/\u0451/gi, 'е');
     const allGrids = [...document.querySelectorAll('[id^="' + p + '"].grid, [id^="' + p + '"] .grid')]
       .filter(g => g.offsetWidth > 0 && g.offsetHeight > 0);
     if (!allGrids.length) return { error: 'no_grids', message: 'No grids found on form' };
@@ -753,8 +753,8 @@ export function getFormStateScript() {
  */
 export function navigateSectionScript(name) {
   return `(() => {
-    const norm = s => (s?.trim().replace(/\\u00a0/g, ' ').replace(/[\\r\\n]+/g, ' ').replace(/  +/g, ' ') || '').replace(/ё/gi, 'е');
-    const target = ${JSON.stringify(name.toLowerCase().replace(/ё/g, 'е').replace(/[\r\n]+/g, ' ').replace(/  +/g, ' '))};
+    const norm = s => (s?.trim().replace(/\\u00a0/g, ' ').replace(/[\\r\\n]+/g, ' ').replace(/  +/g, ' ') || '').replace(/\\u0451/gi, 'е');
+    const target = ${JSON.stringify(name.toLowerCase().replace(/\u0451/g, 'е').replace(/[\r\n]+/g, ' ').replace(/  +/g, ' '))};
     const els = [...document.querySelectorAll('[id^="themesCell_theme_"]')];
     let bestEl = els.find(el => norm(el.innerText).toLowerCase() === target);
     if (!bestEl) bestEl = els.find(el => norm(el.innerText).toLowerCase().includes(target));
@@ -768,8 +768,8 @@ export function navigateSectionScript(name) {
  */
 export function openCommandScript(name) {
   return `(() => {
-    const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/ё/gi, 'е');
-    const target = ${JSON.stringify(name.toLowerCase().replace(/ё/g, 'е'))};
+    const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/\\u0451/gi, 'е');
+    const target = ${JSON.stringify(name.toLowerCase().replace(/\u0451/g, 'е'))};
     const els = [...document.querySelectorAll('[id^="cmd_"][id$="_txt"]')].filter(el => el.offsetWidth > 0);
     let bestEl = els.find(el => norm(el.innerText).toLowerCase() === target);
     if (!bestEl) bestEl = els.find(el => norm(el.innerText).toLowerCase().includes(target));
@@ -787,8 +787,8 @@ export function openCommandScript(name) {
 export function findClickTargetScript(formNum, text, { tableName, gridSelector } = {}) {
   const p = `form${formNum}_`;
   return `(() => {
-    const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/ё/gi, 'е');
-    const target = ${JSON.stringify(text.toLowerCase().replace(/ё/g, 'е'))};
+    const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/\\u0451/gi, 'е');
+    const target = ${JSON.stringify(text.toLowerCase().replace(/\u0451/g, 'е'))};
     const p = ${JSON.stringify(p)};
     const tableName = ${JSON.stringify(tableName || '')};
     const gridSelector = ${JSON.stringify(gridSelector || '')};
@@ -968,7 +968,7 @@ export function findFieldButtonScript(formNum, fieldName, buttonSuffix = 'DLB') 
   const p = `form${formNum}_`;
   return `(() => {
     const p = ${JSON.stringify(p)};
-    const target = ${JSON.stringify(fieldName.toLowerCase().replace(/ё/g, 'е'))};
+    const target = ${JSON.stringify(fieldName.toLowerCase().replace(/\u0451/g, 'е'))};
     const suffix = ${JSON.stringify(buttonSuffix)};
     const allFields = [];
     document.querySelectorAll('input.editInput[id^="' + p + '"], textarea[id^="' + p + '"]').forEach(el => {
@@ -1037,7 +1037,7 @@ export function findFieldButtonScript(formNum, fieldName, buttonSuffix = 'DLB') 
 export function readSubmenuScript() {
   return `(() => {
     const items = [];
-    const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/ё/gi, 'е');
+    const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/\\u0451/gi, 'е');
 
     // 1. DLB dropdown (#editDropDown with .eddText items)
     const edd = document.getElementById('editDropDown');
@@ -1141,7 +1141,7 @@ export function readSubmenuScript() {
  */
 export function clickPopupItemScript(text) {
   return `(() => {
-    const target = ${JSON.stringify(text.toLowerCase().replace(/ё/g, 'е'))};
+    const target = ${JSON.stringify(text.toLowerCase().replace(/\u0451/g, 'е'))};
     // 1. DLB dropdown (#editDropDown .eddText items)
     const edd = document.getElementById('editDropDown');
     if (edd && edd.offsetWidth > 0) {

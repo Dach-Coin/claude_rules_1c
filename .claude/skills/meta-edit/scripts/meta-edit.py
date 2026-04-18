@@ -164,7 +164,7 @@ def split_camel_case(name):
     if not name:
         return name
     # Insert space between lowercase Cyrillic and uppercase Cyrillic
-    result = re.sub(r"([а-яё])([А-ЯЁ])", r"\1 \2", name)
+    result = re.sub(r"([а-яе])([А-ЯЕ])", r"\1 \2", name)
     # Insert space between lowercase Latin and uppercase Latin
     result = re.sub(r"([a-z])([A-Z])", r"\1 \2", result)
     if len(result) > 1:
@@ -195,7 +195,25 @@ child_type_synonyms = {
     "properties": "properties", "свойства": "properties",
 }
 
-type_synonyms = {
+class _YoNormDict(dict):
+    _Y_LO = '\u0451'
+    _Y_UP = '\u0401'
+    _E_LO = '\u0435'
+    _E_UP = '\u0415'
+    @classmethod
+    def _norm(cls, k):
+        if isinstance(k, str):
+            return k.replace(cls._Y_LO, cls._E_LO).replace(cls._Y_UP, cls._E_UP)
+        return k
+    def __contains__(self, k):
+        return super().__contains__(self._norm(k))
+    def __getitem__(self, k):
+        return super().__getitem__(self._norm(k))
+    def get(self, k, default=None):
+        return super().get(self._norm(k), default)
+
+
+type_synonyms = _YoNormDict({
     "число": "Number",
     "строка": "String",
     "булево": "Boolean",
@@ -215,7 +233,6 @@ type_synonyms = {
     "перечислениессылка": "EnumRef",
     "плансчетовссылка": "ChartOfAccountsRef",
     "планвидовхарактеристикссылка": "ChartOfCharacteristicTypesRef",
-    "планвидоврасчётассылка": "ChartOfCalculationTypesRef",
     "планвидоврасчетассылка": "ChartOfCalculationTypesRef",
     "планобменассылка": "ExchangePlanRef",
     "бизнеспроцессссылка": "BusinessProcessRef",
@@ -225,7 +242,7 @@ type_synonyms = {
     "catalogref": "CatalogRef",
     "documentref": "DocumentRef",
     "enumref": "EnumRef",
-}
+})
 
 # ============================================================
 # Type system
@@ -1351,7 +1368,7 @@ def convert_inline_to_definition(operation, value):
                     current = ""
                     for rp in raw_parts:
                         rp = rp.strip()
-                        if current and re.match(r"^[А-Яа-яЁёA-Za-z_]\w*\s*:", rp):
+                        if current and re.match(r"^[А-Яа-яЕеA-Za-z_]\w*\s*:", rp):
                             attr_strs.append(current)
                             current = rp
                         elif current:

@@ -10,7 +10,7 @@ allowed-tools:
 
 # /cfe-init — Создание расширения конфигурации 1С
 
-Создаёт scaffold расширения: `Configuration.xml`, `Languages/Русский.xml`, опционально `Roles/`.
+Создает scaffold расширения: `Configuration.xml`, `Languages/Русский.xml`, опционально `Roles/`.
 
 ## Подготовка
 
@@ -44,7 +44,7 @@ allowed-tools:
 ## Команда
 
 ```powershell
-powershell.exe -NoProfile -File .claude/skills/cfe-init/scripts/cfe-init.ps1 -Name "МоёРасширение"
+powershell.exe -NoProfile -File .claude/skills/cfe-init/scripts/cfe-init.ps1 -Name "МоеРасширение"
 ```
 
 ## Примеры
@@ -57,7 +57,7 @@ powershell.exe -NoProfile -File .claude/skills/cfe-init/scripts/cfe-init.ps1 -Na
 ... -Name Расш1 -Purpose Patch -CompatibilityMode Version8_3_17 -OutputDir src
 
 # Расширение-доработка с версией
-... -Name МоёРасширение -Version "1.0.0.1" -Vendor "Компания" -OutputDir src
+... -Name МоеРасширение -Version "1.0.0.1" -Vendor "Компания" -OutputDir src
 
 # Без роли, с явным префиксом
 ... -Name ИсправлениеБага -NamePrefix "ИБ_" -Purpose Patch -NoRole -OutputDir src

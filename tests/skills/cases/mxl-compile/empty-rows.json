@@ -14,7 +14,7 @@
       {
         "name": "Заголовок",
         "rows": [
-          { "cells": [{ "col": 1, "span": 3, "style": "header", "text": "Отчёт" }] },
+          { "cells": [{ "col": 1, "span": 3, "style": "header", "text": "Отчет" }] },
           { "empty": 2 }
         ]
       },

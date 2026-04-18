@@ -207,7 +207,7 @@ if (-not (Test-Path $httpdExe)) {
         $confContent = [System.IO.File]::ReadAllText($confFile)
         $confContent = $confContent -replace '(?m)^Define SRVROOT .*$', "Define SRVROOT `"$apachePathFwd`""
         [System.IO.File]::WriteAllText($confFile, $confContent)
-        Write-Host "ServerRoot обновлён: $apachePathFwd" -ForegroundColor Green
+        Write-Host "ServerRoot обновлен: $apachePathFwd" -ForegroundColor Green
     }
 
     Write-Host "Apache установлен: $ApachePath" -ForegroundColor Green
@@ -327,7 +327,7 @@ if ($confContent -match [regex]::Escape($pubMarkerStart)) {
 }
 
 [System.IO.File]::WriteAllText($confFile, $confContent)
-Write-Host "httpd.conf обновлён" -ForegroundColor Green
+Write-Host "httpd.conf обновлен" -ForegroundColor Green
 
 # --- Helper: filter httpd processes by our ApachePath ---
 function Get-OurHttpd {

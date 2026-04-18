@@ -8,6 +8,13 @@ param(
 	[string]$OutputDir
 )
 
+# --- yo-normalization helper (kept separate so no yo character ever appears in source)
+function Normalize-Yo {
+	param([string]$s)
+	if (-not $s) { return $s }
+	return $s.Replace([char]0x0451, [char]0x0435).Replace([char]0x0401, [char]0x0415)
+}
+
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
@@ -130,8 +137,8 @@ function Translate-ObjectName {
 	$parts = $name.Split(".")
 	$result = @()
 	foreach ($p in $parts) {
-		if ($script:typeAliases.ContainsKey($p)) {
-			$result += $script:typeAliases[$p]
+		if ($script:typeAliases.ContainsKey((Normalize-Yo $p))) {
+			$result += $script:typeAliases[(Normalize-Yo $p)]
 		} else {
 			$result += $p
 		}

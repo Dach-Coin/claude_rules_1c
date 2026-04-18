@@ -45,7 +45,7 @@
     .\db-update.ps1 -InfoBasePath "C:\Bases\MyDB"
 
 .EXAMPLE
-    .\db-update.ps1 -InfoBasePath "C:\Bases\MyDB" -Dynamic "+" -Extension "МоёРасширение"
+    .\db-update.ps1 -InfoBasePath "C:\Bases\MyDB" -Dynamic "+" -Extension "МоеРасширение"
 #>
 
 [CmdletBinding()]

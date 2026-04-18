@@ -1,6 +1,6 @@
 ---
 name: form-remove
-description: Удалить форму из объекта 1С (обработка, отчёт, справочник, документ и др.)
+description: Удалить форму из объекта 1С (обработка, отчет, справочник, документ и др.)
 argument-hint: <ObjectName> <FormName>
 disable-model-invocation: true
 allowed-tools:
@@ -14,7 +14,7 @@ allowed-tools:
 
 # /form-remove — Удаление формы
 
-Удаляет форму и убирает её регистрацию из корневого XML объекта.
+Удаляет форму и убирает ее регистрацию из корневого XML объекта.
 
 ## Usage
 

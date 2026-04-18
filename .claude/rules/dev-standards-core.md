@@ -193,20 +193,28 @@ Use the plain ASCII hyphen-minus (`-`) only.
 | `.ps1` | Encoding drift under Windows PowerShell - the same file rendered through cp1251 and utf-8 produces different bytes for `—`, breaks diffs and signatures. |
 | `.md` | Consistency. Markdown renderers handle `-` identically; em-dashes only add visual noise and a class of git-diff false positives. |
 
-### Letter `ё` / `Ё`
+### Yo (U+0451 / U+0401)
 
-Use `е` / `Е` instead. Classic 1C convention - sidesteps the long-standing encoding ambiguity (some files store `ё` as a separate code point, some normalise to `е`, some sources strip it). Has nothing to do with linguistic correctness; this is purely a repo-hygiene rule.
+The Cyrillic letters at code points `U+0451` (lowercase, HTML entity `&#1105;`) and `U+0401` (uppercase, HTML entity `&#1025;`) must not appear in any repository file. Use the regular `е` / `Е` (`U+0435` / `U+0415`) instead.
+
+Why this matters in 1C specifically:
+
+- The platform itself does not use these two code points in metadata - identifiers, synonyms and reserved keywords are stored with `U+0435` / `U+0415`. Writing `Отчет` and `Отчет` as if they were equivalent is a copy-paste trap; to the XDTO schema they are two different strings.
+- The characters have a long history of encoding drift - some sources store them as a separate code point, some normalise, some strip them on conversion. Keeping them out of the repo removes the ambiguity entirely.
+- This is a repo-hygiene rule, not a linguistic claim about the Russian language.
+
+Runtime compatibility: skills that look up Russian type names in internal synonym dictionaries (`meta-compile`, `meta-edit`, `subsystem-compile`, `subsystem-edit`, `interface-edit`, `cfe-borrow`, `role-compile`, `web-test`) normalize `U+0451` / `U+0401` to `U+0435` / `U+0415` on the input side via a `Normalize-Yo` helper (PowerShell) or a `_YoNormDict` wrapper (Python). Legacy JSON or CLI input that still spells the key with `U+0451` keeps working; the dictionaries themselves are stored only in the sanitised form.
 
 ### Enforcement
 
-Mechanical scan before commit:
+Mechanical scan before commit (note: patterns below are Unicode-escaped to avoid embedding the forbidden characters in this document):
 
 ```powershell
 # em-dash / en-dash
 Select-String -Pattern "[\u2014\u2013]" -Path .\**\* -Recurse
 
-# ё / Ё
+# U+0451 / U+0401
 Select-String -Pattern "[\u0451\u0401]" -Path .\**\* -Recurse
 ```
 
-The only legitimate occurrence of these characters in the repo is *inside backticks as a citation of the rule itself* (i.e. when a rule needs to name the prohibited character). Everywhere else - replace.
+The only legitimate occurrence of these characters in the repo is inside this very section, where they *cannot* be cited. We cite them by code point (`U+0451`, `U+0401`) or HTML entity (`&#1105;`, `&#1025;`), never by writing the glyph itself.

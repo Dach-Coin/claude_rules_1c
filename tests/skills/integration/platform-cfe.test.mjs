@@ -46,7 +46,7 @@ export const steps = [
         { id: 'Наименование', type: 'input', path: 'Object.Description', title: 'Наименование' },
       ],
     },
-    args: { '-FormPath': '{workDir}/config/Catalogs/Контрагенты/Forms/ФормаЭлемента', '-JsonPath': '{inputFile}' },
+    args: { '-OutputPath': '{workDir}/config/Catalogs/Контрагенты/Forms/ФормаЭлемента/Ext/Form.xml', '-JsonPath': '{inputFile}' },
   },
 
   // ── 2. Build extension ──

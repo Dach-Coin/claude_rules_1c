@@ -73,7 +73,7 @@ powershell.exe -NoProfile -File .claude/skills/skd-compile/scripts/skd-compile.p
 ```json
 { "field": "ОстатокНаНачалоПериода", "title": "Остаток на начало периода" }
 ```
-`dataPath` автоматически берётся из `field`, если не указан явно.
+`dataPath` автоматически берется из `field`, если не указан явно.
 
 Типы: `string`, `string(N)`, `decimal(D,F)`, `boolean`, `date`, `dateTime`, `CatalogRef.X`, `DocumentRef.X`, `EnumRef.X`, `StandardPeriod`. Ссылочные типы эмитируются с inline namespace `d5p1:` (`http://v8.1c.ru/8.1/data/enterprise/current-config`). Сборка EPF со ссылочными типами требует базу с соответствующей конфигурацией.
 
@@ -119,7 +119,7 @@ Shorthand: `"Имя [Заголовок]: тип = Выражение #noField #
 Shorthand: `"Имя [Заголовок]: тип = значение @флаги"`. `[Заголовок]` опциональный — добавляет `<title>` (LocalStringType).
 
 Флаги shorthand:
-- `@autoDates` — генерирует пару скрытых параметров `ДатаНачала`/`ДатаОкончания` с выражениями `&Имя.ДатаНачала`/`&Имя.ДатаОкончания`. Используется для StandardPeriod в БСП-отчётах: БСП превращает эту пару в два отдельных поля «Начало/Конец» в панели быстрых настроек.
+- `@autoDates` — генерирует пару скрытых параметров `ДатаНачала`/`ДатаОкончания` с выражениями `&Имя.ДатаНачала`/`&Имя.ДатаОкончания`. Используется для StandardPeriod в БСП-отчетах: БСП превращает эту пару в два отдельных поля «Начало/Конец» в панели быстрых настроек.
 - `@valueList` — `<valueListAllowed>true</valueListAllowed>` — разрешает передавать список значений
 - `@hidden` — скрытый параметр: `availableAsField=false` + исключается из `"dataParameters": "auto"`
 
@@ -223,7 +223,7 @@ Shorthand: `"Имя [Заголовок]: тип = значение @флаги"
         "userSettingID": "auto"
       }
     ],
-    "outputParameters": { "Заголовок": "Мой отчёт" },
+    "outputParameters": { "Заголовок": "Мой отчет" },
     "dataParameters": ["Период = LastMonth @user"],
     "structure": "Организация > details"
   }
@@ -306,7 +306,7 @@ Folder в selection: `{"folder": "Поступление", "items": ["ПолеА
 
 Пользовательские стили: файл `skd-styles.json` рядом с JSON-определением, в текущей директории, или в `presets/skills/skd/skd-styles.json` (поиск вверх от OutputPath). Первый найденный файл побеждает. Все допустимые ключи и формат цветов — в `examples/skd-styles.json`.
 
-Raw XML (`"template": "<...>"`) остаётся как fallback. Детект: если есть `rows` — DSL, иначе — raw.
+Raw XML (`"template": "<...>"`) остается как fallback. Детект: если есть `rows` — DSL, иначе — raw.
 
 ### Расшифровка (drilldown) в параметрах шаблона
 

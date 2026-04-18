@@ -6,7 +6,7 @@
 
 .DESCRIPTION
     Запускает информационную базу в режиме 1С:Предприятие (пользовательский режим).
-    Запуск в фоне — не ждёт завершения процесса.
+    Запуск в фоне — не ждет завершения процесса.
 
 .PARAMETER V8Path
     Путь к каталогу bin платформы или к 1cv8.exe
@@ -124,8 +124,8 @@ if ($Password) { $argString += " /P`"$Password`"" }
 if ($Execute) {
     $ext = [System.IO.Path]::GetExtension($Execute).ToLower()
     if ($ext -eq ".erf") {
-        Write-Host "[WARN] /Execute не поддерживает ERF-файлы (внешние отчёты)." -ForegroundColor Yellow
-        Write-Host "       Откройте отчёт через «Файл -> Открыть»: $Execute" -ForegroundColor Yellow
+        Write-Host "[WARN] /Execute не поддерживает ERF-файлы (внешние отчеты)." -ForegroundColor Yellow
+        Write-Host "       Откройте отчет через «Файл -> Открыть»: $Execute" -ForegroundColor Yellow
         Write-Host "       Запускаю базу без /Execute." -ForegroundColor Yellow
         $Execute = ""
     }

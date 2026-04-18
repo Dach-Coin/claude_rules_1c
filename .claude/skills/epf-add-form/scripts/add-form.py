@@ -265,7 +265,7 @@ def main():
     print(f"     Описание:   {form_xml_path}")
     print(f"     Модуль:     {module_path}")
     if is_main or is_first_form:
-        print("     DefaultForm обновлён")
+        print("     DefaultForm обновлен")
 
 
 if __name__ == "__main__":

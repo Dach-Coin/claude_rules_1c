@@ -1,10 +1,10 @@
 {
-  "name": "Справка к внешнему отчёту",
+  "name": "Справка к внешнему отчету",
   "preRun": [
     {
       "script": "erf-init/scripts/init",
-      "args": { "-Name": "МойОтчёт", "-SrcDir": "{workDir}" }
+      "args": { "-Name": "МойОтчет", "-SrcDir": "{workDir}" }
     }
   ],
-  "params": { "objectName": "МойОтчёт" }
+  "params": { "objectName": "МойОтчет" }
 }

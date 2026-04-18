@@ -883,7 +883,14 @@ async function discoverIntegration(filter) {
     const mod = await import(`file://${join(INTEGRATION, file).replace(/\\/g, '/')}`);
     results.push({ id, name: mod.name || testName, steps: mod.steps || [], file, cache: mod.cache, setup: mod.setup || 'empty-config', requiresPlatform: !!mod.requiresPlatform });
   }
-  return results;
+  // Producers (tests exporting `cache`) must run before consumers that depend on that cache via `setup`.
+  const producedCaches = new Set(results.filter(t => t.cache).map(t => t.cache));
+  return results.sort((a, b) => {
+    const aNeeds = producedCaches.has(a.setup) ? 1 : 0;
+    const bNeeds = producedCaches.has(b.setup) ? 1 : 0;
+    if (aNeeds !== bNeeds) return aNeeds - bNeeds;
+    return a.id.localeCompare(b.id);
+  });
 }
 
 async function runIntegrationTest(test, opts) {

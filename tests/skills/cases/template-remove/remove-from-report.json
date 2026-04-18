@@ -1,14 +1,14 @@
 {
-  "name": "Удаление макета из отчёта",
+  "name": "Удаление макета из отчета",
   "preRun": [
     {
       "script": "erf-init/scripts/init",
-      "args": { "-Name": "МойОтчёт", "-SrcDir": "{workDir}" }
+      "args": { "-Name": "МойОтчет", "-SrcDir": "{workDir}" }
     },
     {
       "script": "template-add/scripts/add-template",
-      "args": { "-ObjectName": "МойОтчёт", "-TemplateName": "Макет", "-TemplateType": "SpreadsheetDocument", "-SrcDir": "{workDir}" }
+      "args": { "-ObjectName": "МойОтчет", "-TemplateName": "Макет", "-TemplateType": "SpreadsheetDocument", "-SrcDir": "{workDir}" }
     }
   ],
-  "params": { "objectName": "МойОтчёт", "templateName": "Макет" }
+  "params": { "objectName": "МойОтчет", "templateName": "Макет" }
 }

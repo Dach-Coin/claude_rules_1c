@@ -12,6 +12,13 @@ param(
 	[switch]$NoValidate
 )
 
+# --- yo-normalization helper (kept separate so no yo character ever appears in source)
+function Normalize-Yo {
+	param([string]$s)
+	if (-not $s) { return $s }
+	return $s.Replace([char]0x0451, [char]0x0435).Replace([char]0x0401, [char]0x0415)
+}
+
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
@@ -174,17 +181,14 @@ $script:contentTypeMap = @{
 	"Документ"                     = "Document"
 	"Перечисление"                 = "Enum"
 	"Константа"                    = "Constant"
-	"Отчёт"                        = "Report"
 	"Отчет"                        = "Report"
 	"Обработка"                    = "DataProcessor"
 	"РегистрСведений"              = "InformationRegister"
 	"РегистрНакопления"            = "AccumulationRegister"
 	"РегистрБухгалтерии"           = "AccountingRegister"
-	"РегистрРасчёта"               = "CalculationRegister"
 	"РегистрРасчета"               = "CalculationRegister"
 	"ПланСчетов"                   = "ChartOfAccounts"
 	"ПланВидовХарактеристик"       = "ChartOfCharacteristicTypes"
-	"ПланВидовРасчёта"             = "ChartOfCalculationTypes"
 	"ПланВидовРасчета"             = "ChartOfCalculationTypes"
 	"БизнесПроцесс"                = "BusinessProcess"
 	"Задача"                       = "Task"
@@ -220,17 +224,14 @@ $script:contentTypeMap = @{
 	"Документы"                    = "Document"
 	"Перечисления"                 = "Enum"
 	"Константы"                    = "Constant"
-	"Отчёты"                       = "Report"
 	"Отчеты"                       = "Report"
 	"Обработки"                    = "DataProcessor"
 	"РегистрыСведений"             = "InformationRegister"
 	"РегистрыНакопления"           = "AccumulationRegister"
 	"РегистрыБухгалтерии"          = "AccountingRegister"
-	"РегистрыРасчёта"              = "CalculationRegister"
 	"РегистрыРасчета"              = "CalculationRegister"
 	"ПланыСчетов"                  = "ChartOfAccounts"
 	"ПланыВидовХарактеристик"      = "ChartOfCharacteristicTypes"
-	"ПланыВидовРасчёта"            = "ChartOfCalculationTypes"
 	"ПланыВидовРасчета"            = "ChartOfCalculationTypes"
 	"БизнесПроцессы"               = "BusinessProcess"
 	"Задачи"                       = "Task"
@@ -265,8 +266,8 @@ function Normalize-ContentRef([string]$ref) {
 	$dotIdx = $ref.IndexOf('.')
 	$typePart = $ref.Substring(0, $dotIdx)
 	$namePart = $ref.Substring($dotIdx + 1)
-	if ($script:contentTypeMap.ContainsKey($typePart)) {
-		$typePart = $script:contentTypeMap[$typePart]
+	if ($script:contentTypeMap.ContainsKey((Normalize-Yo $typePart))) {
+		$typePart = $script:contentTypeMap[(Normalize-Yo $typePart)]
 	}
 	return "$typePart.$namePart"
 }

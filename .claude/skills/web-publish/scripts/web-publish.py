@@ -218,7 +218,7 @@ def main():
             )
             with open(conf_file, 'w', encoding='utf-8') as f:
                 f.write(conf_content)
-            print(f'ServerRoot обновлён: {apache_path_fwd}')
+            print(f'ServerRoot обновлен: {apache_path_fwd}')
 
         print(f'Apache установлен: {apache_path}')
 
@@ -332,7 +332,7 @@ def main():
 
     with open(conf_file, 'w', encoding='utf-8') as f:
         f.write(conf_content)
-    print('httpd.conf обновлён')
+    print('httpd.conf обновлен')
 
     # --- Normalize httpd_exe for process matching ---
     if os.path.exists(httpd_exe):

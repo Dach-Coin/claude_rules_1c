@@ -1514,7 +1514,7 @@ elseif ($Mode -eq "trace") {
 
 		foreach ($fieldName in $allKnown) {
 			$escaped = [regex]::Escape($fieldName)
-			if ($cf.expression -match "(?<![а-яА-ЯёЁa-zA-Z0-9_.])$escaped(?![а-яА-ЯёЁa-zA-Z0-9_.])") {
+			if ($cf.expression -match "(?<![а-яА-ЯеЕa-zA-Z0-9_.])$escaped(?![а-яА-ЯеЕa-zA-Z0-9_.])") {
 				$operands += $fieldName
 			}
 		}

@@ -120,7 +120,26 @@ def save_xml_bom(tree, path):
         f.write(xml_bytes)
 
 
-TYPE_NORM_MAP = {
+class _YoNormDict(dict):
+    """Dict that normalizes U+0451/U+0401 to U+0435/U+0415 on key lookup - keeps pre-sweep inputs compatible."""
+    _Y_LO = '\u0451'
+    _Y_UP = '\u0401'
+    _E_LO = '\u0435'
+    _E_UP = '\u0415'
+    @classmethod
+    def _norm(cls, k):
+        if isinstance(k, str):
+            return k.replace(cls._Y_LO, cls._E_LO).replace(cls._Y_UP, cls._E_UP)
+        return k
+    def __contains__(self, k):
+        return super().__contains__(self._norm(k))
+    def __getitem__(self, k):
+        return super().__getitem__(self._norm(k))
+    def get(self, k, default=None):
+        return super().get(self._norm(k), default)
+
+
+TYPE_NORM_MAP = _YoNormDict({
     'Catalogs': 'Catalog', 'Documents': 'Document', 'Enums': 'Enum',
     'Constants': 'Constant', 'Reports': 'Report', 'DataProcessors': 'DataProcessor',
     'InformationRegisters': 'InformationRegister', 'AccumulationRegisters': 'AccumulationRegister',
@@ -136,7 +155,7 @@ TYPE_NORM_MAP = {
     'Subsystems': 'Subsystem', 'StyleItems': 'StyleItem',
     # Russian singular
     'Справочник': 'Catalog', 'Документ': 'Document', 'Перечисление': 'Enum',
-    'Константа': 'Constant', 'Отчёт': 'Report', 'Отчет': 'Report', 'Обработка': 'DataProcessor',
+    'Константа': 'Constant', 'Отчет': 'Report', 'Обработка': 'DataProcessor',
     'РегистрСведений': 'InformationRegister', 'РегистрНакопления': 'AccumulationRegister',
     'РегистрБухгалтерии': 'AccountingRegister',
     'ПланСчетов': 'ChartOfAccounts', 'ПланВидовХарактеристик': 'ChartOfCharacteristicTypes',
@@ -146,14 +165,14 @@ TYPE_NORM_MAP = {
     'ОбщаяФорма': 'CommonForm', 'Подсистема': 'Subsystem',
     # Russian plural
     'Справочники': 'Catalog', 'Документы': 'Document', 'Перечисления': 'Enum',
-    'Константы': 'Constant', 'Отчёты': 'Report', 'Отчеты': 'Report', 'Обработки': 'DataProcessor',
+    'Константы': 'Constant', 'Отчеты': 'Report', 'Обработки': 'DataProcessor',
     'РегистрыСведений': 'InformationRegister', 'РегистрыНакопления': 'AccumulationRegister',
     'РегистрыБухгалтерии': 'AccountingRegister',
     'ПланыСчетов': 'ChartOfAccounts', 'ПланыВидовХарактеристик': 'ChartOfCharacteristicTypes',
     'БизнесПроцессы': 'BusinessProcess', 'Задачи': 'Task',
     'ПланыОбмена': 'ExchangePlan', 'ЖурналыДокументов': 'DocumentJournal',
     'Подсистемы': 'Subsystem',
-}
+})
 
 
 def normalize_cmd_name(name):

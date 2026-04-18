@@ -19,8 +19,9 @@ export const steps = [
     name: 'epf-add-form: форма обработки',
     script: 'epf-add-form/scripts/add-form',
     args: {
-      '-ObjectPath': '{workDir}/RoundtripТест.xml',
+      '-ProcessorName': 'RoundtripТест',
       '-FormName': 'Форма',
+      '-SrcDir': '{workDir}',
     },
   },
 
@@ -29,17 +30,17 @@ export const steps = [
     script: 'form-compile/scripts/form-compile',
     input: {
       elements: [
-        { id: 'ПутьКФайлу', type: 'input', path: 'ПутьКФайлу', title: 'Путь к файлу' },
-        { id: 'Загрузить', type: 'button', title: 'Загрузить', action: 'Загрузить' },
+        { input: 'ПутьКФайлу', path: 'ПутьКФайлу', title: 'Путь к файлу' },
+        { button: 'Загрузить', title: 'Загрузить', action: 'Загрузить' },
       ],
       attributes: [
-        { id: 'ПутьКФайлу', type: 'String' },
+        { name: 'ПутьКФайлу', type: 'String' },
       ],
       commands: [
-        { id: 'Загрузить', title: 'Загрузить' },
+        { name: 'Загрузить', title: 'Загрузить' },
       ],
     },
-    args: { '-FormPath': '{workDir}/RoundtripТест/Forms/Форма', '-JsonPath': '{inputFile}' },
+    args: { '-OutputPath': '{workDir}/RoundtripТест/Forms/Форма/Ext/Form.xml', '-JsonPath': '{inputFile}' },
   },
 
   // ── 3. Build EPF binary ──

@@ -26,6 +26,13 @@ param(
 	[switch]$NoValidate
 )
 
+# --- yo-normalization helper (kept separate so no yo character ever appears in source)
+function Normalize-Yo {
+	param([string]$s)
+	if (-not $s) { return $s }
+	return $s.Replace([char]0x0451, [char]0x0435).Replace([char]0x0401, [char]0x0415)
+}
+
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
@@ -268,7 +275,6 @@ $script:typeSynonyms["документссылка"]               = "DocumentRe
 $script:typeSynonyms["перечислениессылка"]            = "EnumRef"
 $script:typeSynonyms["плансчетовссылка"]              = "ChartOfAccountsRef"
 $script:typeSynonyms["планвидовхарактеристикссылка"]  = "ChartOfCharacteristicTypesRef"
-$script:typeSynonyms["планвидоврасчётассылка"]         = "ChartOfCalculationTypesRef"
 $script:typeSynonyms["планвидоврасчетассылка"]         = "ChartOfCalculationTypesRef"
 $script:typeSynonyms["планобменассылка"]               = "ExchangePlanRef"
 $script:typeSynonyms["бизнеспроцессссылка"]            = "BusinessProcessRef"
@@ -291,7 +297,7 @@ function Esc-Xml {
 function Split-CamelCase {
 	param([string]$name)
 	if (-not $name) { return $name }
-	$result = [regex]::Replace($name, '([а-яё])([А-ЯЁ])', '$1 $2')
+	$result = [regex]::Replace($name, '([а-яе])([А-ЯЕ])', '$1 $2')
 	$result = [regex]::Replace($result, '([a-z])([A-Z])', '$1 $2')
 	if ($result.Length -gt 1) {
 		$result = $result.Substring(0,1) + $result.Substring(1).ToLower()
@@ -311,7 +317,7 @@ function Resolve-TypeStr {
 	if ($typeStr -match '^([^(]+)\((.+)\)$') {
 		$baseName = $Matches[1].Trim()
 		$params = $Matches[2]
-		$resolved = $script:typeSynonyms[$baseName.ToLower()]
+		$resolved = $script:typeSynonyms[(Normalize-Yo $baseName.ToLower())]
 		if ($resolved) { return "$resolved($params)" }
 		return $typeStr
 	}
@@ -321,13 +327,13 @@ function Resolve-TypeStr {
 		$dotIdx = $typeStr.IndexOf('.')
 		$prefix = $typeStr.Substring(0, $dotIdx)
 		$suffix = $typeStr.Substring($dotIdx)
-		$resolved = $script:typeSynonyms[$prefix.ToLower()]
+		$resolved = $script:typeSynonyms[(Normalize-Yo $prefix.ToLower())]
 		if ($resolved) { return "$resolved$suffix" }
 		return $typeStr
 	}
 
 	# Simple
-	$resolved = $script:typeSynonyms[$typeStr.ToLower()]
+	$resolved = $script:typeSynonyms[(Normalize-Yo $typeStr.ToLower())]
 	if ($resolved) { return $resolved }
 	return $typeStr
 }
@@ -1482,7 +1488,7 @@ function Convert-InlineToDefinition([string]$operation, [string]$value) {
 						$current = ""
 						foreach ($rp in $rawParts) {
 							$rp = $rp.Trim()
-							if ($current -and $rp -match '^[А-Яа-яЁёA-Za-z_]\w*\s*:') {
+							if ($current -and $rp -match '^[А-Яа-яЕеA-Za-z_]\w*\s*:') {
 								$attrStrs += $current
 								$current = $rp
 							} elseif ($current) {

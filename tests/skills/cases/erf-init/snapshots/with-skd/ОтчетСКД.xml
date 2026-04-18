@@ -6,29 +6,31 @@
 				<xr:ClassId>UUID-002</xr:ClassId>
 				<xr:ObjectId>UUID-003</xr:ObjectId>
 			</xr:ContainedObject>
-			<xr:GeneratedType name="ExternalReportObject.Отчёт1" category="Object">
+			<xr:GeneratedType name="ExternalReportObject.ОтчетСКД" category="Object">
 				<xr:TypeId>UUID-004</xr:TypeId>
 				<xr:ValueId>UUID-005</xr:ValueId>
 			</xr:GeneratedType>
 		</InternalInfo>
 		<Properties>
-			<Name>Отчёт1</Name>
+			<Name>ОтчетСКД</Name>
 			<Synonym>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Отчёт1</v8:content>
+					<v8:content>ОтчетСКД</v8:content>
 				</v8:item>
 			</Synonym>
 			<Comment/>
 			<DefaultForm/>
 			<AuxiliaryForm/>
-			<MainDataCompositionSchema/>
+			<MainDataCompositionSchema>ExternalReport.ОтчетСКД.Template.ОсновнаяСхемаКомпоновкиДанных</MainDataCompositionSchema>
 			<DefaultSettingsForm/>
 			<AuxiliarySettingsForm/>
 			<DefaultVariantForm/>
 			<VariantsStorage/>
 			<SettingsStorage/>
 		</Properties>
-		<ChildObjects/>
+		<ChildObjects>
+			<Template>ОсновнаяСхемаКомпоновкиДанных</Template>
+</ChildObjects>
 	</ExternalReport>
 </MetaDataObject>

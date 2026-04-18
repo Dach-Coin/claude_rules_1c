@@ -13,7 +13,7 @@ allowed-tools:
 
 # /form-add — Добавление формы к объекту конфигурации
 
-Создаёт управляемую форму (metadata XML + Form.xml + Module.bsl) и регистрирует её в корневом XML объекта конфигурации (Document, Catalog, InformationRegister и др.).
+Создает управляемую форму (metadata XML + Form.xml + Module.bsl) и регистрирует ее в корневом XML объекта конфигурации (Document, Catalog, InformationRegister и др.).
 
 ## Usage
 

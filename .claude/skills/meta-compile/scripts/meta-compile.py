@@ -19,6 +19,25 @@ sys.stderr.reconfigure(encoding="utf-8")
 # Inline utilities
 # ---------------------------------------------------------------------------
 
+class _YoNormDict(dict):
+    """Dict that normalizes U+0451/U+0401 to U+0435/U+0415 on key lookup - keeps pre-sweep inputs compatible."""
+    _Y_LO = '\u0451'
+    _Y_UP = '\u0401'
+    _E_LO = '\u0435'
+    _E_UP = '\u0415'
+    @classmethod
+    def _norm(cls, k):
+        if isinstance(k, str):
+            return k.replace(cls._Y_LO, cls._E_LO).replace(cls._Y_UP, cls._E_UP)
+        return k
+    def __contains__(self, k):
+        return super().__contains__(self._norm(k))
+    def __getitem__(self, k):
+        return super().__getitem__(self._norm(k))
+    def get(self, k, default=None):
+        return super().get(self._norm(k), default)
+
+
 def esc_xml(s):
     return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
 
@@ -56,7 +75,7 @@ def emit_mltext(indent, tag, text):
 def split_camel_case(name):
     if not name:
         return name
-    result = re.sub(r'([а-яё])([А-ЯЁ])', r'\1 \2', name)
+    result = re.sub(r'([а-яе])([А-ЯЕ])', r'\1 \2', name)
     result = re.sub(r'([a-z])([A-Z])', r'\1 \2', result)
     if len(result) > 1:
         result = result[0] + result[1:].lower()
@@ -109,7 +128,7 @@ if not defn.get('type') and defn.get('objectType'):
     defn['type'] = defn['objectType']
 
 # Object type synonyms (Russian -> English)
-object_type_synonyms = {
+object_type_synonyms = _YoNormDict({
     'Справочник': 'Catalog',
     'Каталог': 'Catalog',
     'Документ': 'Document',
@@ -118,17 +137,14 @@ object_type_synonyms = {
     'РегистрСведений': 'InformationRegister',
     'РегистрНакопления': 'AccumulationRegister',
     'РегистрБухгалтерии': 'AccountingRegister',
-    'РегистрРасчёта': 'CalculationRegister',
     'РегистрРасчета': 'CalculationRegister',
     'ПланСчетов': 'ChartOfAccounts',
     'ПланВидовХарактеристик': 'ChartOfCharacteristicTypes',
-    'ПланВидовРасчёта': 'ChartOfCalculationTypes',
     'ПланВидовРасчета': 'ChartOfCalculationTypes',
     'БизнесПроцесс': 'BusinessProcess',
     'Задача': 'Task',
     'ПланОбмена': 'ExchangePlan',
     'ЖурналДокументов': 'DocumentJournal',
-    'Отчёт': 'Report',
     'Отчет': 'Report',
     'Обработка': 'DataProcessor',
     'ОбщийМодуль': 'CommonModule',
@@ -137,7 +153,7 @@ object_type_synonyms = {
     'HTTPСервис': 'HTTPService',
     'ВебСервис': 'WebService',
     'ОпределяемыйТип': 'DefinedType',
-}
+})
 
 # Enum property value synonyms — model often gets these slightly wrong
 enum_value_aliases = {
@@ -256,7 +272,7 @@ comment = str(defn['comment']) if defn.get('comment') else ''
 # 4. Type system
 # ---------------------------------------------------------------------------
 
-type_synonyms = {
+type_synonyms = _YoNormDict({
     'число': 'Number',
     'строка': 'String',
     'булево': 'Boolean',
@@ -274,7 +290,6 @@ type_synonyms = {
     'перечислениессылка': 'EnumRef',
     'плансчетовссылка': 'ChartOfAccountsRef',
     'планвидовхарактеристикссылка': 'ChartOfCharacteristicTypesRef',
-    'планвидоврасчётассылка': 'ChartOfCalculationTypesRef',
     'планвидоврасчетассылка': 'ChartOfCalculationTypesRef',
     'планобменассылка': 'ExchangePlanRef',
     'бизнеспроцессссылка': 'BusinessProcessRef',
@@ -285,7 +300,7 @@ type_synonyms = {
     'catalogref': 'CatalogRef',
     'documentref': 'DocumentRef',
     'enumref': 'EnumRef',
-}
+})
 
 def resolve_type_str(type_str):
     if not type_str:

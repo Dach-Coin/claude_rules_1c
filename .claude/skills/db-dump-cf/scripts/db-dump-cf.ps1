@@ -39,7 +39,7 @@
     .\db-dump-cf.ps1 -InfoBasePath "C:\Bases\MyDB" -OutputFile "config.cf"
 
 .EXAMPLE
-    .\db-dump-cf.ps1 -InfoBasePath "C:\Bases\MyDB" -OutputFile "ext.cfe" -Extension "МоёРасширение"
+    .\db-dump-cf.ps1 -InfoBasePath "C:\Bases\MyDB" -OutputFile "ext.cfe" -Extension "МоеРасширение"
 #>
 
 [CmdletBinding()]

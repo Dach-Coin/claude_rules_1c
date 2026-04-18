@@ -52,7 +52,7 @@ export const steps = [
         { id: 'Наименование', type: 'input', path: 'Object.Description', title: 'Наименование' },
       ],
     },
-    args: { '-FormPath': '{workDir}/config/Catalogs/Товары/Forms/ФормаЭлемента', '-JsonPath': '{inputFile}' },
+    args: { '-OutputPath': '{workDir}/config/Catalogs/Товары/Forms/ФормаЭлемента/Ext/Form.xml', '-JsonPath': '{inputFile}' },
   },
   {
     name: 'form-add: форма документа',
@@ -71,7 +71,7 @@ export const steps = [
         { id: 'Склад', type: 'input', path: 'Object.Склад', title: 'Склад' },
       ],
     },
-    args: { '-FormPath': '{workDir}/config/Documents/Приход/Forms/ФормаДокумента', '-JsonPath': '{inputFile}' },
+    args: { '-OutputPath': '{workDir}/config/Documents/Приход/Forms/ФормаДокумента/Ext/Form.xml', '-JsonPath': '{inputFile}' },
   },
   {
     name: 'cf-edit: регистрация объектов',

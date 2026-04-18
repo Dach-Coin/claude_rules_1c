@@ -13,7 +13,7 @@ allowed-tools:
 
 # /epf-add-form — Добавление формы
 
-Создаёт управляемую форму и регистрирует её в корневом XML обработки.
+Создает управляемую форму и регистрирует ее в корневом XML обработки.
 
 ## Usage
 
@@ -48,7 +48,7 @@ powershell.exe -NoProfile -File .claude/skills/epf-add-form/scripts/add-form.ps1
 > powershell.exe -NoProfile -File .claude/skills/epf-add-form/scripts/add-form.ps1 -ProcessorNameB64 $procB64 -FormNameB64 $formB64 -Main
 > ```
 
-## Что создаётся
+## Что создается
 
 ```
 <SrcDir>/<ProcessorName>/Forms/

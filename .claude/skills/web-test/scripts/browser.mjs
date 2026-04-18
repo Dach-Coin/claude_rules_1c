@@ -41,8 +41,8 @@ const LOAD_TIMEOUT = 60000;
 const INIT_TIMEOUT = 60000;
 const ACTION_WAIT = 2000;   // fallback minimum wait
 
-/** Normalize ё→е and \u00a0→space for fuzzy matching. */
-const normYo = s => s.replace(/ё/gi, 'е').replace(/\u00a0/g, ' ');
+/** Normalize U+0451/U+0401 (yo, both cases) -> е and \u00a0 -> space for fuzzy matching. */
+const normYo = s => s.replace(/\u0451/gi, 'е').replace(/\u00a0/g, ' ');
 const MAX_WAIT = 10000;     // max wait for stability
 const POLL_INTERVAL = 200;  // polling interval
 const STABLE_CYCLES = 3;    // consecutive stable cycles needed
@@ -1144,8 +1144,8 @@ function buildSpreadsheetMapping(allCells) {
   };
 
   // --- Level 1: DCS-code row anchor ---
-  // ФСД / СКД-отчёты всегда содержат строку "К1, К2, ..." — rock-solid structural marker.
-  // Якорение через неё — детерминированное, работает даже если все данные — голые целые (отчёт в "тыс.руб").
+  // ФСД / СКД-отчеты всегда содержат строку "К1, К2, ..." — rock-solid structural marker.
+  // Якорение через нее — детерминированное, работает даже если все данные — голые целые (отчет в "тыс.руб").
   for (let i = 0; i < rows.length; i++) {
     const detailNonEmpty = rows[i].filter(c => c);
     if (detailNonEmpty.length >= 2 && detailNonEmpty.every(c => /^К\d+$/.test(c))) {
@@ -1543,7 +1543,7 @@ async function scanGridRows(formNum, searchLower) {
     const searchLower = ${JSON.stringify(searchLower || '')};
     let sel = null;
     if (searchLower) {
-      const norm = s => (s || '').replace(/\\u00a0/g, ' ').trim().toLowerCase().replace(/ё/gi, 'е');
+      const norm = s => (s || '').replace(/\\u00a0/g, ' ').trim().toLowerCase().replace(/\\u0451/gi, 'е');
       const rowData = lines.map(l => ({ el: l, text: norm(l.innerText) }));
       sel = rowData.find(r => r.text === searchLower)?.el
         || rowData.find(r => r.text.startsWith(searchLower))?.el
@@ -1841,7 +1841,7 @@ async function pickFromTypeDialog(formNum, typeName) {
         const text = norm(line.innerText);
         if (!text) continue;
         visible.push(text);
-        if (text.toLowerCase().replace(/ё/gi, 'е').includes(typeNorm)) {
+        if (text.toLowerCase().replace(/\u0451/gi, 'е').includes(typeNorm)) {
           const r = line.getBoundingClientRect();
           matches.push({ text, x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2) });
         }
@@ -2358,7 +2358,7 @@ export async function clickElement(text, { dblclick, table, toggle, expand, modi
   if (pending?.confirmation) {
     const btnResult = await page.evaluate(`(() => {
       const norm = s => s?.trim().replace(/\\u00a0/g, ' ') || '';
-      const ny = s => s.replace(/ё/gi, 'е').replace(/\\u00a0/g, ' ');
+      const ny = s => s.replace(/\\u0451/gi, 'е').replace(/\\u00a0/g, ' ');
       const target = ny(${JSON.stringify(text.toLowerCase())});
       const btns = [...document.querySelectorAll('a.press.pressButton')].filter(el => el.offsetWidth > 0);
       let best = btns.find(el => ny(norm(el.innerText).toLowerCase()) === target);
@@ -2919,7 +2919,7 @@ export async function selectValue(fieldName, searchText, { type } = {}) {
     return page.evaluate(`(() => {
       const edd = document.getElementById('editDropDown');
       if (!edd || edd.offsetWidth === 0) return null;
-      const ny = s => s.replace(/ё/gi, 'е').replace(/\\u00a0/g, ' ');
+      const ny = s => s.replace(/\\u0451/gi, 'е').replace(/\\u00a0/g, ' ');
       const target = ny(${JSON.stringify(itemName.toLowerCase())});
       const items = [...edd.querySelectorAll('.eddText')].filter(el => el.offsetWidth > 0);
       function clickEl(el) {
@@ -4494,7 +4494,7 @@ export async function filterList(text, { field, exact } = {}) {
     for (let i = 0; i < headers.length; i++) {
       const t = headers[i].innerText?.trim().replace(/\\u00a0/g, ' ');
       if (!t) continue;
-      const ny = s => s.replace(/ё/gi, 'е').replace(/\\u00a0/g, ' ');
+      const ny = s => s.replace(/\\u0451/gi, 'е').replace(/\\u00a0/g, ' ');
       const tl = ny(t.toLowerCase()), fl = ny(targetField.toLowerCase());
       if (tl === fl) { colIndex = i; break; }
       if (startsWithIdx < 0 && tl.startsWith(fl)) { startsWithIdx = i; }
@@ -4566,7 +4566,7 @@ export async function filterList(text, { field, exact } = {}) {
       const ddResult = await page.evaluate(`(() => {
         const edd = document.getElementById('editDropDown');
         if (!edd || edd.offsetWidth === 0) return { error: 'no_dropdown' };
-        const ny = s => s.replace(/ё/gi, 'е').replace(/\\u00a0/g, ' ');
+        const ny = s => s.replace(/\\u0451/gi, 'е').replace(/\\u00a0/g, ' ');
         const target = ny(${JSON.stringify(field.toLowerCase())});
         const items = [...edd.querySelectorAll('div')].filter(el =>
           el.offsetWidth > 0 && el.innerText?.trim() && !el.innerText.includes('\\n'));
@@ -4716,7 +4716,7 @@ export async function unfilterList({ field } = {}) {
     const closeBtn = await page.evaluate(`(() => {
       const p = 'form${formNum}_';
       const norm = s => s?.trim().replace(/\\u00a0/g, ' ').replace(/:$/, '').replace(/\\n/g, ' ') || '';
-      const ny = s => s.replace(/ё/gi, 'е').replace(/\\u00a0/g, ' ');
+      const ny = s => s.replace(/\\u0451/gi, 'е').replace(/\\u00a0/g, ' ');
       const target = ny(${JSON.stringify(field.toLowerCase())});
       const items = [...document.querySelectorAll('[id^="' + p + '"].trainItem')].filter(el => el.offsetWidth > 0);
       for (const item of items) {
@@ -5530,7 +5530,7 @@ export async function highlight(text, opts = {}) {
   // finds it, and form buttons match before commands.
   if (!elId) {
     elId = await page.evaluate(`(() => {
-      const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/ё/gi, 'е');
+      const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/\\u0451/gi, 'е');
       const target = ${JSON.stringify(normYo(text.toLowerCase()))};
       const cmds = [...document.querySelectorAll('[id^="cmd_"][id$="_txt"]')].filter(e => e.offsetWidth > 0);
       if (cmds.length === 0) return null;
@@ -5548,7 +5548,7 @@ export async function highlight(text, opts = {}) {
     const groupDone = await page.evaluate(({ target, color, padding }) => {
       const container = document.querySelector('#funcPanel_container');
       if (!container) return false;
-      const norm = s => (s?.trim().replace(/\u00a0/g, ' ') || '').replace(/ё/gi, 'е').toLowerCase();
+      const norm = s => (s?.trim().replace(/\u00a0/g, ' ') || '').replace(/\u0451/gi, 'е').toLowerCase();
       const headers = [...container.querySelectorAll('.eAccentColor')].filter(e => e.offsetWidth > 0);
       if (!headers.length) return false;
 
@@ -5601,7 +5601,7 @@ export async function highlight(text, opts = {}) {
     const formNum = await page.evaluate(detectFormScript());
     if (formNum !== null) {
       elId = await page.evaluate(`(() => {
-        const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/ё/gi, 'е');
+        const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/\\u0451/gi, 'е');
         const target = ${JSON.stringify(normYo(text.toLowerCase()))};
         const p = 'form' + ${formNum} + '_';
         // Group containers: _container or _div, but skip logicGroupContainer (invisible groups)
@@ -5648,11 +5648,11 @@ export async function highlight(text, opts = {}) {
             if (!grid) return null;
             const body = grid.querySelector('.gridBody');
             if (!body) return null;
-            const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/ё/gi, 'е');
+            const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/\\u0451/gi, 'е');
             const target = ${JSON.stringify(normYo(text.toLowerCase()))};
             for (const line of body.querySelectorAll('.gridLine')) {
               const cells = [...line.querySelectorAll('.gridBoxText')].filter(b => b.offsetWidth > 0);
-              const rowText = cells.map(b => b.innerText?.trim() || '').join(' ').toLowerCase().replace(/ё/gi, 'е');
+              const rowText = cells.map(b => b.innerText?.trim() || '').join(' ').toLowerCase().replace(/\u0451/gi, 'е');
               if (rowText.includes(target)) {
                 if (!line.id) line.id = '__wt_hl_tmp';
                 return line.id;
@@ -5677,7 +5677,7 @@ export async function highlight(text, opts = {}) {
   // 4. Fallback: sections (sidebar navigation)
   if (!elId) {
     elId = await page.evaluate(`(() => {
-      const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/ё/gi, 'е');
+      const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/\\u0451/gi, 'е');
       const target = ${JSON.stringify(normYo(text.toLowerCase()))};
       const secs = [...document.querySelectorAll('[id^="themesCell_theme_"]')];
       let el = secs.find(e => norm(e.innerText).toLowerCase() === target);
@@ -5690,7 +5690,7 @@ export async function highlight(text, opts = {}) {
   if (!elId) {
     // Collect available elements to help the caller fix the name
     const available = await page.evaluate(`(() => {
-      const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/ё/gi, 'е');
+      const norm = s => (s?.trim().replace(/\\u00a0/g, ' ') || '').replace(/\\u0451/gi, 'е');
       const result = {};
       // Commands
       const cmds = [...document.querySelectorAll('[id^="cmd_"][id$="_txt"]')].filter(e => e.offsetWidth > 0).map(e => norm(e.innerText));

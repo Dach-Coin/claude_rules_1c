@@ -95,11 +95,11 @@ $typeNameMap = @{
 	"Catalog"="Справочник"; "Document"="Документ"; "Enum"="Перечисление"
 	"Constant"="Константа"; "InformationRegister"="Регистр сведений"
 	"AccumulationRegister"="Регистр накопления"; "AccountingRegister"="Регистр бухгалтерии"
-	"CalculationRegister"="Регистр расчёта"; "ChartOfAccounts"="План счетов"
+	"CalculationRegister"="Регистр расчета"; "ChartOfAccounts"="План счетов"
 	"ChartOfCharacteristicTypes"="План видов характеристик"
-	"ChartOfCalculationTypes"="План видов расчёта"; "BusinessProcess"="Бизнес-процесс"
+	"ChartOfCalculationTypes"="План видов расчета"; "BusinessProcess"="Бизнес-процесс"
 	"Task"="Задача"; "ExchangePlan"="План обмена"; "DocumentJournal"="Журнал документов"
-	"Report"="Отчёт"; "DataProcessor"="Обработка"
+	"Report"="Отчет"; "DataProcessor"="Обработка"
 	"DefinedType"="Определяемый тип"; "CommonModule"="Общий модуль"
 	"ScheduledJob"="Регламентное задание"; "EventSubscription"="Подписка на событие"
 	"HTTPService"="HTTP-сервис"; "WebService"="Веб-сервис"
@@ -685,7 +685,7 @@ if (-not $drillDone) {
 			$use = $props.SelectSingleNode("md:Use", $ns)
 			$sjParts += "Использование: $(if ($use -and $use.InnerText -eq 'true') { 'да' } else { 'нет' })"
 			$predef = $props.SelectSingleNode("md:Predefined", $ns)
-			$sjParts += "Предопределённое: $(if ($predef -and $predef.InnerText -eq 'true') { 'да' } else { 'нет' })"
+			$sjParts += "Предопределенное: $(if ($predef -and $predef.InnerText -eq 'true') { 'да' } else { 'нет' })"
 			$restartCnt = $props.SelectSingleNode("md:RestartCountOnFailure", $ns)
 			$restartInt = $props.SelectSingleNode("md:RestartIntervalOnFailure", $ns)
 			if ($restartCnt -and [int]$restartCnt.InnerText -gt 0) {
@@ -732,7 +732,7 @@ if (-not $drillDone) {
 		# WebService brief
 		if ($mdType -eq "WebService") {
 			$nsUrl = $props.SelectSingleNode("md:Namespace", $ns)
-			if ($nsUrl -and $nsUrl.InnerText) { Out "Пространство имён: $($nsUrl.InnerText)" }
+			if ($nsUrl -and $nsUrl.InnerText) { Out "Пространство имен: $($nsUrl.InnerText)" }
 			if ($childObjs) {
 				$ops = @(Get-WSOperations $childObjs)
 				if ($ops.Count -gt 0) { Out "Операции: $($ops.Count)" }
@@ -879,7 +879,7 @@ if (-not $drillDone) {
 			$use = $props.SelectSingleNode("md:Use", $ns)
 			$sjParts += "Использование: $(if ($use -and $use.InnerText -eq 'true') { 'да' } else { 'нет' })"
 			$predef = $props.SelectSingleNode("md:Predefined", $ns)
-			$sjParts += "Предопределённое: $(if ($predef -and $predef.InnerText -eq 'true') { 'да' } else { 'нет' })"
+			$sjParts += "Предопределенное: $(if ($predef -and $predef.InnerText -eq 'true') { 'да' } else { 'нет' })"
 			$restartCnt = $props.SelectSingleNode("md:RestartCountOnFailure", $ns)
 			$restartInt = $props.SelectSingleNode("md:RestartIntervalOnFailure", $ns)
 			if ($restartCnt -and [int]$restartCnt.InnerText -gt 0) {
@@ -940,7 +940,7 @@ if (-not $drillDone) {
 		# WebService: show namespace and operations
 		if ($mdType -eq "WebService") {
 			$nsUrl = $props.SelectSingleNode("md:Namespace", $ns)
-			if ($nsUrl -and $nsUrl.InnerText) { Out "Пространство имён: $($nsUrl.InnerText)" }
+			if ($nsUrl -and $nsUrl.InnerText) { Out "Пространство имен: $($nsUrl.InnerText)" }
 			if ($childObjs) {
 				$ops = @(Get-WSOperations $childObjs)
 				if ($ops.Count -gt 0) {

@@ -7,6 +7,13 @@ param(
 	[string]$BorrowMainAttribute
 )
 
+# --- yo-normalization helper (kept separate so no yo character ever appears in source)
+function Normalize-Yo {
+	param([string]$s)
+	if (-not $s) { return $s }
+	return $s.Replace([char]0x0451, [char]0x0435).Replace([char]0x0401, [char]0x0415)
+}
+
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
@@ -108,7 +115,7 @@ $synonymMap = @{
 	"Справочник"="Catalog"; "Документ"="Document"; "Перечисление"="Enum"
 	"ОбщийМодуль"="CommonModule"; "ОбщаяКартинка"="CommonPicture"
 	"ОбщаяКоманда"="CommonCommand"; "ОбщийМакет"="CommonTemplate"
-	"ПланОбмена"="ExchangePlan"; "Отчет"="Report"; "Отчёт"="Report"
+	"ПланОбмена"="ExchangePlan"; "Отчет"="Report"
 	"Обработка"="DataProcessor"; "РегистрСведений"="InformationRegister"
 	"РегистрНакопления"="AccumulationRegister"
 	"ПланВидовХарактеристик"="ChartOfCharacteristicTypes"
@@ -1659,7 +1666,7 @@ foreach ($item in $items) {
 	$remainder = $item.Substring($dotIdx + 1)
 
 	# Resolve Russian synonym to English type name
-	if ($synonymMap.ContainsKey($typeName)) { $typeName = $synonymMap[$typeName] }
+	if ($synonymMap.ContainsKey((Normalize-Yo $typeName))) { $typeName = $synonymMap[(Normalize-Yo $typeName)] }
 
 	if (-not $childTypeDirMap.ContainsKey($typeName)) {
 		Write-Error "Unknown type '${typeName}'"

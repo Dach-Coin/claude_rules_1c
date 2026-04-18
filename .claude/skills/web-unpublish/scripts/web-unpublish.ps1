@@ -96,7 +96,7 @@ foreach ($name in $appNames) {
     if ($confContent -match [regex]::Escape($pubMarkerStart)) {
         $pattern = '\r?\n?' + [regex]::Escape($pubMarkerStart) + '[\s\S]*?' + [regex]::Escape($pubMarkerEnd) + '\r?\n?'
         $confContent = [regex]::Replace($confContent, $pattern, "`n")
-        Write-Host "httpd.conf: блок публикации '$name' удалён" -ForegroundColor Green
+        Write-Host "httpd.conf: блок публикации '$name' удален" -ForegroundColor Green
     } else {
         Write-Host "Публикация '$name' не найдена в httpd.conf" -ForegroundColor Yellow
     }
@@ -110,7 +110,7 @@ if ($remainingPubs.Count -eq 0) {
     if ($confContent -match [regex]::Escape($globalMarkerStart)) {
         $globalPattern = '\r?\n?' + [regex]::Escape($globalMarkerStart) + '[\s\S]*?' + [regex]::Escape($globalMarkerEnd) + '\r?\n?'
         $confContent = [regex]::Replace($confContent, $globalPattern, "`n")
-        Write-Host "httpd.conf: глобальный блок 1C удалён (нет публикаций)" -ForegroundColor Green
+        Write-Host "httpd.conf: глобальный блок 1C удален (нет публикаций)" -ForegroundColor Green
     }
 }
 
@@ -121,7 +121,7 @@ foreach ($name in $appNames) {
     $publishDir = Join-Path (Join-Path $ApachePath "publish") $name
     if (Test-Path $publishDir) {
         Remove-Item $publishDir -Recurse -Force
-        Write-Host "Каталог удалён: $publishDir" -ForegroundColor Green
+        Write-Host "Каталог удален: $publishDir" -ForegroundColor Green
     } else {
         Write-Host "Каталог не найден: $publishDir" -ForegroundColor Yellow
     }

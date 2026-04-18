@@ -57,10 +57,10 @@ def main():
 
     if os.path.isdir(form_dir):
         shutil.rmtree(form_dir)
-        print(f"[OK] Удалён каталог: {form_dir}")
+        print(f"[OK] Удален каталог: {form_dir}")
 
     os.remove(form_meta_path)
-    print(f"[OK] Удалён файл: {form_meta_path}")
+    print(f"[OK] Удален файл: {form_meta_path}")
 
     # --- Modify root XML ---
 
