@@ -7,7 +7,7 @@
 
 - This file describes the tool-driven sources available in the current environment and maps engineering tasks to the right tool.
 - Coding standards (queries, data access, performance, formatting) - see `project_rules.md`.
-- Local skills (`1c-metadata-manage`, `deploy-and-test`, `getconfigfiles`, …) - see `skills_instructions.md`.
+- Local skills (flat upstream set under `.claude/skills/`) - full registry and dispatch table in `.claude/skills_instructions.md`. Metadata-domain knowledge map (project-specific rules, routing) - in `.claude/1c-metadata-manage.md`.
 
 ## Overview
 
@@ -141,7 +141,7 @@ Always formulate the task first, then pick the tool.
 | Reference on a built-in function / method / object | `mcp__1c-syntax__search_syntax` → `get_function_info` | - | Help topics partial |
 | Autocomplete while writing code | `mcp__1c-syntax__suggest_completion` | - | - |
 | Validate a call signature | `mcp__1c-syntax__validate_syntax` | - | - |
-| Find an SSL/БСП function to reuse | `rlm_execute` (grep over known BSP module names: `ОбщегоНазначения*`, `ОбщегоНазначенияКлиентСервер*`, `СтроковыеФункцииКлиентСервер*`, etc.) + `rlm_execute` (`find_exports`, `extract_procedures`) to read the signature from the module source | Read `ssl-patterns.md` inside the `1c-metadata-manage` skill | Semantic "which BSP function fits this task" |
+| Find an SSL/БСП function to reuse | `rlm_execute` (grep over known BSP module names: `ОбщегоНазначения*`, `ОбщегоНазначенияКлиентСервер*`, `СтроковыеФункцииКлиентСервер*`, etc.) + `rlm_execute` (`find_exports`, `extract_procedures`) to read the signature from the module source | See SSL/БСП section in `.claude/1c-metadata-manage.md` | Semantic "which BSP function fits this task" |
 | Diagnose a module after writing | `bsl-language-server` (plugin or `bsl-language-server.exe --analyze`) | - | - |
 | Analyze logic / performance | Checklist: `anti-patterns.md` + `dev-standards-*.md` + `project_rules.md` + LSP diagnostics + manual review | - | Automated logic/perf analyzer |
 | Open an analysis session | `mcp__rlm-tools-bsl__rlm_start` | - | - |
@@ -157,8 +157,8 @@ The new toolset does not cover every capability of the previous one. The list be
 
 | Capability | Status | Compensation |
 |---|---|---|
-| Curated cross-project code templates | **Lost** | Examples inside the current configuration (`rlm_execute`) + `anti-patterns.md` + `docs/` of the `1c-metadata-manage` skill |
-| Semantic search over BSP functions | **Reduced** | `rlm_execute` grep over known BSP module names + `ssl-patterns.md` inside `1c-metadata-manage` |
+| Curated cross-project code templates | **Lost** | Examples inside the current configuration (`rlm_execute`) + `anti-patterns.md` + `.claude/1c-metadata-manage.md` |
+| Semantic search over BSP functions | **Reduced** | `rlm_execute` grep over known BSP module names + SSL/БСП section in `.claude/1c-metadata-manage.md` |
 | Natural-language search for metadata | **Reduced** | `rlm_execute` grep over synonyms and object names + `parse_object_xml`; expect multiple iterations |
 | Automated logic / performance analyzer | **Lost** | Manual checklist: `anti-patterns.md` + `dev-standards-*.md` + LSP + human review |
 | Help topics / user-facing articles | **Reduced** | `search_syntax` / `get_function_info` give platform reference only |
@@ -211,7 +211,7 @@ The new toolset does not cover every capability of the previous one. The list be
 ### Metadata work
 
 - For inspection only - use `rlm-tools-bsl` tools from this file.
-- For creation, compilation, validation - delegate to the `1c-metadata-manage` skill (see `skills_instructions.md`). That skill is the only supported path to mutate metadata.
+- For creation, compilation, validation - route through the metadata domain map in `.claude/1c-metadata-manage.md` and pick the concrete skill from the dispatch table in `.claude/skills_instructions.md`. Direct file mutations outside these skills are not supported.
 
 ---
 

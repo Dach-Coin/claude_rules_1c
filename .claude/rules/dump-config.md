@@ -2,7 +2,7 @@
 ---
 # Get files from infobase
 
-See also the `getconfigfiles` skill (`.claude/skills_instructions.md`) - it's the preferred user-invocable dispatcher for this task.
+See also the "Базы данных" section in `.claude/skills_instructions.md` - the preferred skill-based route for this task.
 
 ## To get files from an infobase to modify its code or metadata, use the following commands
 

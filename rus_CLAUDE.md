@@ -37,7 +37,7 @@
 |---|---|---|
 | **MCP-серверы** (`rlm-tools-bsl`, `1c-syntax`) | `rlm-tools-bsl` - исследование кода и метаданных (Python-песочница). `1c-syntax` - платформенная справка (встроенные функции/методы/объекты). Оба прописаны в `mcpServers` файла `~/.claude.json`. | `.claude/rules/mcp-tools.md` |
 | **BSL Language Server** (плагин `bsl-language-server`) | Диагностика BSL - ошибки и стилевые предупреждения. Работает как плагин Claude Code (виден в `SessionStart` hook) и как локальный CLI (`bsl-language-server.exe --analyze`). Это НЕ MCP-сервер - не вызывать с префиксом `mcp__*`. | `.claude/rules/mcp-tools.md` |
-| **Навыки** (`1c-metadata-manage`, `deploy-and-test`, `getconfigfiles`, `1c_syntax_skills`, …) | Изменение метаданных, деплой, сквозные UI-тесты. `1c_syntax_skills` - slash-команда с правилами разработки BSL, направляет к MCP-серверу `1c-syntax` для справки по платформе; самостоятельно язык-сервер не поставляет. | `.claude/skills_instructions.md` |
+| **Навыки** (плоский набор upstream-скиллов в `.claude/skills/`) | Изменение метаданных, сборка артефактов, деплой, сквозные UI-тесты. Полный список и диспетчеризация - в `.claude/skills_instructions.md`. `1c_syntax_skills` - slash-команда-плагин, направляет к MCP-серверу `1c-syntax` для справки по платформе; самостоятельно язык-сервер не поставляет. | `.claude/skills_instructions.md` |
 | **Подагенты** (`developer`, `code-reviewer`, `metadata-manager`, …) | Делегирование многошаговых задач | `.claude/agents/` |
 
 При исследовании BSL предпочитай MCP-инструменты встроенному `Grep`/`find`. При изменении метаданных - навыки, а не прямые правки файлов.
@@ -56,7 +56,7 @@
 
 ## Metadata
 
-Любая структурная работа с метаданными делегируется навыку `1c-metadata-manage` (см. `.claude/skills_instructions.md`). Многошаговые или многодоменные задачи - через агента `metadata-manager`.
+Любая работа со структурой метаданных - объекты, формы, СКД, MXL, роли, расширения, базы данных, печатные формы - начинается с `.claude/1c-metadata-manage.md` (проектная карта домена) и dispatch-таблицы в `.claude/skills_instructions.md`. Многошаговые или многодоменные задачи - через агента `metadata-manager`.
 
 ## Detailed standards
 
@@ -69,13 +69,17 @@
 - `form_module_rules.md` - клиент-серверное взаимодействие, директивы компиляции (path-scoped)
 - `forms_add.md` - как создавать и изменять управляемые формы
 - `forms_events_add.md` - добавление обработчиков событий (path-scoped: `**/Form.Module.bsl`)
-- `getconfigfiles.md` - выгрузка конфигурации в файлы
+- `dump-config.md` - выгрузка конфигурации в файлы
 - `integrations_add.md` - внешние интеграции (политика «сначала на Python»)
 - `mcp-tools.md` - выбор MCP-инструментов и сценарии работы
 - `project_rules.md` - стандарты кодирования: запросы, доступ к данным, производительность, форматирование
 - `refactor_add.md` - подход к рефакторингу (top-down анализ, bottom-up рефакторинг)
 - `sdd-integrations.md` - опциональные SDD-фреймворки (Memory Bank, OpenSpec, Spec Kit, TaskMaster)
 - `user_rules.md` - принципы работы (пошагово, минимальные изменения, проверка пользователем)
+- `mermaid-diagrams.md` - шаблоны диаграмм и совместимость с рендерерами
+- `powershell-windows.md` - правила PowerShell на Windows
+
+Карта знаний по метаданным - `.claude/1c-metadata-manage.md` (читается после `.claude/skills_instructions.md` для любой задачи по метаданным).
 
 Диспетчеризация навыков - см. `.claude/skills_instructions.md`.
 

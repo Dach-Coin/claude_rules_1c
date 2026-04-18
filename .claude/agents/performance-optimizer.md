@@ -24,7 +24,7 @@ You are an expert 1C performance optimization specialist focused on identifying 
 
 ## Tool Usage
 
-See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping. Follow `.claude/skills/powershell-windows/SKILL.md` for shell commands.
+See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. For query and metadata performance tuning, see the "Оптимизация запросов" section in `.claude/1c-metadata-manage.md`. Follow `.claude/rules/powershell-windows.md` for shell commands.
 
 **Tasks typical for this agent:**
 - Locate slow patterns (query-in-loop, dot-notation, O(n²), excessive server calls) - `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers, extract_procedures)

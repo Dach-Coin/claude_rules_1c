@@ -24,7 +24,7 @@ You are an expert 1C code refactoring specialist focused on code cleanup, consol
 
 ## Tool Usage
 
-See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping. Follow `.claude/skills/powershell-windows/SKILL.md` for shell commands.
+See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. For structural refactors of metadata, consult `.claude/1c-metadata-manage.md`. Follow `.claude/rules/powershell-windows.md` for shell commands.
 
 **Tasks typical for this agent:**
 - Find every usage of a symbol before removing or relocating it - `mcp__rlm-tools-bsl__rlm_execute` (find_callers, find_callers_context, grep). Dynamic/string-based calls must also be checked via grep.

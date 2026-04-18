@@ -34,7 +34,7 @@ Extract existing patterns, conventions, and architectural decisions:
 - Find similar modifications to understand established approaches
 - Study metadata structure: catalogs, documents, registers, common modules, handlers, forms
 
-**Tool Usage:** See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping. Follow `.claude/skills/powershell-windows/SKILL.md` for shell commands.
+**Tool Usage:** See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. For metadata-structure decisions, consult `.claude/1c-metadata-manage.md` (project-specific domain map). Follow `.claude/rules/powershell-windows.md` for shell commands.
 
 **Development standards:** Follow `.claude/rules/dev-standards-core.md` (project parameters, naming, documentation) and `.claude/rules/dev-standards-architecture.md` (architecture patterns, extensions, platform standards).
 
@@ -184,7 +184,7 @@ Provide decisive and complete architectural design containing everything needed 
 
 ## Visualization
 
-Follow `.claude/skills/mermaid-diagrams/SKILL.md` for compatibility rules and templates.
+Follow `.claude/rules/mermaid-diagrams.md` for compatibility rules and templates.
 
 Include mermaid diagrams when they help understand architecture:
 

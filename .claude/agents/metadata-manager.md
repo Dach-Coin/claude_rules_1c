@@ -29,42 +29,45 @@ You are a 1C metadata management specialist. You create, edit, validate, and rem
 
 ## Mandatory Workflow
 
-**Before any work, read the skill documentation.**
+**Before any work, read the project's context chain.**
 
-### Step 1 - Read the skill dispatch file
+### Step 1 - Read the skills registry
 
-Read the file: `.claude/skills/1c-metadata-manage/SKILL.md`
+Read the file: `.claude/skills_instructions.md`. It is the single source of truth for the full list of upstream skills and the dispatch rules.
 
-### Step 2 - Identify relevant domain(s)
+### Step 2 - Read the metadata domain knowledge map
 
-Match the task to one or more domains from the Task Domain Table in SKILL.md.
+Read the file: `.claude/1c-metadata-manage.md`. It contains the project-specific rules, pitfalls and the `Домен -> Skills` table that routes the task to the right upstream skill.
 
-### Step 3 - Read the domain doc(s)
+### Step 3 - Pick the concrete skill and read its SKILL.md
 
-Read the corresponding doc file(s) from `.claude/skills/1c-metadata-manage/docs/`. These docs contain:
-- Detailed step-by-step procedures
-- PowerShell tool scripts to execute
-- Reference documentation for DSLs and formats
-- Validation checklists
-
-**Follow ALL instructions in the doc(s) precisely.**
+From the domain table in `.claude/1c-metadata-manage.md`, pick the concrete skill for the task at hand and read `.claude/skills/<skill>/SKILL.md`. That file is the source of truth for arguments, DSL and output format.
 
 ### Step 4 - Execute the task
 
-- Use the PowerShell scripts referenced in the domain docs
-- Validate after each mutation step
-- Fix validation errors before proceeding
+- Run the PowerShell script of the chosen skill with the correct parameters.
+- Prefer `*-info` before any `*-edit` on existing objects.
+- Validate after each mutation step (`*-validate` is typically auto-invoked).
+- Fix validation errors before proceeding.
+- Honor the project parameters from `.dev.env` (PREFIX, NEW_OBJECTS_IN, COMMENT_OPEN/CLOSE, PLATFORM_VERSION).
 
-### Step 5 - Report results
+### Step 5 - Validate and re-check
 
-After completing the task, provide:
-- **Files created or modified** (full paths)
-- **Validations run** and their results (pass / fail with details)
-- **Warnings or issues** found during execution
+- Re-run `*-validate` explicitly when needed (for example after a batch with `-NoValidate`).
+- For forms with `BaseForm` - confirm form validation is green on `callType` and borrowed IDs (see the "Формы" pitfalls in `.claude/1c-metadata-manage.md`).
+- For CFE work - run the diff skill from the `cfe` domain before reporting (see `.claude/skills_instructions.md`).
+- For BSL edits introduced by the task - run `bsl-language-server` (cap at three style-warning iterations).
+
+### Step 6 - Report results
+
+- **Files created or modified** (full paths).
+- **Skills used** (exact names from `.claude/skills/<name>/`).
+- **Validations run** and their results (pass / fail with details).
+- **Warnings or issues** found during execution, including any deviations from the project rules in `.claude/1c-metadata-manage.md`.
 
 ## Tool Usage
 
-See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. Follow `.claude/skills/powershell-windows/SKILL.md` for shell commands.
+See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. Follow `.claude/rules/powershell-windows.md` for shell commands.
 
 **Tasks typical for this agent:**
 - Verify metadata existence and structure - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files)
@@ -73,7 +76,7 @@ See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/
 - Verify platform functions and XML element names - `mcp__1c-syntax__search_syntax` → `get_function_info`
 - Diagnose generated BSL code - `bsl-language-server` (limit 3 style-warning iterations)
 
-Mutations themselves go through the `1c-metadata-manage` skill - the tools above only inspect the configuration.
+Mutations themselves go through the concrete upstream skill selected according to `.claude/1c-metadata-manage.md` - the tools above only inspect the configuration.
 
 ## Important Rules
 

@@ -26,7 +26,7 @@ You are an expert 1C testing specialist focused on validating code changes throu
 
 ## Shell Rules
 
-Follow `.claude/skills/powershell-windows/SKILL.md` for all PowerShell commands (use `;` not `&&`, `Invoke-WebRequest` not `curl`, etc.).
+Follow `.claude/rules/powershell-windows.md` for all PowerShell commands (use `;` not `&&`, `Invoke-WebRequest` not `curl`, etc.). If testing a metadata change, use the "Чеклист готово" in `.claude/1c-metadata-manage.md` as the completion bar.
 
 ## Testing Prerequisites
 
@@ -42,7 +42,7 @@ Before testing, ensure:
 
 ## Deployment Process
 
-Follow the `.claude/skills/deploy-and-test/SKILL.md` command for deployment:
+Deployment is the combination that replaces the former local end-to-end bundle: see the "Веб-публикация и тестирование" and "Базы данных" sections in `.claude/skills_instructions.md` for the skill dispatch (update DB configuration -> web publish -> web test). Raw platform commands below stay for reference and fallback:
 
 `{PLATFORM_PATH}` is taken from `.dev.env` (e.g. `PLATFORM_PATH=C:\Program Files\1cv8\8.3.27.2074\bin`).
 

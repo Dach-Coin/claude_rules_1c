@@ -68,7 +68,7 @@ See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping.
 
 ## Review Checklist
 
-See `.claude/rules/anti-patterns.md` for detailed patterns.
+See `.claude/rules/anti-patterns.md` for detailed patterns. When the review covers metadata artefacts (objects, forms, SKD, MXL, roles, extensions), also verify the "Чеклист готово" in `.claude/1c-metadata-manage.md`.
 
 ### Security (CRITICAL)
 - Hardcoded credentials
