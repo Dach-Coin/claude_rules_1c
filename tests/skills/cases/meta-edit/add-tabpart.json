@@ -1,0 +1,23 @@
+{
+  "name": "Добавление табличной части к справочнику",
+  "preRun": [
+    {
+      "script": "meta-compile/scripts/meta-compile",
+      "input": { "type": "Catalog", "name": "Контрагенты" },
+      "args": { "-JsonPath": "{inputFile}", "-OutputDir": "{workDir}" }
+    }
+  ],
+  "params": { "objectPath": "Catalogs/Контрагенты" },
+  "input": {
+    "operations": [
+      {
+        "op": "add-ts",
+        "name": "КонтактнаяИнформация",
+        "attributes": [
+          { "name": "Тип", "type": "String", "length": 50 },
+          { "name": "Значение", "type": "String", "length": 250 }
+        ]
+      }
+    ]
+  }
+}
