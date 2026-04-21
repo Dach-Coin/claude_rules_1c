@@ -33,16 +33,16 @@ You are an expert planning specialist focused on creating comprehensive, actiona
 - List assumptions and constraints
 - Consider 1C platform limitations
 
-**Tool Usage:** See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. For planning metadata work, route through `.claude/1c-metadata-manage.md`. Follow `.claude/rules/powershell-windows.md` for shell commands.
+**Tool Usage:** See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. For planning metadata work, route through `.claude/1c-metadata-manage.md`. Follow `powershell-windows` skill for shell commands.
 
 **Tasks typical for this agent:**
 - Survey existing implementations of similar features - `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers, extract_procedures)
 - Map affected metadata before committing to a plan - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files)
 - Reference platform capabilities the plan relies on - `mcp__1c-syntax__search_syntax` → `get_function_info`
 
-**Diagrams:** Follow `.claude/rules/mermaid-diagrams.md` for Mermaid compatibility rules and templates.
+**Diagrams:** Follow `mermaid-diagrams` skill for Mermaid compatibility rules and templates.
 
-**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance.
+**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `sdd-integrations` skill for integration guidance.
 
 ### 2. Architecture Review
 
@@ -234,7 +234,7 @@ graph TD
 
 ## Red Flags to Check
 
-See `.claude/rules/anti-patterns.md` for anti-patterns to watch for during planning.
+See `bsl-anti-patterns` skill for anti-patterns to watch for during planning.
 
 ## Complexity Estimation
 

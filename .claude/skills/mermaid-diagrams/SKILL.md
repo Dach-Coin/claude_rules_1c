@@ -1,9 +1,13 @@
-# Mermaid Diagrams Skill
+---
+name: mermaid-diagrams
+description: Справочник шаблонов Mermaid-диаграмм и правил совместимости с рендерерами. Используй при создании любой диаграммы в Markdown (flowchart, sequence, class, state, ER, journey, gantt, pie, fallbacks). Дает готовые шаблоны и требует добавлять ASCII/Unicode sidecar ниже mermaid-блока.
+argument-hint: (no arguments)
+allowed-tools: []
+---
 
-This skill provides:
-- A conservative set of Mermaid templates that render on older renderers (VS Code/Markdown previewers, Git platforms) and remain clear to humans.
-- Guidance on which diagram type to use for which situation.
-- Compatibility tips and fallbacks when advanced Mermaid types are unavailable.
+# /mermaid-diagrams - шаблоны и совместимость Mermaid
+
+Набор шаблонов Mermaid, которые рендерятся на старых движках (VS Code, Markdown-preview, Git-платформы) и остаются читаемыми людям. Вызывай этот skill всякий раз, когда готовишь диаграмму в документе.
 
 ## Compatibility Rules (Read First)
 - Prefer `graph LR`/`graph TB` for flowcharts; some renderers fail on `flowchart` keyword.

@@ -60,18 +60,17 @@ rus_CLAUDE.md                     # Русское зеркало CLAUDE.md (DO 
 │   ├── dev-standards-architecture.md  # Стандарты: архитектура, расширения, code smells
 │   ├── dev-standards-forms.md   # Стандарты: модули форм (path-scoped: **/Form.Module.bsl)
 │   ├── mcp-tools.md             # Справочник MCP-инструментов и инструментов ревью
-│   ├── sdd-integrations.md      # Интеграции SDD-фреймворков
-│   ├── anti-patterns.md         # Антипаттерны и оптимизации
 │   ├── form_module_rules.md     # Правила модулей форм (path-scoped: **/Form.Module.bsl)
 │   ├── forms_add.md             # Создание форм
 │   ├── forms_events_add.md      # Обработчики событий форм (path-scoped: **/Form.Module.bsl)
 │   ├── integrations_add.md      # Интеграции
-│   ├── refactor_add.md          # Рефакторинг
-│   ├── dump-config.md           # Выгрузка конфигурации
-│   ├── mermaid-diagrams.md      # Шаблоны Mermaid-диаграмм
-│   └── powershell-windows.md    # Правила PowerShell на Windows
+│   └── refactor_add.md          # Рефакторинг
 │
 └── skills/                       # Плоский набор upstream-скиллов (полный список - в skills_instructions.md)
+    ├── bsl-anti-patterns/        # Каталог анти-паттернов BSL (ревью, рефакторинг, оптимизация)
+    ├── mermaid-diagrams/         # Шаблоны Mermaid-диаграмм и правила совместимости
+    ├── powershell-windows/       # Правила PowerShell на Windows
+    └── sdd-integrations/         # Интеграции SDD-фреймворков (on-demand)
 ```
 
 ## Установка
@@ -141,8 +140,6 @@ rus_CLAUDE.md                     # Русское зеркало CLAUDE.md (DO 
 - **dev-standards-core.md** - параметры `.dev.env`, стиль кода, комментарии модификаций, именование, документирование
 - **dev-standards-architecture.md** - архитектурные паттерны, расширения, платформенные стандарты, code smells
 - **mcp-tools.md** - справочник по выбору MCP-инструментов с таблицей маппинга задач
-- **anti-patterns.md** - каталог антипаттернов (критические, высокие, средние) с примерами исправления
-- **sdd-integrations.md** - интеграции с SDD-фреймворками (Memory Bank, OpenSpec, Spec Kit, TaskMaster)
 
 ### Контекстные (path-scoped: `**/Form.Module.bsl`)
 
@@ -159,13 +156,20 @@ rus_CLAUDE.md                     # Русское зеркало CLAUDE.md (DO 
 - **forms_add.md** - создание и модификация управляемых форм
 - **integrations_add.md** - внешние интеграции (Python-first политика)
 - **refactor_add.md** - подход к рефакторингу (top-down анализ, bottom-up правки)
-- **dump-config.md** - выгрузка конфигурации из ИБ в файлы
-- **mermaid-diagrams.md** - шаблоны диаграмм Mermaid и правила совместимости рендереров
-- **powershell-windows.md** - правила PowerShell-скриптинга на Windows
+
+### Вызываются как скиллы (on-demand)
+
+Загружаются через Skill-триггер, когда задача соответствует описанию:
+
+- **`bsl-anti-patterns`** - каталог антипаттернов BSL (критические, высокие, средние, архитектурные) с примерами исправления и confidence-scoring
+- **`mermaid-diagrams`** - шаблоны диаграмм Mermaid и правила совместимости рендереров
+- **`powershell-windows`** - правила PowerShell-скриптинга на Windows
+- **`sdd-integrations`** - интеграции с SDD-фреймворками (Memory Bank, OpenSpec, Spec Kit, TaskMaster)
+- **`db-dump-xml`** - выгрузка конфигурации из ИБ в файлы
 
 ## SDD-интеграции (Spec-Driven Development)
 
-Все агенты поддерживают опциональную интеграцию с SDD-фреймворками, если они присутствуют в проекте. Подробности см. в `.claude/rules/sdd-integrations.md`.
+Все агенты поддерживают опциональную интеграцию с SDD-фреймворками, если они присутствуют в проекте. Подробности - через skill `sdd-integrations`.
 
 | Фреймворк | Тип | Описание | Обнаружение |
 |-----------|-----|----------|-------------|

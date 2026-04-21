@@ -32,7 +32,7 @@ See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping.
 - Reference platform capabilities implied by the design - `mcp__1c-syntax__search_syntax` → `get_function_info`.
 - Cross-project curated design templates are not available in the current toolset - see Capability boundaries in `.claude/rules/mcp-tools.md`. Rely on patterns inside the configuration plus `.claude/rules/dev-standards-architecture.md`.
 
-**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance.
+**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `sdd-integrations` skill for integration guidance.
 
 ## Review Scope
 
@@ -154,7 +154,7 @@ For each issue, provide:
 
 ## Anti-Pattern Detection
 
-See `.claude/rules/anti-patterns.md#architectural-anti-patterns` for detailed descriptions:
+See `bsl-anti-patterns` skill, section "Architectural Anti-Patterns" for detailed descriptions:
 - Big Ball of Mud
 - God Module
 - Tight Coupling
@@ -163,7 +163,7 @@ See `.claude/rules/anti-patterns.md#architectural-anti-patterns` for detailed de
 
 ## Confidence Scoring
 
-See `.claude/rules/anti-patterns.md#confidence-scoring` for scale.
+See `bsl-anti-patterns` skill, section "Confidence Scoring" for scale.
 
 **Report findings with confidence >= 50**
 

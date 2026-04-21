@@ -143,7 +143,7 @@ Always formulate the task first, then pick the tool.
 | Validate a call signature | `mcp__1c-syntax__validate_syntax` | - | - |
 | Find an SSL/БСП function to reuse | `rlm_execute` (grep over known BSP module names: `ОбщегоНазначения*`, `ОбщегоНазначенияКлиентСервер*`, `СтроковыеФункцииКлиентСервер*`, etc.) + `rlm_execute` (`find_exports`, `extract_procedures`) to read the signature from the module source | See SSL/БСП section in `.claude/1c-metadata-manage.md` | Semantic "which BSP function fits this task" |
 | Diagnose a module after writing | `bsl-language-server` (plugin or `bsl-language-server.exe --analyze`) | - | - |
-| Analyze logic / performance | Checklist: `anti-patterns.md` + `dev-standards-*.md` + `project_rules.md` + LSP diagnostics + manual review | - | Automated logic/perf analyzer |
+| Analyze logic / performance | Checklist: `bsl-anti-patterns` skill + `dev-standards-*.md` + `project_rules.md` + LSP diagnostics + manual review | - | Automated logic/perf analyzer |
 | Open an analysis session | `mcp__rlm-tools-bsl__rlm_start` | - | - |
 | Index a large configuration | `mcp__rlm-tools-bsl__rlm_index` (build/update/info/drop) | - | - |
 | Manage the project registry | `mcp__rlm-tools-bsl__rlm_projects` | - | - |
@@ -157,10 +157,10 @@ The new toolset does not cover every capability of the previous one. The list be
 
 | Capability | Status | Compensation |
 |---|---|---|
-| Curated cross-project code templates | **Lost** | Examples inside the current configuration (`rlm_execute`) + `anti-patterns.md` + `.claude/1c-metadata-manage.md` |
+| Curated cross-project code templates | **Lost** | Examples inside the current configuration (`rlm_execute`) + `bsl-anti-patterns` skill + `.claude/1c-metadata-manage.md` |
 | Semantic search over BSP functions | **Reduced** | `rlm_execute` grep over known BSP module names + SSL/БСП section in `.claude/1c-metadata-manage.md` |
 | Natural-language search for metadata | **Reduced** | `rlm_execute` grep over synonyms and object names + `parse_object_xml`; expect multiple iterations |
-| Automated logic / performance analyzer | **Lost** | Manual checklist: `anti-patterns.md` + `dev-standards-*.md` + LSP + human review |
+| Automated logic / performance analyzer | **Lost** | Manual checklist: `bsl-anti-patterns` skill + `dev-standards-*.md` + LSP + human review |
 | Help topics / user-facing articles | **Reduced** | `search_syntax` / `get_function_info` give platform reference only |
 | Semantic / hybrid code search | **Reduced** | `rlm_execute` provides grep and call graph, no semantic mode |
 | Cypher graph queries over metadata | **Lost** | `rlm_execute` (`parse_object_xml` + grep over XML) |
@@ -186,7 +186,7 @@ The new toolset does not cover every capability of the previous one. The list be
 3. Metadata sanity: `rlm_execute` (parse_object_xml).
 4. Platform correctness: `1c-syntax.validate_syntax`.
 5. Diagnostics: `bsl-language-server`.
-6. Manual checklist against `anti-patterns.md` + `dev-standards-*.md` (this replaces the former automated analyzer).
+6. Manual checklist against `bsl-anti-patterns` skill + `dev-standards-*.md` (this replaces the former automated analyzer).
 7. `rlm_end`.
 
 ### Fixing errors
@@ -203,7 +203,7 @@ The new toolset does not cover every capability of the previous one. The list be
 1. `rlm_start`.
 2. Find hot loops / query-in-loop / dot access: `rlm_execute` (grep patterns, find_callers).
 3. Inspect register usage and indices via XML: `rlm_execute` (parse_object_xml).
-4. Manual checklist against `anti-patterns.md` (registers, virtual tables, batching).
+4. Manual checklist against `bsl-anti-patterns` skill (registers, virtual tables, batching).
 5. Apply rewrites.
 6. Diagnostics: `bsl-language-server`.
 7. `rlm_end`.

@@ -24,7 +24,7 @@ You are an expert 1C code refactoring specialist focused on code cleanup, consol
 
 ## Tool Usage
 
-See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. For structural refactors of metadata, consult `.claude/1c-metadata-manage.md`. Follow `.claude/rules/powershell-windows.md` for shell commands.
+See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. For structural refactors of metadata, consult `.claude/1c-metadata-manage.md`. Follow `powershell-windows` skill for shell commands.
 
 **Tasks typical for this agent:**
 - Find every usage of a symbol before removing or relocating it - `mcp__rlm-tools-bsl__rlm_execute` (find_callers, find_callers_context, grep). Dynamic/string-based calls must also be checked via grep.
@@ -32,11 +32,11 @@ See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/
 - Find better patterns already present in the configuration - `mcp__rlm-tools-bsl__rlm_execute` (grep, extract_procedures).
 - Validate platform calls in rewritten code - `mcp__1c-syntax__search_syntax` → `get_function_info`; `mcp__1c-syntax__validate_syntax`.
 - Diagnose refactored modules - `bsl-language-server` (limit 3 style-warning iterations).
-- Manual logic/performance review - follow `.claude/rules/anti-patterns.md` + `.claude/rules/dev-standards-*.md` (this replaces the former automated analyzer - see Capability boundaries in `.claude/rules/mcp-tools.md`).
+- Manual logic/performance review - follow `bsl-anti-patterns` skill + `.claude/rules/dev-standards-*.md` (this replaces the former automated analyzer - see Capability boundaries in `.claude/rules/mcp-tools.md`).
 
 Session contract: every `rlm_start` must be balanced by `rlm_end`.
 
-**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance.
+**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `sdd-integrations` skill for integration guidance.
 
 ## Refactoring Workflow
 
@@ -80,16 +80,16 @@ d) Document all changes
 
 ## Refactoring Patterns
 
-See `.claude/rules/anti-patterns.md` for detailed patterns with code examples:
+See `bsl-anti-patterns` skill for detailed patterns with code examples:
 
 | Pattern | Reference |
 |---------|-----------|
 | Dead Code Removal | Remove unused procedures after verifying no references |
 | Duplicate Consolidation | Extract common logic to shared procedures |
-| Query Optimization | `.claude/rules/anti-patterns.md#query-in-loop` |
-| Attribute Access | `.claude/rules/anti-patterns.md#direct-attribute-access` |
-| Complexity Reduction | `.claude/rules/anti-patterns.md#deep-nesting` |
-| Caching | `.claude/rules/anti-patterns.md#missing-caching` |
+| Query Optimization | `bsl-anti-patterns` skill, section "Query in Loop" |
+| Attribute Access | `bsl-anti-patterns` skill, section "Direct Attribute Access" |
+| Complexity Reduction | `bsl-anti-patterns` skill, section "Deep Nesting" |
+| Caching | `bsl-anti-patterns` skill, section "Missing Caching" |
 
 ## 1C-Specific Refactoring Rules
 

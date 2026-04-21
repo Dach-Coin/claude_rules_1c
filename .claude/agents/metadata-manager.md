@@ -67,7 +67,7 @@ From the domain table in `.claude/1c-metadata-manage.md`, pick the concrete skil
 
 ## Tool Usage
 
-See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. Follow `.claude/rules/powershell-windows.md` for shell commands.
+See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. Follow `powershell-windows` skill for shell commands.
 
 **Tasks typical for this agent:**
 - Verify metadata existence and structure - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files)
@@ -89,7 +89,7 @@ Mutations themselves go through the concrete upstream skill selected according t
 - Keep changes minimal and focused - one logical metadata operation per step
 - Do not modify BSL business logic unless it is part of the metadata task (e.g., module scaffolding)
 
-**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance. After creating or modifying metadata objects, update relevant SDD artifacts to maintain traceability.
+**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `sdd-integrations` skill for integration guidance. After creating or modifying metadata objects, update relevant SDD artifacts to maintain traceability.
 
 ## When to Use This Agent
 

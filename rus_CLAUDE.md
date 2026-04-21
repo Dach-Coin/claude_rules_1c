@@ -50,7 +50,7 @@
 4. Незнакомые платформенные вызовы проверь в `1c-syntax` (`search_syntax`, `get_function_info`).
 5. Пиши код по `project_rules.md` + `dev-standards-core.md` + `dev-standards-architecture.md`.
 6. Прогони диагностику `bsl-language-server` (плагин / CLI); лимит - три итерации по стилю.
-7. Проведи ручной обзор по `anti-patterns.md` (это заменяет утраченный автоматический анализатор логики/производительности - см. Capability boundaries в `mcp-tools.md`).
+7. Проведи ручной обзор по чек-листу skill `bsl-anti-patterns` (заменяет утраченный автоматический анализатор логики/производительности - см. Capability boundaries в `mcp-tools.md`).
 8. Закрой сессию: `mcp__rlm-tools-bsl__rlm_end`.
 9. Представь результат с обоснованием и списком измененных файлов.
 
@@ -62,22 +62,26 @@
 
 Файлы правил загружаются из `.claude/rules/`:
 
-- `anti-patterns.md` - каталог антипаттернов (критические/высокие/средние) с исправлениями
 - `dev-standards-architecture.md` - архитектурные паттерны, расширения, запахи кода
 - `dev-standards-core.md` - `.dev.env`, стиль кода, комментарии модификаций, именование, заголовки документации
 - `dev-standards-forms.md` - структура и стандарты модулей форм (path-scoped: `**/Form.Module.bsl`)
 - `form_module_rules.md` - клиент-серверное взаимодействие, директивы компиляции (path-scoped)
 - `forms_add.md` - как создавать и изменять управляемые формы
 - `forms_events_add.md` - добавление обработчиков событий (path-scoped: `**/Form.Module.bsl`)
-- `dump-config.md` - выгрузка конфигурации в файлы
 - `integrations_add.md` - внешние интеграции (политика «сначала на Python»)
 - `mcp-tools.md` - выбор MCP-инструментов и сценарии работы
 - `project_rules.md` - стандарты кодирования: запросы, доступ к данным, производительность, форматирование
 - `refactor_add.md` - подход к рефакторингу (top-down анализ, bottom-up рефакторинг)
-- `sdd-integrations.md` - опциональные SDD-фреймворки (Memory Bank, OpenSpec, Spec Kit, TaskMaster)
 - `user_rules.md` - принципы работы (пошагово, минимальные изменения, проверка пользователем)
-- `mermaid-diagrams.md` - шаблоны диаграмм и совместимость с рендерерами
-- `powershell-windows.md` - правила PowerShell на Windows
+
+On-demand скиллы (раньше жили в rules) - вызываются через Skill, когда задача соответствует описанию:
+
+- `bsl-anti-patterns` - каталог антипаттернов BSL (критические/высокие/средние/архитектурные) с исправлениями и confidence-scoring; используется в ревью, рефакторинге, анализе производительности.
+- `mermaid-diagrams` - шаблоны диаграмм и совместимость с рендерерами; используется при создании любой Mermaid-диаграммы.
+- `powershell-windows` - правила PowerShell на Windows; используется при составлении shell-команд для Windows.
+- `sdd-integrations` - опциональные SDD-фреймворки (Memory Bank, OpenSpec, Spec Kit, TaskMaster); используется, когда соответствующие артефакты обнаружены в проекте.
+
+Выгрузка конфигурации в файлы закрыта скиллом `db-dump-xml` (см. диспетчеризацию в `.claude/skills_instructions.md`).
 
 Карта знаний по метаданным - `.claude/1c-metadata-manage.md` (читается после `.claude/skills_instructions.md` для любой задачи по метаданным).
 

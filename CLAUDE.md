@@ -53,7 +53,7 @@ Prefer MCP tools over `Grep` / `find` when investigating BSL. Prefer skills over
 4. Look up unfamiliar platform calls in `1c-syntax` (`search_syntax`, `get_function_info`).
 5. Write code following `project_rules.md` + `dev-standards-core.md` + `dev-standards-architecture.md`.
 6. Diagnose with `bsl-language-server` (plugin / CLI); cap style-warning iterations at three.
-7. Manually review against `anti-patterns.md` (this replaces the former automated logic/perf analyzer - see Capability boundaries in `mcp-tools.md`).
+7. Manually review against the `bsl-anti-patterns` skill checklist (replaces the former automated logic/perf analyzer - see Capability boundaries in `mcp-tools.md`).
 8. Close the session: `mcp__rlm-tools-bsl__rlm_end`.
 9. Present the result with rationale and the list of touched files.
 
@@ -65,22 +65,26 @@ Any work on the structure of metadata - objects, forms, SKD, MXL, roles, extensi
 
 Rule files are loaded from `.claude/rules/`:
 
-- `anti-patterns.md` - catalogued anti-patterns (critical/high/medium) with fixes
 - `dev-standards-architecture.md` - architecture patterns, extensions, code smells
 - `dev-standards-core.md` - `.dev.env`, code style, modification comments, naming, documentation headers
 - `dev-standards-forms.md` - form module structure and standards (path-scoped: `**/Form.Module.bsl`)
 - `form_module_rules.md` - client/server interaction, compilation directives (path-scoped)
 - `forms_add.md` - how to create or modify managed forms
 - `forms_events_add.md` - adding event handlers (path-scoped: `**/Form.Module.bsl`)
-- `dump-config.md` - exporting a configuration to files
 - `integrations_add.md` - external integrations (Python-first policy)
 - `mcp-tools.md` - MCP tool selection and workflows
 - `project_rules.md` - coding standards: queries, data access, performance, formatting
 - `refactor_add.md` - refactoring approach (top-down analysis, bottom-up refactor)
-- `sdd-integrations.md` - optional SDD frameworks (Memory Bank, OpenSpec, Spec Kit, TaskMaster)
 - `user_rules.md` - working principles (step-by-step, minimal changes, human-in-the-loop)
-- `mermaid-diagrams.md` - diagram templates and renderer-compatibility guidance
-- `powershell-windows.md` - PowerShell scripting rules for Windows
+
+On-demand skills that used to live as rules (invoke via the Skill tool when the task matches):
+
+- `bsl-anti-patterns` - catalogued BSL anti-patterns (critical/high/medium/architectural) with fixes and confidence scoring; use in review, refactor, performance work.
+- `mermaid-diagrams` - diagram templates and renderer-compatibility guidance; use when drawing any Mermaid diagram.
+- `powershell-windows` - PowerShell scripting rules for Windows; use when composing shell commands on Windows.
+- `sdd-integrations` - optional SDD frameworks (Memory Bank, OpenSpec, Spec Kit, TaskMaster); use when such artefacts are detected in the project.
+
+Configuration export to files is covered by the `db-dump-xml` skill (see dispatch in `.claude/skills_instructions.md`).
 
 Metadata domain knowledge map - `.claude/1c-metadata-manage.md` (read after `.claude/skills_instructions.md` for any metadata task).
 

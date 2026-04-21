@@ -236,7 +236,7 @@ powershell.exe -NoProfile -File .claude/skills/epf-init/scripts/init.ps1 -NameB6
 - `COMMENT_OPEN`/`COMMENT_CLOSE` расставлены везде, где правилась типовая (вне CFE - в `cfe-patch-method`).
 - Если `NEW_OBJECTS_IN=extension` - изменения типовой обернуты в CFE, прямых правок нет.
 - BSL Language Server по тронутым `.bsl` - без новых критических диагностик.
-- Ручная сверка по `.claude/rules/anti-patterns.md` для затронутых модулей.
+- Ручная сверка по `bsl-anti-patterns` skill для затронутых модулей.
 - В отчете перечислены измененные файлы, использованные скиллы и проектные грабли (если всплыли).
 
 ## Что НЕ здесь
@@ -247,5 +247,5 @@ powershell.exe -NoProfile -File .claude/skills/epf-init/scripts/init.ps1 -NameB6
 - Архитектурные паттерны, БСП-интеграция в глубину, code smells - в `.claude/rules/dev-standards-architecture.md`.
 - Правила модулей форм (клиент/сервер, директивы компиляции, события) - в `.claude/rules/form_module_rules.md` и `.claude/rules/dev-standards-forms.md`.
 - Выбор MCP vs skill vs bsl-language-server, capability boundaries - в `.claude/rules/mcp-tools.md`.
-- Каталог анти-паттернов с уровнями severity - в `.claude/rules/anti-patterns.md`.
-- SDD-интеграции (Memory Bank, OpenSpec, Spec Kit, TaskMaster) - в `.claude/rules/sdd-integrations.md`.
+- Каталог анти-паттернов с уровнями severity - в `bsl-anti-patterns` skill.
+- SDD-интеграции (Memory Bank, OpenSpec, Spec Kit, TaskMaster) - в `sdd-integrations` skill.

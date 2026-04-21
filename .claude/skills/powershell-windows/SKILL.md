@@ -1,4 +1,11 @@
-# PowerShell Windows - Scripting Rules
+---
+name: powershell-windows
+description: Правила написания команд PowerShell для Windows - разделители, кавычки, HTTP-запросы, Docker, JSON, задержки. Вызывай всякий раз, когда составляешь shell-команду для Windows-окружения (bash-синтаксис `&&`, `curl`, `timeout` там не работает).
+argument-hint: (no arguments)
+allowed-tools: []
+---
+
+# /powershell-windows - правила PowerShell на Windows
 
 Essential rules for correct PowerShell usage on Windows. Follow these rules to avoid common errors when executing shell commands.
 

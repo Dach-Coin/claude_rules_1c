@@ -1,11 +1,13 @@
 ---
+name: sdd-integrations
+description: Интеграция опциональных SDD-фреймворков и управления задачами (Claude Auto Memory, OpenSpec, GitHub Spec Kit, TaskMaster MCP). Вызывай, когда в проекте обнаружены артефакты `openspec/`, `spec.md`+`constitution.md`, `.taskmaster/`, или нужно обновить MEMORY.md. Содержит правила обнаружения, интеграции и порядок приоритетов.
+argument-hint: (no arguments)
+allowed-tools: []
 ---
 
-# SDD (Spec-Driven Development) Integrations
+# /sdd-integrations - SDD-фреймворки и Task Management
 
-This rule provides integration guidance for optional SDD frameworks and task management tools. **Use these tools only when they are present in the project.**
-
-> **Note**: This rule is loaded on-demand via `rules/sdd-integrations.md` reference in agents. Check for framework presence before using.
+This skill provides integration guidance for optional SDD frameworks and task management tools. **Use these tools only when they are present in the project.**
 
 ## Detection
 
@@ -85,27 +87,27 @@ A lightweight spec-driven framework with two-folder architecture for specificati
 
 - **Specs folder**: `openspec/specs/` - source of truth for requirements
 - **Changes folder**: `openspec/changes/` - active proposals
-- **Workflow**: Draft → Review → Implement → Complete → Archive
+- **Workflow**: Draft -> Review -> Implement -> Complete -> Archive
 
 ### Directory Structure
 
 ```
 openspec/
-├── specs/                    # Source of truth
-│   ├── auth-login/
-│   │   └── spec.md
-│   ├── auth-session/
-│   │   └── spec.md
-│   └── [capability]/
-│       └── spec.md
-└── changes/                  # Active proposals
-    └── [change-id]/
-        ├── proposal.md       # Change description
-        ├── design.md         # Technical decisions
-        ├── tasks.md          # Implementation tasks
-        └── specs/            # Spec deltas
-            └── [capability]/
-                └── spec.md
+|-- specs/                    # Source of truth
+|   |-- auth-login/
+|   |   `-- spec.md
+|   |-- auth-session/
+|   |   `-- spec.md
+|   `-- [capability]/
+|       `-- spec.md
+`-- changes/                  # Active proposals
+    `-- [change-id]/
+        |-- proposal.md       # Change description
+        |-- design.md         # Technical decisions
+        |-- tasks.md          # Implementation tasks
+        `-- specs/            # Spec deltas
+            `-- [capability]/
+                `-- spec.md
 ```
 
 ### Spec Format
@@ -135,7 +137,7 @@ When OpenSpec is detected:
 1. **Read existing specs**: Before implementing, check `openspec/specs/` for relevant specifications
 2. **Create proposals**: For new features, create change proposals in `openspec/changes/`
 3. **Update specs**: After implementation, update affected specs with deltas
-4. **Follow workflow**: Draft → Review → Implement → Complete → Archive
+4. **Follow workflow**: Draft -> Review -> Implement -> Complete -> Archive
 
 ### Agent-Specific Usage
 
@@ -203,10 +205,10 @@ Core tools (always available):
 
 ```
 .taskmaster/
-├── docs/
-│   └── prd.txt              # Product Requirements Document
-└── tasks/
-    └── tasks.json           # Task database
+|-- docs/
+|   `-- prd.txt              # Product Requirements Document
+`-- tasks/
+    `-- tasks.json           # Task database
 ```
 
 ### Task Statuses
@@ -275,22 +277,22 @@ CallMcpTool("user-task-master-ai", "parse_prd", {
 When multiple SDD tools are present, combine them effectively:
 
 ### 1. Requirements Phase
-- **analytic**: Create PRD → Write to OpenSpec specs or Memory Bank
+- **analytic**: Create PRD -> Write to OpenSpec specs or Memory Bank
 - **TaskMaster**: `parse_prd` to generate tasks from PRD
 
 ### 2. Planning Phase
-- **planner**: Read specs → Create implementation plan
+- **planner**: Read specs -> Create implementation plan
 - **Memory Bank**: Use `/plan` workflow, update `tasks.md`
 - **TaskMaster**: `expand_task` to break down complex tasks
 
 ### 3. Design Phase
-- **architect**: Follow Spec Kit `constitution.md` → Write design docs
+- **architect**: Follow Spec Kit `constitution.md` -> Write design docs
 - **Memory Bank**: Use `/creative` for design decisions
 - **OpenSpec**: Create `design.md` in change proposal
 
 ### 4. Implementation Phase
-- **developer**: Read specs → Implement → Update progress
-- **metadata-manager**: Create/modify metadata objects → Validate → Update SDD artifacts
+- **developer**: Read specs -> Implement -> Update progress
+- **metadata-manager**: Create/modify metadata objects -> Validate -> Update SDD artifacts
 - **TaskMaster**: `set_task_status` to track progress
 - **Memory Bank**: Update `progress.md`
 

@@ -62,13 +62,13 @@ See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping.
 - Verify metadata usage - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml, glob_files).
 - Verify compliance with existing patterns - `mcp__rlm-tools-bsl__rlm_execute` (find_callers, grep, extract_procedures).
 - Diagnostic pass on touched modules - `bsl-language-server`.
-- Logic and performance analysis - manual checklist from `.claude/rules/anti-patterns.md` + `.claude/rules/dev-standards-*.md` (replaces the former automated analyzer - see Capability boundaries in `.claude/rules/mcp-tools.md`).
+- Logic and performance analysis - manual checklist from `bsl-anti-patterns` skill + `.claude/rules/dev-standards-*.md` (replaces the former automated analyzer - see Capability boundaries in `.claude/rules/mcp-tools.md`).
 
-**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance.
+**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `sdd-integrations` skill for integration guidance.
 
 ## Review Checklist
 
-See `.claude/rules/anti-patterns.md` for detailed patterns. When the review covers metadata artefacts (objects, forms, SKD, MXL, roles, extensions), also verify the "Чеклист готово" in `.claude/1c-metadata-manage.md`.
+See `bsl-anti-patterns` skill for detailed patterns. When the review covers metadata artefacts (objects, forms, SKD, MXL, roles, extensions), also verify the "Чеклист готово" in `.claude/1c-metadata-manage.md`.
 
 ### Security (CRITICAL)
 - Hardcoded credentials
@@ -102,7 +102,7 @@ See `.claude/rules/anti-patterns.md` for detailed patterns. When the review cove
 
 ## Confidence Scoring
 
-See `.claude/rules/anti-patterns.md#confidence-scoring` for scale details.
+See `bsl-anti-patterns` skill, section "Confidence Scoring" for scale details.
 
 **Report only issues with confidence >= 75.** Quality over quantity.
 
@@ -150,7 +150,7 @@ Fix: Suggested correction
 ### [SEVERITY] Issue Title (confidence: XX%)
 **File:** `Module.bsl:45`
 **Issue:** [Description]
-**Rule:** See `.claude/rules/anti-patterns.md#[section]` or `.claude/rules/project_rules.md`
+**Rule:** See `bsl-anti-patterns` skill or `.claude/rules/project_rules.md`
 **Fix:** [Correction]
 
 ---

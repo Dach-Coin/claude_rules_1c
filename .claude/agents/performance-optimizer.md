@@ -24,20 +24,20 @@ You are an expert 1C performance optimization specialist focused on identifying 
 
 ## Tool Usage
 
-See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. For query and metadata performance tuning, see the "Оптимизация запросов" section in `.claude/1c-metadata-manage.md`. Follow `.claude/rules/powershell-windows.md` for shell commands.
+See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. For query and metadata performance tuning, see the "Оптимизация запросов" section in `.claude/1c-metadata-manage.md`. Follow `powershell-windows` skill for shell commands.
 
 **Tasks typical for this agent:**
 - Locate slow patterns (query-in-loop, dot-notation, O(n²), excessive server calls) - `mcp__rlm-tools-bsl__rlm_execute` (grep, find_callers, extract_procedures)
 - Inspect register dimensions, indexes and virtual-table sources - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml on `AccumulationRegister.*/Ext/Metadata.xml`, `InformationRegister.*/Ext/Metadata.xml`)
 - Reference platform APIs used in the hot path - `mcp__1c-syntax__search_syntax` → `get_function_info`
 - Diagnose rewritten modules - `bsl-language-server` (limit 3 style-warning iterations)
-- Automated logic/performance analyzer is not available - fall back to the manual checklist in `.claude/rules/anti-patterns.md` (see Capability boundaries in `.claude/rules/mcp-tools.md`)
+- Automated logic/performance analyzer is not available - fall back to the manual checklist in `bsl-anti-patterns` skill (see Capability boundaries in `.claude/rules/mcp-tools.md`)
 
-**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance.
+**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `sdd-integrations` skill for integration guidance.
 
 ## Performance Anti-Patterns
 
-See `.claude/rules/anti-patterns.md` for complete list with code examples.
+See `bsl-anti-patterns` skill for complete list with code examples.
 
 **Development standards:** Follow `.claude/rules/dev-standards-core.md` (project parameters, code style, naming).
 
@@ -122,7 +122,7 @@ For each fix:
 
 **Before:** [Brief description]
 **After:** [Brief description]
-**Pattern:** See `.claude/rules/anti-patterns.md#[section]`
+**Pattern:** See `bsl-anti-patterns` skill
 
 **Improvement:** [Quantified result]
 

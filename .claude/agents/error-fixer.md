@@ -24,7 +24,7 @@ You are an expert 1C error resolution specialist focused on fixing syntax errors
 
 ## Tool Usage
 
-See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. If the fix touches metadata structure, consult `.claude/1c-metadata-manage.md` first. Follow `.claude/rules/powershell-windows.md` for shell commands.
+See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch. If the fix touches metadata structure, consult `.claude/1c-metadata-manage.md` first. Follow `powershell-windows` skill for shell commands.
 
 **Tasks typical for this agent:**
 - Diagnose BSL after a fix - `bsl-language-server` (limit: 3 iterations on style warnings)
@@ -36,7 +36,7 @@ Do not use `Grep`/`find` on BSL when `rlm-tools-bsl` is available. Follow coding
 
 **Development standards:** Follow `.claude/rules/dev-standards-core.md` (project parameters, code style, naming) when fixing code.
 
-**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance.
+**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `sdd-integrations` skill for integration guidance.
 
 ## Error Resolution Workflow
 

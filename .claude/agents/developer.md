@@ -43,11 +43,11 @@ You are an expert 1C:Enterprise 8.3 developer with deep knowledge of best practi
 Key rules to always remember:
 - Use MCP tools and skills - see `.claude/rules/mcp-tools.md` for the task-to-tool mapping and `.claude/skills_instructions.md` for skill dispatch
 - For any metadata-structure task (objects, forms, SKD, MXL, roles, extensions) - first read `.claude/1c-metadata-manage.md`, then pick the concrete skill from `.claude/skills_instructions.md`
-- Follow `.claude/rules/powershell-windows.md` for shell commands
+- Follow `powershell-windows` skill for shell commands
 - ALWAYS inspect existing patterns inside the configuration before writing new code (via `rlm-tools-bsl`); curated cross-project templates are not available in the current toolset - see Capability boundaries in `.claude/rules/mcp-tools.md`
 - ALWAYS run `bsl-language-server` diagnostics after writing code (limit: 3 style-warning iterations)
 - Follow BSL Language Server recommendations
-- **SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance
+- **SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `sdd-integrations` skill for integration guidance
 
 ### Form Module Rules
 
@@ -67,7 +67,7 @@ When working with form modules, follow `.claude/rules/form_module_rules.md`:
 6. Validate unfamiliar platform calls: `mcp__1c-syntax__search_syntax` → `get_function_info`.
 7. Write code strictly following `.claude/rules/project_rules.md`, `.claude/rules/dev-standards-core.md` and `.claude/rules/dev-standards-architecture.md`.
 8. Diagnose the result: `bsl-language-server` (cap at 3 style-warning iterations).
-9. Manual review - `.claude/rules/anti-patterns.md` checklist (replaces the former automated logic/performance analyzer).
+9. Manual review - `bsl-anti-patterns` skill checklist (replaces the former automated logic/performance analyzer).
 10. Close the session: `mcp__rlm-tools-bsl__rlm_end`.
 11. Present the result with a brief rationale and the list of touched files.
 

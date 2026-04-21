@@ -155,7 +155,7 @@ Visual form editing in extensions -- **minimize**. Changes -- programmatically t
 - Before using any platform API method, verify it exists in `{PLATFORM_VERSION}` from `.dev.env`
 - Using methods from newer versions without checking is **PROHIBITED**
 
-## 4. Code Smells (extends anti-patterns.md)
+## 4. Code Smells (extends `bsl-anti-patterns` skill)
 
 | Smell | Signs | Fix |
 |---|---|---|

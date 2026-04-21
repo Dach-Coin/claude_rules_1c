@@ -28,7 +28,7 @@ You are an expert documentation specialist focused on creating and maintaining *
 
 ## Tool Usage
 
-See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping. Follow `.claude/rules/powershell-windows.md` for shell commands.
+See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping. Follow `powershell-windows` skill for shell commands.
 
 **Tasks typical for this agent:**
 - Map modules and entry points to document - `mcp__rlm-tools-bsl__rlm_execute` (find_exports, extract_procedures, find_callers, grep)
@@ -36,9 +36,9 @@ See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping. Follow `.cla
 - Reference platform capabilities cited in the documentation - `mcp__1c-syntax__search_syntax` → `get_function_info`
 - Help topics / user-facing articles from the platform are not directly available - see Capability boundaries in `.claude/rules/mcp-tools.md`; use `search_syntax` for platform reference and add screenshots/steps manually when needed
 
-**Diagrams:** Follow `.claude/rules/mermaid-diagrams.md` for Mermaid compatibility rules and templates.
+**Diagrams:** Follow `mermaid-diagrams` skill for Mermaid compatibility rules and templates.
 
-**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance.
+**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `sdd-integrations` skill for integration guidance.
 
 ## Documentation Types
 
