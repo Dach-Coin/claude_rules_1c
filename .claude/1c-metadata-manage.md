@@ -111,7 +111,7 @@ powershell.exe -NoProfile -File .claude/skills/epf-init/scripts/init.ps1 -NameB6
 - Для EPF/ERF главный реквизит формы имеет тип `ExternalDataProcessorObject.<Имя>` или `ExternalReportObject.<Имя>`. DataPath - без префикса `Object.`.
 - Архетипы композиции (Document, DataProcessor, List, CatalogItem, Wizard) - в `form-patterns`. Начинать выбор оттуда.
 - Имена элементов формы префиксуются `PREFIX` так же, как имена реквизитов.
-- Сопутствующие правила - `.claude/rules/form_module_rules.md` и `.claude/rules/dev-standards-forms.md`.
+- Сопутствующие стандарты модуля формы - skill `bsl-form-module-standards` (регионы, директивы компиляции, клиент-сервер, обработчики событий, модификация типовых форм, условное оформление).
 
 ### skd
 
@@ -245,7 +245,7 @@ powershell.exe -NoProfile -File .claude/skills/epf-init/scripts/init.ps1 -NameB6
 - Полный реестр всех 67 скиллов и общая dispatch-таблица - в `.claude/skills_instructions.md`.
 - Стиль BSL, комментарии модификаций, типографика, `.dev.env`-детали - в `.claude/rules/dev-standards-core.md`.
 - Архитектурные паттерны, БСП-интеграция в глубину, code smells - в `.claude/rules/dev-standards-architecture.md`.
-- Правила модулей форм (клиент/сервер, директивы компиляции, события) - в `.claude/rules/form_module_rules.md` и `.claude/rules/dev-standards-forms.md`.
+- Правила модулей форм (клиент/сервер, директивы компиляции, события, модификация типовых форм, условное оформление) - в `bsl-form-module-standards` skill.
 - Выбор MCP vs skill vs bsl-language-server, capability boundaries - в `.claude/rules/mcp-tools.md`.
 - Каталог анти-паттернов с уровнями severity - в `bsl-anti-patterns` skill.
 - SDD-интеграции (Memory Bank, OpenSpec, Spec Kit, TaskMaster) - в `sdd-integrations` skill.

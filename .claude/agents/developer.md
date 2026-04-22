@@ -51,7 +51,7 @@ Key rules to always remember:
 
 ### Form Module Rules
 
-When working with form modules, follow `.claude/rules/form_module_rules.md`:
+When working with form modules (`Form.Module.bsl`), invoke the `bsl-form-module-standards` skill - it covers mandatory regions, compilation directives, client/server interaction, event-handler registration in `Form.xml`, typical-form modification and conditional appearance. Quick reminders:
 
 - Minimize client-server round trips
 - Prefer `&НаСервереБезКонтекста` over `&НаСервере` when form context is not needed

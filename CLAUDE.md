@@ -67,10 +67,6 @@ Rule files are loaded from `.claude/rules/`:
 
 - `dev-standards-architecture.md` - architecture patterns, extensions, code smells
 - `dev-standards-core.md` - `.dev.env`, code style, modification comments, naming, documentation headers
-- `dev-standards-forms.md` - form module structure and standards (path-scoped: `**/Form.Module.bsl`)
-- `form_module_rules.md` - client/server interaction, compilation directives (path-scoped)
-- `forms_add.md` - how to create or modify managed forms
-- `forms_events_add.md` - adding event handlers (path-scoped: `**/Form.Module.bsl`)
 - `integrations_add.md` - external integrations (Python-first policy)
 - `mcp-tools.md` - MCP tool selection and workflows
 - `project_rules.md` - coding standards: queries, data access, performance, formatting
@@ -80,6 +76,7 @@ Rule files are loaded from `.claude/rules/`:
 On-demand skills that used to live as rules (invoke via the Skill tool when the task matches):
 
 - `bsl-anti-patterns` - catalogued BSL anti-patterns (critical/high/medium/architectural) with fixes and confidence scoring; use in review, refactor, performance work.
+- `bsl-form-module-standards` - managed-form module standards: mandatory regions, compilation directives, client/server interaction, adding event handlers (with `Form.xml` registration), typical-form modification, conditional appearance. Use when writing or editing `Form.Module.bsl`.
 - `mermaid-diagrams` - diagram templates and renderer-compatibility guidance; use when drawing any Mermaid diagram.
 - `powershell-windows` - PowerShell scripting rules for Windows; use when composing shell commands on Windows.
 - `sdd-integrations` - optional SDD frameworks (Memory Bank, OpenSpec, Spec Kit, TaskMaster); use when such artefacts are detected in the project.

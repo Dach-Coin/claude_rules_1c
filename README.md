@@ -58,16 +58,13 @@ rus_CLAUDE.md                     # Русское зеркало CLAUDE.md (DO 
 │   ├── user_rules.md            # Общие принципы разработки
 │   ├── dev-standards-core.md    # Стандарты: .dev.env, стиль, именование, документирование
 │   ├── dev-standards-architecture.md  # Стандарты: архитектура, расширения, code smells
-│   ├── dev-standards-forms.md   # Стандарты: модули форм (path-scoped: **/Form.Module.bsl)
 │   ├── mcp-tools.md             # Справочник MCP-инструментов и инструментов ревью
-│   ├── form_module_rules.md     # Правила модулей форм (path-scoped: **/Form.Module.bsl)
-│   ├── forms_add.md             # Создание форм
-│   ├── forms_events_add.md      # Обработчики событий форм (path-scoped: **/Form.Module.bsl)
 │   ├── integrations_add.md      # Интеграции
 │   └── refactor_add.md          # Рефакторинг
 │
 └── skills/                       # Плоский набор upstream-скиллов (полный список - в skills_instructions.md)
     ├── bsl-anti-patterns/        # Каталог анти-паттернов BSL (ревью, рефакторинг, оптимизация)
+    ├── bsl-form-module-standards/ # Стандарты модулей управляемых форм (Form.Module.bsl)
     ├── mermaid-diagrams/         # Шаблоны Mermaid-диаграмм и правила совместимости
     ├── powershell-windows/       # Правила PowerShell на Windows
     └── sdd-integrations/         # Интеграции SDD-фреймворков (on-demand)
@@ -141,19 +138,10 @@ rus_CLAUDE.md                     # Русское зеркало CLAUDE.md (DO 
 - **dev-standards-architecture.md** - архитектурные паттерны, расширения, платформенные стандарты, code smells
 - **mcp-tools.md** - справочник по выбору MCP-инструментов с таблицей маппинга задач
 
-### Контекстные (path-scoped: `**/Form.Module.bsl`)
-
-Загружаются автоматически при работе с файлами модулей форм:
-
-- **dev-standards-forms.md** - структура модулей форм, правила модификации
-- **form_module_rules.md** - клиент-серверное взаимодействие, директивы компиляции
-- **forms_events_add.md** - добавление обработчиков событий форм
-
 ### Подгружаются по ссылке из агентов (on-demand)
 
 Не активируются автоматически - читаются агентами по ссылке при соответствующей задаче:
 
-- **forms_add.md** - создание и модификация управляемых форм
 - **integrations_add.md** - внешние интеграции (Python-first политика)
 - **refactor_add.md** - подход к рефакторингу (top-down анализ, bottom-up правки)
 
@@ -162,6 +150,7 @@ rus_CLAUDE.md                     # Русское зеркало CLAUDE.md (DO 
 Загружаются через Skill-триггер, когда задача соответствует описанию:
 
 - **`bsl-anti-patterns`** - каталог антипаттернов BSL (критические, высокие, средние, архитектурные) с примерами исправления и confidence-scoring
+- **`bsl-form-module-standards`** - стандарты модулей управляемых форм: регионы, директивы компиляции, клиент-серверное взаимодействие, обработчики событий, модификация типовых форм, условное оформление
 - **`mermaid-diagrams`** - шаблоны диаграмм Mermaid и правила совместимости рендереров
 - **`powershell-windows`** - правила PowerShell-скриптинга на Windows
 - **`sdd-integrations`** - интеграции с SDD-фреймворками (Memory Bank, OpenSpec, Spec Kit, TaskMaster)
