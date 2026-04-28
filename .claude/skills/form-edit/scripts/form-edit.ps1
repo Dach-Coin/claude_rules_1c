@@ -1,4 +1,4 @@
-﻿# form-edit v1.0 — Edit 1C managed form elements
+﻿# form-edit v1.0 - Edit 1C managed form elements
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[Parameter(Mandatory)]
@@ -83,7 +83,7 @@ if ($acb) {
 	}
 }
 
-# Scan attribute IDs (including column IDs — same pool)
+# Scan attribute IDs (including column IDs - same pool)
 foreach ($attr in $root.SelectNodes("f:Attributes/f:Attribute", $nsMgr)) {
 	$id = $attr.GetAttribute("id")
 	if ($id) {
@@ -663,7 +663,7 @@ function Emit-Element {
 	}
 	if (-not $typeKey) { Write-Warning "Unknown element type, skipping"; return }
 
-	# Validate known keys — warn about typos
+	# Validate known keys - warn about typos
 	$knownKeys = @{
 		"group"=1;"input"=1;"check"=1;"label"=1;"labelField"=1;"table"=1;"pages"=1;"page"=1
 		"button"=1;"picture"=1;"picField"=1;"calendar"=1;"cmdBar"=1;"popup"=1
@@ -682,7 +682,7 @@ function Emit-Element {
 	}
 	foreach ($p in $el.PSObject.Properties) {
 		if (-not $knownKeys.ContainsKey($p.Name)) {
-			Write-Warning "Element '$($el.$typeKey)': unknown key '$($p.Name)' — ignored."
+			Write-Warning "Element '$($el.$typeKey)': unknown key '$($p.Name)' - ignored."
 		}
 	}
 
@@ -777,7 +777,7 @@ function Insert-IntoContainer($container, $newNode, $afterName, $childIndent) {
 		$container.InsertBefore($ws, $refNode) | Out-Null
 		$container.InsertBefore($newNode, $refNode) | Out-Null
 	} else {
-		# Container is empty (self-closing) — add framing whitespace
+		# Container is empty (self-closing) - add framing whitespace
 		$container.AppendChild($ws) | Out-Null
 		$container.AppendChild($newNode) | Out-Null
 		$parentIndent = if ($childIndent.Length -gt 1) { $childIndent.Substring(0, $childIndent.Length - 1) } else { "" }
@@ -843,7 +843,7 @@ if ($def.elements -and $def.elements.Count -gt 0) {
 	}
 
 	if (-not $targetCI) {
-		# Create ChildItems section in form — insert after Events or AutoCommandBar
+		# Create ChildItems section in form - insert after Events or AutoCommandBar
 		$targetCI = $xmlDoc.CreateElement("ChildItems", $formNs)
 		$insertAfter = $root.SelectSingleNode("f:Events", $nsMgr)
 		if (-not $insertAfter) { $insertAfter = $root.SelectSingleNode("f:AutoCommandBar", $nsMgr) }
@@ -927,7 +927,7 @@ $addedAttrs = @()
 if ($def.attributes -and $def.attributes.Count -gt 0) {
 	$attrsSection = $root.SelectSingleNode("f:Attributes", $nsMgr)
 	if (-not $attrsSection) {
-		# Create Attributes section — insert after ChildItems or after Events
+		# Create Attributes section - insert after ChildItems or after Events
 		$attrsSection = $xmlDoc.CreateElement("Attributes", $formNs)
 		# Find insertion point: after ChildItems or after the last pre-Attributes element
 		$insertAfter = $rootCI
@@ -1001,7 +1001,7 @@ $addedCmds = @()
 if ($def.commands -and $def.commands.Count -gt 0) {
 	$cmdsSection = $root.SelectSingleNode("f:Commands", $nsMgr)
 	if (-not $cmdsSection) {
-		# Create Commands section — insert after Parameters or Attributes
+		# Create Commands section - insert after Parameters or Attributes
 		$cmdsSection = $xmlDoc.CreateElement("Commands", $formNs)
 		$insertAfter = $root.SelectSingleNode("f:Parameters", $nsMgr)
 		if (-not $insertAfter) { $insertAfter = $root.SelectSingleNode("f:Attributes", $nsMgr) }
@@ -1074,7 +1074,7 @@ $addedFormEvents = @()
 if ($def.formEvents -and $def.formEvents.Count -gt 0) {
 	$eventsSection = $root.SelectSingleNode("f:Events", $nsMgr)
 	if (-not $eventsSection) {
-		# Create Events section — insert after AutoCommandBar or at the beginning
+		# Create Events section - insert after AutoCommandBar or at the beginning
 		$eventsSection = $xmlDoc.CreateElement("Events", $formNs)
 		$insertAfter = $root.SelectSingleNode("f:AutoCommandBar", $nsMgr)
 		if ($insertAfter) {
@@ -1140,7 +1140,7 @@ if ($def.elementEvents -and $def.elementEvents.Count -gt 0) {
 		$targetName = "$($ee.element)"
 		$targetEl = Find-Element $rootCI $targetName
 		if (-not $targetEl) {
-			Write-Host "[WARN] Element '$targetName' not found — skipping elementEvent"
+			Write-Host "[WARN] Element '$targetName' not found - skipping elementEvent"
 			continue
 		}
 
@@ -1207,7 +1207,7 @@ $enc = New-Object System.Text.UTF8Encoding($true)
 # === 14. Summary ===
 
 if ($script:isExtension) {
-	Write-Host "[EXTENSION] BaseForm detected — IDs start at 1000000+"
+	Write-Host "[EXTENSION] BaseForm detected - IDs start at 1000000+"
 	Write-Host ""
 }
 

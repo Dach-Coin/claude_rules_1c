@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# interface-edit v1.3 — Edit 1C CommandInterface.xml
+# interface-edit v1.3 - Edit 1C CommandInterface.xml
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 import argparse

@@ -1,5 +1,5 @@
 {
-  "name": "Document Item — средний (АктВВР-like, 11 реквизитов, 2 ТЧ)",
+  "name": "Document Item - средний (АктВВР-like, 11 реквизитов, 2 ТЧ)",
   "preRun": [
     {
       "script": "meta-compile/scripts/meta-compile",

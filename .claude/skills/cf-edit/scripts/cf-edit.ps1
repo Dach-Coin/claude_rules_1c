@@ -1,4 +1,4 @@
-﻿# cf-edit v1.1 — Edit 1C configuration root (Configuration.xml)
+﻿# cf-edit v1.1 - Edit 1C configuration root (Configuration.xml)
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[Parameter(Mandatory)][string]$ConfigPath,
@@ -226,7 +226,7 @@ function Do-ModifyProperty([string]$batchVal) {
 			if (-not $propValue) { $propEl.InnerXml = "" }
 			else { $propEl.InnerText = $propValue }
 		} else {
-			# Enum or other — just set text
+			# Enum or other - just set text
 			$propEl.InnerText = $propValue
 		}
 
@@ -268,7 +268,7 @@ function Do-AddChildObject([string]$batchVal) {
 		# cf-edit add-childObject is a low-level operation for rare scenarios
 		# (e.g. restoring a rolled-back Configuration.xml when object files are intact).
 		# For creating NEW objects, meta-compile/role-compile/subsystem-compile already
-		# auto-register in Configuration.xml — calling cf-edit add-childObject there is
+		# auto-register in Configuration.xml - calling cf-edit add-childObject there is
 		# unnecessary and error-prone.
 		$typeDir = $script:typeToDir[$typeName]
 		$objFile = Join-Path (Join-Path $script:configDir $typeDir) "$objNameVal.xml"
@@ -311,7 +311,7 @@ To create a new $typeName, use $hintSkill (auto-registers in Configuration.xml):
 			if ($childTypeIdx -lt 0) { continue }
 
 			if ($child.LocalName -eq $typeName) {
-				# Same type — check alphabetical order
+				# Same type - check alphabetical order
 				if ($child.InnerText -gt $objNameVal -and -not $insertBefore) {
 					# Insert before this element (alphabetical)
 					$insertBefore = $child
@@ -320,7 +320,7 @@ To create a new $typeName, use $hintSkill (auto-registers in Configuration.xml):
 			} elseif ($childTypeIdx -lt $typeIdx) {
 				$lastPrecedingType = $child
 			} elseif ($childTypeIdx -gt $typeIdx -and -not $insertBefore) {
-				# First element of a later type — insert before it
+				# First element of a later type - insert before it
 				$insertBefore = $child
 			}
 		}

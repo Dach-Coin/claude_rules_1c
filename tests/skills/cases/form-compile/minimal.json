@@ -1,5 +1,5 @@
 {
-  "name": "Минимальная форма — только заголовок",
+  "name": "Минимальная форма - только заголовок",
   "preRun": [
     {
       "script": "meta-compile/scripts/meta-compile",

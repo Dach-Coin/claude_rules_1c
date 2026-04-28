@@ -1,4 +1,4 @@
-﻿# db-run v1.0 — Launch 1C:Enterprise
+﻿# db-run v1.0 - Launch 1C:Enterprise
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS
@@ -6,7 +6,7 @@
 
 .DESCRIPTION
     Запускает информационную базу в режиме 1С:Предприятие (пользовательский режим).
-    Запуск в фоне — не ждет завершения процесса.
+    Запуск в фоне - не ждет завершения процесса.
 
 .PARAMETER V8Path
     Путь к каталогу bin платформы или к 1cv8.exe

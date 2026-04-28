@@ -1,6 +1,6 @@
 ---
 name: subsystem-compile
-description: Создать подсистему 1С — XML-исходники из JSON-определения. Используй когда пользователь просит добавить подсистему (раздел) в конфигурацию
+description: Создать подсистему 1С - XML-исходники из JSON-определения. Используй когда пользователь просит добавить подсистему (раздел) в конфигурацию
 argument-hint: "[(-DefinitionFile | -DefinitionFileB64) <json-path/base64> | (-Value | -ValueB64) <json/base64>] (-OutputDir | -OutputDirB64) <path/base64> [(-Parent | -ParentB64) <path/base64>]"
 allowed-tools:
   - Bash
@@ -9,7 +9,7 @@ allowed-tools:
   - Glob
 ---
 
-# /subsystem-compile — генерация подсистемы из JSON
+# /subsystem-compile - генерация подсистемы из JSON
 
 Принимает JSON-определение подсистемы → генерирует XML + файловую структуру + регистрирует в родителе (Configuration.xml или родительская подсистема).
 
@@ -60,7 +60,7 @@ powershell.exe -NoProfile -File '.claude/skills/subsystem-compile/scripts/subsys
 }
 ```
 
-Минимально: только `name`. Остальное — дефолты.
+Минимально: только `name`. Остальное - дефолты.
 
 ## Примеры
 

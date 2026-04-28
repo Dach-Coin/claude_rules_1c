@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# role-compile v1.4 — Compile 1C role from JSON
+# role-compile v1.4 - Compile 1C role from JSON
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 import argparse
 import json
@@ -646,7 +646,7 @@ def main():
                 insert_pos = last_match.end()
                 raw_text = raw_text[:insert_pos] + f'\n\t\t\t{new_role_tag}' + raw_text[insert_pos:]
             else:
-                # No existing roles — insert before </ChildObjects>
+                # No existing roles - insert before </ChildObjects>
                 raw_text = raw_text.replace('</ChildObjects>', f'\t\t\t{new_role_tag}\n\t\t</ChildObjects>')
 
             write_utf8_bom(config_xml_path, raw_text)

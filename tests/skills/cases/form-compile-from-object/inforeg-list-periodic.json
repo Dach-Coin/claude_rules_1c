@@ -1,5 +1,5 @@
 {
-  "name": "InformationRegister List — периодический (Day), RecorderSubordinate, 2 измерения + 1 ресурс",
+  "name": "InformationRegister List - периодический (Day), RecorderSubordinate, 2 измерения + 1 ресурс",
   "preRun": [
     {
       "script": "meta-compile/scripts/meta-compile",

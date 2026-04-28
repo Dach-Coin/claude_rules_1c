@@ -1,5 +1,5 @@
 {
-  "name": "Roundtrip — макет с объединенными ячейками",
+  "name": "Roundtrip - макет с объединенными ячейками",
   "preRun": [
     {
       "script": "mxl-compile/scripts/mxl-compile",

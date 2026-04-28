@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# form-info v1.2 — Analyze 1C managed form structure
+# form-info v1.2 - Analyze 1C managed form structure
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 import argparse
@@ -436,7 +436,7 @@ def main():
     ext_marker = " [EXTENSION]" if is_extension else ""
     header = f"=== Form: {form_name}{ext_marker}"
     if form_title:
-        header += f' — "{form_title}"'
+        header += f' - "{form_title}"'
     if object_context:
         header += f" ({object_context})"
     header += " ==="

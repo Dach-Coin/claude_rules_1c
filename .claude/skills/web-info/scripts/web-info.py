@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# web-info v1.0 — Apache & 1C publication status
+# web-info v1.0 - Apache & 1C publication status
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 """

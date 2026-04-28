@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-# web-unpublish v1.0 — Remove 1C web publication
+# web-unpublish v1.0 - Remove 1C web publication
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 """
 Удаление веб-публикации 1С из Apache.
 Удаляет маркерный блок из httpd.conf и каталог публикации.
-Если Apache запущен — перезапускает для применения.
+Если Apache запущен - перезапускает для применения.
 С флагом -All удаляет все публикации и останавливает Apache.
 """
 
@@ -142,7 +142,7 @@ def main():
                 print('Error: Apache не удалось перезапустить', file=sys.stderr)
                 sys.exit(1)
         else:
-            print('Публикаций не осталось — останавливаю Apache...')
+            print('Публикаций не осталось - останавливаю Apache...')
             for p in httpd_proc:
                 try:
                     p.kill()

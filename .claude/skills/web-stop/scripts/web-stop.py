@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# web-stop v1.0 — Stop Apache HTTP Server
+# web-stop v1.0 - Stop Apache HTTP Server
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 """
 Остановка Apache HTTP Server.
-Сначала пытается graceful shutdown, при неудаче — принудительная остановка.
+Сначала пытается graceful shutdown, при неудаче - принудительная остановка.
 """
 
 import argparse

@@ -1,5 +1,5 @@
 {
-  "name": "ChartOfAccounts List — план счетов, форма списка",
+  "name": "ChartOfAccounts List - план счетов, форма списка",
   "preRun": [
     {
       "script": "meta-compile/scripts/meta-compile",

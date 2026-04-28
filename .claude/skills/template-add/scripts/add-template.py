@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# add-template v1.3 — Add template to 1C object
+# add-template v1.3 - Add template to 1C object
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 import argparse

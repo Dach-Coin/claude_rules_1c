@@ -1,4 +1,4 @@
-﻿# epf-build v1.0 — Build external data processor or report (EPF/ERF) from XML sources
+﻿# epf-build v1.0 - Build external data processor or report (EPF/ERF) from XML sources
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS

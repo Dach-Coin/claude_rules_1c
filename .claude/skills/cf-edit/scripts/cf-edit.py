@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# cf-edit v1.1 — Edit 1C configuration root (Configuration.xml)
+# cf-edit v1.1 - Edit 1C configuration root (Configuration.xml)
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 import argparse
@@ -306,7 +306,7 @@ def main():
             # cf-edit add-childObject is a low-level operation for rare scenarios
             # (e.g. restoring a rolled-back Configuration.xml when object files are intact).
             # For creating NEW objects, meta-compile/role-compile/subsystem-compile already
-            # auto-register in Configuration.xml — calling cf-edit add-childObject there is
+            # auto-register in Configuration.xml - calling cf-edit add-childObject there is
             # unnecessary and error-prone.
             type_dir = TYPE_TO_DIR.get(type_name)
             obj_file = os.path.join(config_dir, type_dir, f"{obj_name_val}.xml")

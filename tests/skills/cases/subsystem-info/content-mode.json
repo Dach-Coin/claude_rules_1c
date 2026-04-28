@@ -1,5 +1,5 @@
 {
-  "name": "Режим content — состав подсистемы",
+  "name": "Режим content - состав подсистемы",
   "preRun": [
     {
       "script": "meta-compile/scripts/meta-compile",

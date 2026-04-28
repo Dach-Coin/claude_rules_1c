@@ -9,7 +9,7 @@ allowed-tools:
   - Glob
 ---
 
-# /role-compile — генерация роли 1С из JSON DSL
+# /role-compile - генерация роли 1С из JSON DSL
 
 Принимает JSON-определение роли → генерирует `Roles/Имя.xml` (метаданные) и `Roles/Имя/Ext/Rights.xml` (права). UUID автоматически.
 
@@ -55,12 +55,12 @@ powershell.exe -NoProfile -File .claude/skills/role-compile/scripts/role-compile
 
 | Пресет | Действие |
 |--------|----------|
-| `@view` | Просмотр — Read, View (+InputByString для справочников/документов; Use+View для обработок/отчетов) |
-| `@edit` | Полное редактирование — CRUD + Interactive* + Posting (документы) |
+| `@view` | Просмотр - Read, View (+InputByString для справочников/документов; Use+View для обработок/отчетов) |
+| `@edit` | Полное редактирование - CRUD + Interactive* + Posting (документы) |
 
-`@` обязателен в shorthand. В объектной форме — `"preset": "view"` без `@`.
+`@` обязателен в shorthand. В объектной форме - `"preset": "view"` без `@`.
 
-Для сервисов (WebService, HTTPService, IntegrationService) пресеты не определены — используй явные права: `"WebService.Имя: Use"`.
+Для сервисов (WebService, HTTPService, IntegrationService) пресеты не определены - используй явные права: `"WebService.Имя: Use"`.
 
 ### Русские синонимы
 
@@ -99,11 +99,11 @@ powershell.exe -NoProfile -File .claude/skills/role-compile/scripts/role-compile
 }
 ```
 
-Подробные таблицы пресетов, русских синонимов и дополнительные примеры — в `dsl-reference.md`.
+Подробные таблицы пресетов, русских синонимов и дополнительные примеры - в `dsl-reference.md`.
 
 ## Верификация
 
 ```
-/role-validate <RightsPath> [MetadataPath]  — проверка корректности XML, прав, RLS
-/role-info <RightsPath>                     — визуальная сводка структуры
+/role-validate <RightsPath> [MetadataPath]  - проверка корректности XML, прав, RLS
+/role-info <RightsPath>                     - визуальная сводка структуры
 ```

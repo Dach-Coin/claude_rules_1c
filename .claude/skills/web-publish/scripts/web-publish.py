@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-# web-publish v1.2 — Publish 1C infobase via Apache
+# web-publish v1.2 - Publish 1C infobase via Apache
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 """
 Публикация информационной базы 1С через Apache HTTP Server.
 Генерирует default.vrd и настраивает httpd.conf для веб-доступа
 к информационной базе 1С. При необходимости скачивает portable Apache.
-Идемпотентный — повторный вызов обновляет конфигурацию.
+Идемпотентный - повторный вызов обновляет конфигурацию.
 """
 
 import argparse
@@ -72,7 +72,7 @@ def main():
     parser.add_argument('-AppName', type=str, default='', help='Publication name (default: from infobase folder name)')
     parser.add_argument('-ApachePath', type=str, default='', help='Apache root (default: tools\\apache24)')
     parser.add_argument('-Port', type=int, default=8081, help='Port (default: 8081)')
-    parser.add_argument('-Manual', action='store_true', help='Do not download Apache — only check and give instructions')
+    parser.add_argument('-Manual', action='store_true', help='Do not download Apache - only check and give instructions')
     args = parser.parse_args()
 
     # --- Resolve V8Path ---

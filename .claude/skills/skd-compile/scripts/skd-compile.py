@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# skd-compile v1.15 — Compile 1C DCS from JSON
+# skd-compile v1.15 - Compile 1C DCS from JSON
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 import argparse
 import json
@@ -231,7 +231,7 @@ def parse_total_shorthand(s):
     elif func_part in _agg_funcs:
         return {'dataPath': data_path, 'expression': f'{func_part}({data_path})'}
     else:
-        # Identity or custom expression — use as-is
+        # Identity or custom expression - use as-is
         return {'dataPath': data_path, 'expression': func_part}
 
 
@@ -280,7 +280,7 @@ def parse_calc_shorthand(s):
     # Pattern: "Name [Title]: type = Expression #noField #noFilter ...".
     # - `[Title]` is extracted only from the LHS of '=' so that `[...]` inside
     #   an expression (e.g. index access) isn't interpreted as a title.
-    # - `#restrict` flags use a known-names pattern and are extracted globally —
+    # - `#restrict` flags use a known-names pattern and are extracted globally -
     #   the docs put them after `=`, and the closed flag set avoids matching
     #   `#word` that happens to appear inside a string literal.
     restrict_pattern = r'#(noField|noFilter|noCondition|noGroup|noOrder)\b'
@@ -803,7 +803,7 @@ def emit_single_param(lines, p, parsed):
     lines.append(f'\t\t<name>{esc_xml(parsed["name"])}</name>')
 
     # Title (from parsed first, then from object form; accept `presentation` as
-    # a synonym — 1C UI labels a parameter's caption "Представление").
+    # a synonym - 1C UI labels a parameter's caption "Представление").
     title = ''
     if parsed.get('title'):
         title = str(parsed['title'])
@@ -855,7 +855,7 @@ def emit_single_param(lines, p, parsed):
                 av_type = 'dcscor:DesignTimeValue'
             lines.append('\t\t<availableValue>')
             lines.append(f'\t\t\t<value xsi:type="{av_type}">{esc_xml(av_val)}</value>')
-            # `title` accepted as synonym of `presentation` — both map to the same UI label.
+            # `title` accepted as synonym of `presentation` - both map to the same UI label.
             av_pres = str(av.get('presentation') or av.get('title') or '')
             if av_pres:
                 lines.append('\t\t\t<presentation xsi:type="v8:LocalStringType">')
@@ -1825,7 +1825,7 @@ def emit_settings_variants(lines, defn):
                         'userSettingID': 'auto',
                     }
                     # For StandardPeriod emit <dcscor:value> with variant inherited
-                    # from the parameter default (Custom if none) — matches how
+                    # from the parameter default (Custom if none) - matches how
                     # 1C Designer persists SettingsParameterValue for period params.
                     if ap.get('type') == 'StandardPeriod':
                         variant = 'Custom'

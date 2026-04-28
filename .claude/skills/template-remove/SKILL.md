@@ -12,7 +12,7 @@ allowed-tools:
   - Grep
 ---
 
-# /template-remove — Удаление макета
+# /template-remove - Удаление макета
 
 Удаляет макет и убирает его регистрацию из корневого XML объекта.
 
@@ -24,8 +24,8 @@ allowed-tools:
 
 | Параметр     | Обязательный | По умолчанию | Описание                            |
 |--------------|:------------:|--------------|-------------------------------------|
-| ObjectName   | да           | —            | Имя объекта                         |
-| TemplateName | да           | —            | Имя макета для удаления             |
+| ObjectName   | да           | -            | Имя объекта                         |
+| TemplateName | да           | -            | Имя макета для удаления             |
 | SrcDir       | нет          | `src`        | Каталог исходников                  |
 
 ## Команда
@@ -43,5 +43,5 @@ powershell.exe -NoProfile -File .claude/skills/template-remove/scripts/remove-te
 
 ## Что модифицируется
 
-- `<SrcDir>/<ObjectName>.xml` — убирается `<Template>` из `ChildObjects`
-- Для ExternalReport/Report: если удаленный макет был указан в `MainDataCompositionSchema` — значение очищается
+- `<SrcDir>/<ObjectName>.xml` - убирается `<Template>` из `ChildObjects`
+- Для ExternalReport/Report: если удаленный макет был указан в `MainDataCompositionSchema` - значение очищается

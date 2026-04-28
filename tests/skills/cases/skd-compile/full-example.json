@@ -1,5 +1,5 @@
 {
-  "name": "Полный пример из SKILL.md — ресурсы, параметры, структура",
+  "name": "Полный пример из SKILL.md - ресурсы, параметры, структура",
   "params": { "outputPath": "Template.xml" },
   "input": {
     "dataSets": [{

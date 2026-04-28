@@ -1,4 +1,4 @@
-﻿# db-update v1.0 — Update 1C database configuration
+﻿# db-update v1.0 - Update 1C database configuration
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS

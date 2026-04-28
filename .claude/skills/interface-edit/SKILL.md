@@ -9,7 +9,7 @@ allowed-tools:
   - Glob
 ---
 
-# /interface-edit — редактирование CommandInterface.xml
+# /interface-edit - редактирование CommandInterface.xml
 
 Точечное редактирование файла командного интерфейса подсистемы 1С.
 

@@ -1,4 +1,4 @@
-﻿# db-dump-cf v1.0 — Dump 1C configuration to CF file
+﻿# db-dump-cf v1.0 - Dump 1C configuration to CF file
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS

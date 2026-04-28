@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# subsystem-compile v1.5 — Create 1C subsystem from JSON definition
+# subsystem-compile v1.5 - Create 1C subsystem from JSON definition
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 import argparse
 import json

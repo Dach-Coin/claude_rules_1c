@@ -1,4 +1,4 @@
-﻿# skd-compile v1.15 — Compile 1C DCS from JSON
+﻿# skd-compile v1.15 - Compile 1C DCS from JSON
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[string]$DefinitionFile,
@@ -121,10 +121,10 @@ foreach ($ds in $def.dataSets) {
 
 # --- 4. Type system ---
 
-# Type synonyms — normalize Russian/common names to canonical DSL types
+# Type synonyms - normalize Russian/common names to canonical DSL types
 # Use case-sensitive hashtable to avoid PS 5.1 DuplicateKeyInHashLiteral
 $script:typeSynonyms = New-Object System.Collections.Hashtable
-# Russian names (case doesn't matter — we'll also do case-insensitive lookup)
+# Russian names (case doesn't matter - we'll also do case-insensitive lookup)
 $script:typeSynonyms["число"] = "decimal"
 $script:typeSynonyms["строка"] = "string"
 $script:typeSynonyms["булево"] = "boolean"
@@ -243,7 +243,7 @@ function Emit-ValueType {
 		return
 	}
 
-	# Fallback — assume dot-qualified types are also config references
+	# Fallback - assume dot-qualified types are also config references
 	if ($typeStr.Contains('.')) {
 		X "$indent<v8:Type xmlns:d5p1=`"http://v8.1c.ru/8.1/data/enterprise/current-config`">d5p1:$(Esc-Xml $typeStr)</v8:Type>"
 		return
@@ -312,7 +312,7 @@ function Parse-TotalShorthand {
 		# Short: Func → Func(DataPath)
 		return @{ dataPath = $dataPath; expression = "$funcPart($dataPath)" }
 	} else {
-		# Identity or custom expression — use as-is
+		# Identity or custom expression - use as-is
 		return @{ dataPath = $dataPath; expression = $funcPart }
 	}
 }
@@ -370,7 +370,7 @@ function Parse-CalcShorthand {
 	# Pattern: "Name [Title]: type = Expression #noField #noFilter ...".
 	# - `[Title]` is extracted only from the LHS of '=' so that `[...]` inside
 	#   an expression (e.g. index access) isn't interpreted as a title.
-	# - `#restrict` flags use a known-names pattern and are extracted globally —
+	# - `#restrict` flags use a known-names pattern and are extracted globally -
 	#   the docs put them after `=`, and the closed flag set avoids matching
 	#   `#word` that happens to appear inside a string literal.
 	$restrictPattern = '#(noField|noFilter|noCondition|noGroup|noOrder)\b'
@@ -540,7 +540,7 @@ function Parse-FilterShorthand {
 			}
 		}
 	} else {
-		# No operator found — just a field name
+		# No operator found - just a field name
 		$result.field = $s
 	}
 
@@ -607,7 +607,7 @@ function Emit-Field {
 			if ($fieldDef.role -is [string]) {
 				$f.roles = @($fieldDef.role)
 			} else {
-				# Object form — collect truthy keys
+				# Object form - collect truthy keys
 				$roleObj = $fieldDef.role
 				foreach ($prop in $roleObj.PSObject.Properties) {
 					if ($prop.Value -eq $true) { $f.roles += $prop.Name }
@@ -932,7 +932,7 @@ function Emit-SingleParam {
 	X "`t`t<name>$(Esc-Xml $parsed.name)</name>"
 
 	# Title (from parsed first, then from object form; accept `presentation` as
-	# a synonym — 1C UI labels a parameter's caption "Представление").
+	# a synonym - 1C UI labels a parameter's caption "Представление").
 	$title = ""
 	if ($parsed.title) {
 		$title = "$($parsed.title)"
@@ -991,7 +991,7 @@ function Emit-SingleParam {
 			}
 			X "`t`t<availableValue>"
 			X "`t`t`t<value xsi:type=`"$avType`">$(Esc-Xml $avVal)</value>"
-			# `title` accepted as synonym of `presentation` — both map to the same UI label.
+			# `title` accepted as synonym of `presentation` - both map to the same UI label.
 			$avPres = if ($av.presentation) { "$($av.presentation)" } elseif ($av.title) { "$($av.title)" } else { "" }
 			if ($avPres) {
 				X "`t`t`t<presentation xsi:type=`"v8:LocalStringType`">"
@@ -1349,10 +1349,10 @@ function Emit-AreaTemplateDSL {
 			$isHMerged = $hMerge[$r][$c] -eq $true
 			X "`t`t`t`t<dcsat:tableCell>"
 			if ($isVMerged) {
-				# Vertically merged cell — only appearance with vMerge flag + width
+				# Vertically merged cell - only appearance with vMerge flag + width
 				Emit-CellAppearance $style $w $true
 			} elseif ($isHMerged) {
-				# Horizontally merged cell — only appearance with hMerge flag + width
+				# Horizontally merged cell - only appearance with hMerge flag + width
 				Emit-CellAppearance $style $w $false $true
 			} else {
 				# Cell value
@@ -2171,7 +2171,7 @@ function Emit-SettingsVariants {
 					$dpItem | Add-Member -NotePropertyName "use" -NotePropertyValue $false
 					$dpItem | Add-Member -NotePropertyName "userSettingID" -NotePropertyValue "auto"
 					# For StandardPeriod emit <dcscor:value> with variant inherited from
-					# the parameter default (Custom if none) — matches how 1C Designer
+					# the parameter default (Custom if none) - matches how 1C Designer
 					# persists SettingsParameterValue for period parameters.
 					if ($ap.type -eq 'StandardPeriod') {
 						$variant = 'Custom'

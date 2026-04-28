@@ -1,4 +1,4 @@
-# skd-edit v1.11 — Atomic 1C DCS editor (Python port)
+# skd-edit v1.11 - Atomic 1C DCS editor (Python port)
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 import argparse
 import os
@@ -263,7 +263,7 @@ def parse_calc_shorthand(s):
     # Pattern: "Name [Title]: type = Expression #noField #noFilter ...".
     # - `[Title]` is extracted only from the LHS of '=' so that `[...]` inside
     #   an expression (e.g. index access) isn't interpreted as a title.
-    # - `#restrict` flags use a known-names pattern and are extracted globally —
+    # - `#restrict` flags use a known-names pattern and are extracted globally -
     #   the docs put them after `=`, and the closed flag set avoids matching
     #   `#word` that happens to appear inside a string literal.
     restrict_pattern = r'#(noField|noFilter|noCondition|noGroup|noOrder)\b'
@@ -2320,7 +2320,7 @@ elif operation == "remove-filter":
         print(f'[OK] Filter for "{field_name}" removed from variant "{var_name}"')
 
 elif operation == "add-drilldown":
-    # String-based manipulation — templates use dcsat namespace with inline xmlns
+    # String-based manipulation - templates use dcsat namespace with inline xmlns
     with open(resolved_path, "r", encoding="utf-8-sig") as f:
         raw_text = f.read()
     nl = "\r\n"
@@ -2353,7 +2353,7 @@ elif operation == "add-drilldown":
     if not tpl_blocks:
         print("[WARN] No named templates found in schema")
 
-    # Collect all insertions as (position, text) — apply in reverse order
+    # Collect all insertions as (position, text) - apply in reverse order
     insertions = []
 
     expr_regex = re.compile(
@@ -2376,13 +2376,13 @@ elif operation == "add-drilldown":
 
             # Idempotency: check if already exists
             if drill_name in tpl_text:
-                print(f"[INFO] {drill_name} already exists in {tpl_name} — skipped")
+                print(f"[INFO] {drill_name} already exists in {tpl_name} - skipped")
                 continue
 
             # Find ExpressionAreaTemplateParameter by expression
             param_name = expr_map.get(resource)
             if param_name is None:
-                print(f'[WARN] Expression "{resource}" not found in template {tpl_name} — skipped')
+                print(f'[WARN] Expression "{resource}" not found in template {tpl_name} - skipped')
                 continue
 
             cell_count = 0
@@ -2427,7 +2427,7 @@ elif operation == "add-drilldown":
                     search_start = cell_end + 1
                     continue
 
-                # Detect indent for appearance items — insert after \n, before indent of </dcsat:appearance>
+                # Detect indent for appearance items - insert after \n, before indent of </dcsat:appearance>
                 app_prev_nl = tpl_text.rfind("\n", 0, app_end)
                 app_indent = "\t\t\t\t\t\t"
                 if app_prev_nl >= 0:
@@ -2457,7 +2457,7 @@ elif operation == "add-drilldown":
     for pos, text, _seq in insertions:
         raw_text = raw_text[:pos] + text + raw_text[pos:]
 
-    # Write directly — skip lxml save
+    # Write directly - skip lxml save
     with open(resolved_path, "wb") as f:
         f.write(b'\xef\xbb\xbf')
         f.write(raw_text.encode("utf-8"))

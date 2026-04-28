@@ -1,5 +1,5 @@
 {
-  "name": "Режим tree — дерево подсистем",
+  "name": "Режим tree - дерево подсистем",
   "preRun": [
     {
       "script": "subsystem-compile/scripts/subsystem-compile",

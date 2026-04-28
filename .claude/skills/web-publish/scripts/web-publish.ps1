@@ -1,4 +1,4 @@
-﻿# web-publish v1.2 — Publish 1C infobase via Apache
+﻿# web-publish v1.2 - Publish 1C infobase via Apache
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS
@@ -7,7 +7,7 @@
 .DESCRIPTION
     Генерирует default.vrd и настраивает httpd.conf для веб-доступа
     к информационной базе 1С. При необходимости скачивает portable Apache.
-    Идемпотентный — повторный вызов обновляет конфигурацию.
+    Идемпотентный - повторный вызов обновляет конфигурацию.
 
 .PARAMETER V8Path
     Путь к каталогу bin платформы (для wsap24.dll)
@@ -37,7 +37,7 @@
     Порт (по умолчанию 8081)
 
 .PARAMETER Manual
-    Не скачивать Apache — только проверить и дать инструкцию
+    Не скачивать Apache - только проверить и дать инструкцию
 
 .EXAMPLE
     .\web-publish.ps1 -InfoBasePath "C:\Bases\MyDB"
@@ -342,7 +342,7 @@ $portCheck = Get-NetTCPConnection -LocalPort $Port -ErrorAction SilentlyContinue
 if ($portCheck) {
     $ourProc = Get-OurHttpd
     if ($ourProc) {
-        # Our Apache holds the port — will restart
+        # Our Apache holds the port - will restart
     } else {
         $holder = Get-Process -Id $portCheck.OwningProcess -ErrorAction SilentlyContinue
         $holderName = if ($holder) { "$($holder.ProcessName) (PID: $($holder.Id))" } else { "PID $($portCheck.OwningProcess)" }

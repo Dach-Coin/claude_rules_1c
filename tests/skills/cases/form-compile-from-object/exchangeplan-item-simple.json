@@ -1,5 +1,5 @@
 {
-  "name": "ExchangePlan Item — простой план обмена с 2 реквизитами",
+  "name": "ExchangePlan Item - простой план обмена с 2 реквизитами",
   "preRun": [
     {
       "script": "meta-compile/scripts/meta-compile",

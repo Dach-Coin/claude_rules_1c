@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# form-add v1.3 — Add managed form to 1C config object
+# form-add v1.3 - Add managed form to 1C config object
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 import argparse
@@ -294,7 +294,7 @@ def main():
         )
 
     else:
-        # Object — object form
+        # Object - object form
         main_attr_name = "\u041e\u0431\u044a\u0435\u043a\u0442"
 
         attr_type_map = {
@@ -338,7 +338,7 @@ def main():
         )
 
     if os.path.exists(form_xml_path):
-        print(f"[SKIP] Form.xml already exists: {form_xml_path} — not overwriting")
+        print(f"[SKIP] Form.xml already exists: {form_xml_path} - not overwriting")
     else:
         write_text_with_bom(form_xml_path, form_xml)
 
@@ -374,7 +374,7 @@ def main():
     )
 
     if os.path.exists(module_path):
-        print(f"[SKIP] Module.bsl already exists: {module_path} — not overwriting")
+        print(f"[SKIP] Module.bsl already exists: {module_path} - not overwriting")
     else:
         write_text_with_bom(module_path, module_bsl)
 

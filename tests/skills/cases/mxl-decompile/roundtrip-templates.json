@@ -1,5 +1,5 @@
 {
-  "name": "Roundtrip — макет с шаблонами (template)",
+  "name": "Roundtrip - макет с шаблонами (template)",
   "preRun": [
     {
       "script": "mxl-compile/scripts/mxl-compile",

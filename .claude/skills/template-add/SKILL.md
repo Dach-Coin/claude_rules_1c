@@ -11,7 +11,7 @@ allowed-tools:
   - Grep
 ---
 
-# /template-add — Добавление макета
+# /template-add - Добавление макета
 
 Создает макет указанного типа и регистрирует его в корневом XML объекта.
 
@@ -23,12 +23,12 @@ allowed-tools:
 
 | Параметр      | Обязательный | По умолчанию    | Описание                                         |
 |---------------|:------------:|-----------------|--------------------------------------------------|
-| ObjectName    | да           | —               | Имя объекта                                      |
-| TemplateName  | да           | —               | Имя макета                                       |
-| TemplateType  | да           | —               | Тип: HTML, Text, SpreadsheetDocument, BinaryData, DataCompositionSchema |
+| ObjectName    | да           | -               | Имя объекта                                      |
+| TemplateName  | да           | -               | Имя макета                                       |
+| TemplateType  | да           | -               | Тип: HTML, Text, SpreadsheetDocument, BinaryData, DataCompositionSchema |
 | Synonym       | нет          | = TemplateName  | Синоним макета                                   |
 | SrcDir        | нет          | `src`           | Каталог исходников                               |
-| --SetMainSKD  | нет          | —               | Принудительно установить MainDataCompositionSchema |
+| --SetMainSKD  | нет          | -               | Принудительно установить MainDataCompositionSchema |
 
 ## Команда
 
@@ -57,12 +57,12 @@ powershell.exe -NoProfile -File .claude/skills/template-add/scripts/add-template
 | Печатная форма (дополнительная обработка вида ПечатнаяФорма, или пользователь явно говорит «печатная форма») | `ПФ_MXL_<КраткоеИмя>`     | `ПФ_MXL_М11`, `ПФ_MXL_СчетФактура`, `ПФ_MXL_КонвертDL` |
 | Прочие макеты (загрузка данных, служебные, настройки)            | Без префикса               | `МакетЗагрузки`, `НастройкиПечати` |
 
-Если пользователь указал имя макета без префикса, но контекст — печатная форма, **добавь префикс `ПФ_MXL_` автоматически** и сообщи об этом.
+Если пользователь указал имя макета без префикса, но контекст - печатная форма, **добавь префикс `ПФ_MXL_` автоматически** и сообщи об этом.
 
 ## MainDataCompositionSchema (авто)
 
 При добавлении макета типа `DataCompositionSchema` к `ExternalReport` или `Report`:
-- Если `MainDataCompositionSchema` пуст — автоматически заполняется ссылкой на макет
+- Если `MainDataCompositionSchema` пуст - автоматически заполняется ссылкой на макет
 - Используй `--SetMainSKD` чтобы перезаписать существующее значение
 
 ## Что создается
@@ -77,5 +77,5 @@ powershell.exe -NoProfile -File .claude/skills/template-add/scripts/add-template
 
 ## Что модифицируется
 
-- `<SrcDir>/<ObjectName>.xml` — добавляется `<Template>` в конец `ChildObjects`
+- `<SrcDir>/<ObjectName>.xml` - добавляется `<Template>` в конец `ChildObjects`
 - Для ExternalReport/Report: может обновляться `MainDataCompositionSchema`

@@ -12,7 +12,7 @@ allowed-tools:
   - Grep
 ---
 
-# /form-remove — Удаление формы
+# /form-remove - Удаление формы
 
 Удаляет форму и убирает ее регистрацию из корневого XML объекта.
 
@@ -24,8 +24,8 @@ allowed-tools:
 
 | Параметр   | Обязательный | По умолчанию | Описание                            |
 |------------|:------------:|--------------|-------------------------------------|
-| ObjectName | да           | —            | Имя объекта                         |
-| FormName   | да           | —            | Имя формы для удаления              |
+| ObjectName | да           | -            | Имя объекта                         |
+| FormName   | да           | -            | Имя формы для удаления              |
 | SrcDir     | нет          | `src`        | Каталог исходников                  |
 
 ## Команда
@@ -43,5 +43,5 @@ powershell.exe -NoProfile -File .claude/skills/form-remove/scripts/remove-form.p
 
 ## Что модифицируется
 
-- `<SrcDir>/<ObjectName>.xml` — убирается `<Form>` из `ChildObjects`
-- Если удаляемая форма была DefaultForm — очищается значение DefaultForm
+- `<SrcDir>/<ObjectName>.xml` - убирается `<Form>` из `ChildObjects`
+- Если удаляемая форма была DefaultForm - очищается значение DefaultForm

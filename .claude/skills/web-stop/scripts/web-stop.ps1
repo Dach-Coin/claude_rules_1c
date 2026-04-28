@@ -1,4 +1,4 @@
-﻿# web-stop v1.0 — Stop Apache HTTP Server
+﻿# web-stop v1.0 - Stop Apache HTTP Server
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS
@@ -6,7 +6,7 @@
 
 .DESCRIPTION
     Останавливает Apache HTTP Server. Сначала пытается graceful shutdown,
-    при неудаче — принудительная остановка.
+    при неудаче - принудительная остановка.
 
 .PARAMETER ApachePath
     Корень Apache (по умолчанию tools\apache24)

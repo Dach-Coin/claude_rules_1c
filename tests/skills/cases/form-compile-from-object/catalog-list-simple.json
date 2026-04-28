@@ -1,5 +1,5 @@
 {
-  "name": "Catalog List — простой справочник (Валюты-like)",
+  "name": "Catalog List - простой справочник (Валюты-like)",
   "preRun": [
     {
       "script": "meta-compile/scripts/meta-compile",

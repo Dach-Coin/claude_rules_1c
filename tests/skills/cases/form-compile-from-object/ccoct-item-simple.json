@@ -1,5 +1,5 @@
 {
-  "name": "ChartOfCharacteristicTypes Item — простой ПВХ (код + наименование)",
+  "name": "ChartOfCharacteristicTypes Item - простой ПВХ (код + наименование)",
   "preRun": [
     {
       "script": "meta-compile/scripts/meta-compile",

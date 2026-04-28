@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# form-compile v1.6 — Compile 1C managed form from JSON or object metadata
+# form-compile v1.6 - Compile 1C managed form from JSON or object metadata
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 import argparse
 import copy
@@ -338,7 +338,7 @@ def load_preset(preset_name, script_dir, out_path_resolved):
     return defaults
 
 
-# Non-displayable types — cannot be bound to form elements
+# Non-displayable types - cannot be bound to form elements
 NON_DISPLAYABLE_TYPES = ('ValueStorage', 'v8:ValueStorage', 'ХранилищеЗначения')
 
 def is_displayable_type(type_str):
@@ -1578,7 +1578,7 @@ def emit_single_type(lines, type_str, indent):
     if '.' in type_str:
         lines.append(f'{indent}<v8:Type>cfg:{type_str}</v8:Type>')
     else:
-        print(f"WARNING: Unrecognized bare type '{type_str}' — will be emitted without namespace prefix", file=sys.stderr)
+        print(f"WARNING: Unrecognized bare type '{type_str}' - will be emitted without namespace prefix", file=sys.stderr)
         lines.append(f'{indent}<v8:Type>{type_str}</v8:Type>')
 
 
@@ -1872,7 +1872,7 @@ def emit_table(lines, el, name, eid, indent):
 
     # Companions
     emit_companion(lines, 'ContextMenu', f'{name}\u041a\u043e\u043d\u0442\u0435\u043a\u0441\u0442\u043d\u043e\u0435\u041c\u0435\u043d\u044e', inner)
-    # AutoCommandBar — with optional Autofill control
+    # AutoCommandBar - with optional Autofill control
     if el.get('tableAutofill') is not None:
         acb_id = new_id()
         acb_name = f'{name}\u041a\u043e\u043c\u0430\u043d\u0434\u043d\u0430\u044f\u041f\u0430\u043d\u0435\u043b\u044c'
@@ -2304,7 +2304,7 @@ def _normalize_elements(defn):
     """
     def convert_elements(els):
         if isinstance(els, list):
-            # Already list format — but may have nested dicts inside groups
+            # Already list format - but may have nested dicts inside groups
             result = []
             for el in els:
                 if isinstance(el, dict):
@@ -2548,7 +2548,7 @@ def main():
     if form_title:
         emit_mltext(lines, '\t', 'Title', str(form_title))
 
-    # Properties (skip 'title' — handled above)
+    # Properties (skip 'title' - handled above)
     if defn.get('properties'):
         props_clone = {k: v for k, v in defn['properties'].items() if k != 'title'}
         emit_properties(lines, props_clone, '\t')
