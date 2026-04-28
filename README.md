@@ -2,8 +2,6 @@
 
 Набор правил, агентов, навыков и MCP-конфигураций для эффективной разработки на платформе 1С:Предприятие 8.3 с использованием Claude Code и MCP-серверов.
 
-> **Основано на**: Данный проект является адаптацией [cursor_rules_1c](https://github.com/comol/cursor_rules_1c) для Claude Code. После адаптации проведены дымовые и функциональные тесты работоспособности агентов, навыков и MCP-инструментов.
-
 ## Содержание
 
 - [Назначение](#назначение)
@@ -92,7 +90,6 @@ profile-loading.md                # Документация по механик
 2. Скопируйте в корень исходных файлов вашего проекта 1С (формат CF / EDT - туда, где лежат `Configuration.xml` или EDT-проект):
    - Папку `.claude/` целиком (правила, агенты, скиллы, хук, реестр профилей).
    - `CLAUDE.md` (главный файл инструкций Claude Code) и `rus_CLAUDE.md` (русское зеркало).
-   - `profile-loading.md` (опционально - документация по механике загрузки правил).
    - `.mcp.json.example` → переименуйте в `.mcp.json`, пропишите MCP-серверы.
    - `.dev.env.example` → скопируйте в `.dev.env`, заполните `PREFIX`, `COMPANY`, `DEVELOPER`, `PLATFORM_VERSION` и т. д.
    - `.v8-project.json.example` → скопируйте в `.v8-project.json`, пропишите путь к платформе 1С (`v8path`) и список ваших ИБ. Описание полей и интерактивное добавление баз - через скилл `db-list` (см. [`.claude/skills_instructions.md`](.claude/skills_instructions.md), раздел «Базы данных»).
@@ -109,7 +106,7 @@ profile-loading.md                # Документация по механик
 | Файл / папка | В git проекта 1С? | Назначение |
 |---|---|---|
 | `.claude/` (все, кроме `*.local.*`) | да | Правила, агенты, скиллы, хук - общие для команды |
-| `CLAUDE.md`, `rus_CLAUDE.md`, `profile-loading.md` | да | Инструкции Claude Code и человеко-документация |
+| `CLAUDE.md`, `rus_CLAUDE.md` | да | Инструкции Claude Code |
 | `.mcp.json` | да (или нет, по политике команды) | Конфигурация MCP-серверов |
 | `.dev.env` | **нет** (gitignore) | Параметры проекта и комментарии модификаций |
 | `.v8-project.json` | **нет** (gitignore) | Реестр ИБ - у каждого разработчика свои пути |
@@ -125,7 +122,7 @@ profile-loading.md                # Документация по механик
 |---|---|---|
 | **rlm-tools-bsl** | [Dach-Coin/rlm-tools-bsl](https://github.com/Dach-Coin/rlm-tools-bsl) | Исследование кода 1С через Python-песочницу (`rlm_start`, `rlm_execute`, `rlm_end`, `rlm_projects`, `rlm_index`). Поиск паттернов, вызовов, парсинг XML-метаданных |
 | **1c-syntax** | [Starik2005/1c-syntax-mcp](https://github.com/Starik2005/1c-syntax-mcp) | Справка по платформе 1С: поиск встроенных функций, подробная справка, автодополнение, валидация сигнатуры (`search_syntax`, `get_function_info`, `suggest_completion`, `validate_syntax`) |
-| **bsl-language-server** | [1c-syntax/bsl-language-server](https://github.com/1c-syntax/bsl-language-server) | LSP-интеграция BSL Language Server: диагностика, go-to-definition, find-references, rename после написания BSL-кода |
+| **bsl-language-server** | [1c-syntax/claude-code-bsl-lsp](https://github.com/1c-syntax/claude-code-bsl-lsp) | LSP-интеграция BSL Language Server: диагностика, go-to-definition, find-references, rename после написания BSL-кода |
 
 ### Что НЕ покрывается новым стеком
 
