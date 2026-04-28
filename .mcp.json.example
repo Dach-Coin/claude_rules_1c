@@ -1,36 +1,16 @@
 {
+  "_comment": "Шаблон конфигурации MCP-серверов для 1С-проекта. Скопируйте в .mcp.json и подгоните под свой стек. Полная справка по выбору инструмента - в .claude/lib/mcp-tools.md. ВАЖНО: bsl-language-server - это LSP-плагин Claude Code, а НЕ MCP, в этот файл его НЕ прописывать.",
   "mcpServers": {
-    "1c-code-metadata-mcp": {
-      "type": "sse",
-      "url": "http://localhost:8000/mcp"
+    "rlm-tools-bsl": {
+      "_comment": "Исследование кода 1С: BSL-модули, XML-метаданные, call graph через Python-песочницу. Транспорт - HTTP. Сервер должен быть запущен локально на указанном порту до старта сессии Claude Code. Репозиторий: https://github.com/Dach-Coin/rlm-tools-bsl",
+      "type": "http",
+      "url": "http://127.0.0.1:9000/mcp"
     },
-    "1c-syntax-checker-mcp": {
-      "type": "sse",
-      "url": "http://localhost:8002/mcp"
-    },
-    "1C-docs-mcp": {
-      "type": "sse",
-      "url": "http://localhost:8003/mcp"
-    },
-    "1c-templates-mcp": {
-      "type": "sse",
-      "url": "http://localhost:8004/mcp"
-    },
-    "1c-graph-metadata-mcp": {
-      "type": "sse",
-      "url": "http://localhost:8006/mcp"
-    },
-    "1c-code-check-mcp": {
-      "type": "sse",
-      "url": "http://localhost:8007/mcp"
-    },
-    "1c-ssl-mcp": {
-      "type": "sse",
-      "url": "http://localhost:8008/mcp"
-    },
-    "1c-forms-mcp": {
-      "type": "sse",
-      "url": "http://localhost:8011/mcp"
+    "1c-syntax": {
+      "_comment": "Справочник платформы 1С: встроенные функции, методы, объекты, валидация сигнатур, автодополнение. Транспорт - stdio (запускается Claude Code'ом по требованию). Замените путь к exe на актуальный. Репозиторий: https://github.com/Starik2005/1c-syntax-mcp",
+      "type": "stdio",
+      "command": "C:\\Tools\\1c-syntax-mcp\\1c-syntax-mcp.exe",
+      "args": []
     }
   }
 }

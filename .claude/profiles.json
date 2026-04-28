@@ -1,0 +1,71 @@
+{
+  "profiles": {
+    "code": {
+      "_description": "Написание и правка BSL: процедуры, функции, запросы, общие модули, объектные модули. Стандарты кодирования + архитектура + MCP-инструменты.",
+      "files": [
+        ".claude/lib/project_rules.md",
+        ".claude/lib/dev-standards-core.md",
+        ".claude/lib/dev-standards-architecture.md",
+        ".claude/lib/mcp-tools.md"
+      ]
+    },
+    "review": {
+      "_description": "Ревью модуля или PR: проверка кода против стандартов и каталога анти-паттернов. Стандарты + архитектура + анти-паттерны + MCP.",
+      "files": [
+        ".claude/lib/project_rules.md",
+        ".claude/lib/dev-standards-core.md",
+        ".claude/lib/dev-standards-architecture.md",
+        ".claude/lib/anti-patterns.md",
+        ".claude/lib/mcp-tools.md"
+      ]
+    },
+    "refactor": {
+      "_description": "Чистка и реструктуризация кода: dead code, дубликаты, упрощение сложных мест. Стандарты + архитектура + анти-паттерны + MCP.",
+      "files": [
+        ".claude/lib/project_rules.md",
+        ".claude/lib/dev-standards-core.md",
+        ".claude/lib/dev-standards-architecture.md",
+        ".claude/lib/anti-patterns.md",
+        ".claude/lib/mcp-tools.md"
+      ]
+    },
+    "metadata_management": {
+      "_description": "Работа со структурой конфигурации: справочники, документы, регистры, формы, СКД, макеты, роли, расширения, EPF/ERF, ИБ, веб-публикация. Анализ + создание + правка.",
+      "files": [
+        ".claude/1c-metadata-manage.md",
+        ".claude/skills_instructions.md",
+        ".claude/lib/dev-standards-core.md",
+        ".claude/lib/mcp-tools.md"
+      ]
+    },
+    "performance": {
+      "_description": "Оптимизация запросов и алгоритмов: устранение query-in-loop, использование виртуальных таблиц, индексы, кэширование. Стандарты + анти-паттерны + MCP.",
+      "files": [
+        ".claude/lib/project_rules.md",
+        ".claude/lib/dev-standards-core.md",
+        ".claude/lib/anti-patterns.md",
+        ".claude/lib/mcp-tools.md"
+      ]
+    },
+    "shell": {
+      "_description": "Написание и правка PowerShell-скриптов под Windows, bash-команд, CI-сценариев.",
+      "files": [
+        ".claude/lib/powershell-windows.md"
+      ]
+    },
+    "full": {
+      "_description": "Все правила и индексы разом - для отладки или нестандартных кейсов, требующих полного контекста.",
+      "files": [
+        ".claude/lib/project_rules.md",
+        ".claude/lib/dev-standards-core.md",
+        ".claude/lib/dev-standards-architecture.md",
+        ".claude/lib/anti-patterns.md",
+        ".claude/lib/mcp-tools.md",
+        ".claude/lib/powershell-windows.md",
+        ".claude/lib/sdd-integrations.md",
+        ".claude/1c-metadata-manage.md",
+        ".claude/skills_instructions.md"
+      ]
+    }
+  }
+}

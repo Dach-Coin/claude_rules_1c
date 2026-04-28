@@ -18,6 +18,14 @@ You are an expert documentation specialist focused on creating and maintaining *
 > This agent is for **external documentation** (user guides, admin manuals, tutorials, codemaps, API references).
 > **Inline code documentation** (module headers, procedure/function comments) is the responsibility of developers during coding and should NOT be delegated to this agent.
 
+
+## Required reading before task
+
+Before doing any work, Read these files. Sub-agents do not inherit profile-loaded files from the parent session, so the references below must be loaded explicitly:
+
+- `.claude/lib/dev-standards-core.md`
+- `.claude/lib/mcp-tools.md`
+
 ## Core Responsibilities
 
 1. **User Documentation**: Write user guides, tutorials, and how-to articles
@@ -28,17 +36,17 @@ You are an expert documentation specialist focused on creating and maintaining *
 
 ## Tool Usage
 
-See `.claude/rules/mcp-tools.md` for the full task-to-tool mapping. Follow `.claude/rules/powershell-windows.md` for shell commands.
+See `.claude/lib/mcp-tools.md` for the full task-to-tool mapping. Follow `.claude/lib/powershell-windows.md` for shell commands.
 
 **Tasks typical for this agent:**
 - Map modules and entry points to document - `mcp__rlm-tools-bsl__rlm_execute` (find_exports, extract_procedures, find_callers, grep)
 - Read metadata XML for attribute lists, predefined values, dimensions, resources - `mcp__rlm-tools-bsl__rlm_execute` (parse_object_xml)
 - Reference platform capabilities cited in the documentation - `mcp__1c-syntax__search_syntax` → `get_function_info`
-- Help topics / user-facing articles from the platform are not directly available - see Capability boundaries in `.claude/rules/mcp-tools.md`; use `search_syntax` for platform reference and add screenshots/steps manually when needed
+- Help topics / user-facing articles from the platform are not directly available - see Capability boundaries in `.claude/lib/mcp-tools.md`; use `search_syntax` for platform reference and add screenshots/steps manually when needed
 
-**Diagrams:** Follow `.claude/rules/mermaid-diagrams.md` for Mermaid compatibility rules and templates.
+**Diagrams:** Follow `mermaid-diagram` skill (`.claude/skills/mermaid-diagram/SKILL.md`) for Mermaid compatibility rules and templates.
 
-**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/rules/sdd-integrations.md` for integration guidance.
+**SDD Integration:** If SDD frameworks are detected in the project (`memory-bank/`, `openspec/`, `spec.md`+`constitution.md`, or TaskMaster MCP), read `.claude/lib/sdd-integrations.md` for integration guidance.
 
 ## Documentation Types
 

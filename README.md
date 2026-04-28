@@ -12,6 +12,7 @@
 - [MCP-серверы и инструменты ревью](#mcp-серверы-и-инструменты-ревью)
 - [Агенты](#агенты)
 - [Правила](#правила)
+- [Загрузка правил по профилям](#загрузка-правил-по-профилям)
 - [SDD-интеграции (Spec-Driven Development)](#sdd-интеграции-spec-driven-development)
 - [Навыки](#навыки)
 - [Ключевые принципы](#ключевые-принципы)
@@ -33,9 +34,11 @@
 ```
 CLAUDE.md                         # Главный (EN) файл инструкций Claude Code
 rus_CLAUDE.md                     # Русское зеркало CLAUDE.md (DO NOT EDIT DIRECTLY)
+profile-loading.md                # Документация по механике загрузки правил (для людей)
 .mcp.json.example                 # Шаблон конфигурации MCP-серверов
 .dev.env.example                  # Шаблон параметров проекта (PREFIX, COMPANY, DEVELOPER и др.)
-.gitignore                        # Исключает .dev.env, настройки Claude из git
+.v8-project.json.example          # Шаблон реестра информационных баз (платформа 8.3, базы, алиасы)
+.gitignore                        # Исключает .dev.env, .v8-project.json, локальные настройки Claude из git
 .claude/
 ├── agents/                       # AI-подагенты для различных ролей
 │   ├── analytic.md              # Бизнес-аналитик (PRD, ТЗ, спецификации)
@@ -53,41 +56,70 @@ rus_CLAUDE.md                     # Русское зеркало CLAUDE.md (DO 
 │
 ├── skills_instructions.md        # Реестр и dispatch-таблица всех локальных навыков (SSOT)
 ├── 1c-metadata-manage.md         # Карта знаний по домену метаданных (проектные правила, routing)
-├── rules/                        # Правила и стандарты (загружаются автоматически)
-│   ├── project_rules.md         # Coding standards (запросы, доступ к данным, производительность)
-│   ├── user_rules.md            # Общие принципы разработки
+├── profiles.json                 # Карта профилей загрузки правил (committed)
+├── profile.local.json.example    # Шаблон локального выбора профиля; копируется в profile.local.json (gitignored)
+├── settings.json                 # Регистрация SessionStart-хука
+├── hooks/
+│   └── session-start-load-profile.ps1  # Хук: инжектит каталог профилей в контекст сессии
+├── rules/                        # Auto-loaded core (минимум, грузится при каждой сессии)
+│   ├── user_rules.md            # Общие принципы + правила предложения профиля и команды управления загрузкой
+│   ├── typography.md            # Repo-wide правило типографики (em-dash / en-dash / yo)
+│   ├── dev-standards-forms.md   # Стандарты модулей форм (path-scoped: **/Form.Module.bsl)
+│   ├── form_module_rules.md     # Правила модулей форм (path-scoped: **/Form.Module.bsl)
+│   └── forms_events_add.md      # Обработчики событий форм (path-scoped: **/Form.Module.bsl)
+├── lib/                          # On-demand standards (грузятся через профиль или после предложения от агента)
+│   ├── project_rules.md         # Coding standards: запросы, доступ к данным, производительность
 │   ├── dev-standards-core.md    # Стандарты: .dev.env, стиль, именование, документирование
 │   ├── dev-standards-architecture.md  # Стандарты: архитектура, расширения, code smells
-│   ├── dev-standards-forms.md   # Стандарты: модули форм (path-scoped: **/Form.Module.bsl)
+│   ├── anti-patterns.md         # Антипаттерны (критические, высокие, средние) с фиксами
 │   ├── mcp-tools.md             # Справочник MCP-инструментов и инструментов ревью
-│   ├── sdd-integrations.md      # Интеграции SDD-фреймворков
-│   ├── anti-patterns.md         # Антипаттерны и оптимизации
-│   ├── form_module_rules.md     # Правила модулей форм (path-scoped: **/Form.Module.bsl)
-│   ├── forms_add.md             # Создание форм
-│   ├── forms_events_add.md      # Обработчики событий форм (path-scoped: **/Form.Module.bsl)
-│   ├── integrations_add.md      # Интеграции
-│   ├── refactor_add.md          # Рефакторинг
-│   ├── dump-config.md           # Выгрузка конфигурации
-│   ├── mermaid-diagrams.md      # Шаблоны Mermaid-диаграмм
-│   └── powershell-windows.md    # Правила PowerShell на Windows
+│   ├── powershell-windows.md    # Правила PowerShell на Windows
+│   └── sdd-integrations.md      # Интеграции SDD-фреймворков
 │
 └── skills/                       # Плоский набор upstream-скиллов (полный список - в skills_instructions.md)
 ```
 
 ## Установка
 
-1. Скопируйте в корень вашего проекта 1С:
-   - Папку `.claude/` целиком, включая `.claude/skills/` - это локальный, versioned-in-repo набор upstream-скиллов (cc-1c-skills). Глобальную установку Claude Code он не требует.
-   - Файл `CLAUDE.md` и зеркальный `rus_CLAUDE.md`
-   - Файл `.mcp.json.example` (переименуйте в `.mcp.json` и настройте MCP-серверы)
-   - Файл `.dev.env.example` (переименуйте в `.dev.env` и заполните параметрами проекта)
-   - Файл `.gitignore`
-2. Подключите MCP-серверы `rlm-tools-bsl` и `1c-syntax`, а также плагин диагностики `bsl-language-server`.
-3. Зарегистрируйте информационные базы проекта в реестре `.v8-project.json` (в корне проекта) - через скиллы из раздела «Базы данных» в [`.claude/skills_instructions.md`](.claude/skills_instructions.md). В реестре хранятся параметры подключения, алиасы, привязка к веткам Git и опциональный `webUrl` для веб-клиента (используется скиллом из раздела «Веб-публикация и тестирование»).
+### Краткий гайд
+
+1. Клонируйте этот репозиторий в произвольный каталог:
+
+   ```bash
+   git clone https://github.com/Dach-Coin/claude_rules_1c.git
+   ```
+
+2. Скопируйте в корень исходных файлов вашего проекта 1С (формат CF / EDT — туда, где лежат `Configuration.xml` или EDT-проект):
+   - Папку `.claude/` целиком (правила, агенты, скиллы, хук, реестр профилей).
+   - `CLAUDE.md` (главный файл инструкций Claude Code) и `rus_CLAUDE.md` (русское зеркало).
+   - `profile-loading.md` (опционально - документация по механике загрузки правил).
+   - `.mcp.json.example` → переименуйте в `.mcp.json`, пропишите MCP-серверы.
+   - `.dev.env.example` → скопируйте в `.dev.env`, заполните `PREFIX`, `COMPANY`, `DEVELOPER`, `PLATFORM_VERSION` и т. д.
+   - `.v8-project.json.example` → скопируйте в `.v8-project.json`, пропишите путь к платформе 1С (`v8path`) и список ваших ИБ. Описание полей и интерактивное добавление баз - через скилл `db-list` (см. [`.claude/skills_instructions.md`](.claude/skills_instructions.md), раздел «Базы данных»).
+   - `.gitignore` (или объедините с вашим - он исключает локальные `.dev.env`, `.v8-project.json` и пользовательские настройки Claude).
+
+3. Подключите внешние компоненты:
+   - MCP-серверы `rlm-tools-bsl` и `1c-syntax` (см. ссылки в разделе [MCP-серверы](#mcp-серверы-и-инструменты-ревью)).
+   - Плагин диагностики `bsl-language-server`.
+
+4. (Опционально) Настройте профиль загрузки правил под ваш типичный класс задач: скопируйте `.claude/profile.local.json.example` в `.claude/profile.local.json` и укажите `{"active": "<profile>"}`. Подробнее - [`profile-loading.md`](profile-loading.md).
+
+### Что куда уходит и что остаётся локальным
+
+| Файл / папка | В git проекта 1С? | Назначение |
+|---|---|---|
+| `.claude/` (всё, кроме `*.local.*`) | да | Правила, агенты, скиллы, хук - общие для команды |
+| `CLAUDE.md`, `rus_CLAUDE.md`, `profile-loading.md` | да | Инструкции Claude Code и человеко-документация |
+| `.mcp.json` | да (или нет, по политике команды) | Конфигурация MCP-серверов |
+| `.dev.env` | **нет** (gitignore) | Параметры проекта и комментарии модификаций |
+| `.v8-project.json` | **нет** (gitignore) | Реестр ИБ - у каждого разработчика свои пути |
+| `.claude/profile.local.json` | **нет** (gitignore) | Локальный выбор профиля - у каждого свой |
+
+После установки откройте проект в Claude Code - SessionStart-хук автоматически инжектит каталог профилей в контекст, агент готов к работе.
 
 ## MCP-серверы и инструменты ревью
 
-Полная справка - в [`.claude/rules/mcp-tools.md`](.claude/rules/mcp-tools.md). Краткий обзор:
+Полная справка - в [`.claude/lib/mcp-tools.md`](.claude/lib/mcp-tools.md). Краткий обзор:
 
 | Источник | Репозиторий | Назначение |
 |---|---|---|
@@ -97,7 +129,7 @@ rus_CLAUDE.md                     # Русское зеркало CLAUDE.md (DO 
 
 ### Что НЕ покрывается новым стеком
 
-В [`.claude/rules/mcp-tools.md#capability-boundaries`](.claude/rules/mcp-tools.md) описаны осознанные деградации: cross-project curated-шаблоны, семантический поиск БСП, NL-поиск метаданных, автоматический анализ логики/производительности, help-topics и семантический поиск кода полностью недоступны - используем компенсирующие подходы.
+В [`.claude/lib/mcp-tools.md#capability-boundaries`](.claude/lib/mcp-tools.md) описаны осознанные деградации: cross-project curated-шаблоны, семантический поиск БСП, NL-поиск метаданных, автоматический анализ логики/производительности, help-topics и семантический поиск кода полностью недоступны - используем компенсирующие подходы.
 
 ## Агенты
 
@@ -132,40 +164,51 @@ rus_CLAUDE.md                     # Русское зеркало CLAUDE.md (DO 
 
 ## Правила
 
-Правила загружаются автоматически из `.claude/rules/` при запуске сессии Claude Code.
+Правила разделены на три слоя: auto-core (грузится автоматически при каждой сессии), профильные (грузятся по выбранному профилю или после предложения агента под задачу) и path-scoped (грузятся при работе с файлами модулей форм).
 
-### Всегда активные (без paths)
+### 1. Auto-core (`.claude/rules/`)
+
+Грузятся автоматически в каждой сессии Claude Code:
+
+- **user_rules.md** - принципы работы + правила предложения профиля и команды управления загрузкой правил
+- **typography.md** - repo-wide правило типографики (нет em-dash, en-dash, yo)
+
+### 2. Профильные (`.claude/lib/`)
+
+Грузятся через `.claude/profiles.json` + `.claude/profile.local.json` (SessionStart-хук инжектит каталог; агент Read'ает файлы активного профиля). Если профиль не задан - после первого промпта агент сам предлагает 1-3 ранжированных варианта и грузит файлы по подтверждению юзера. Эвристика ранжирования - в `.claude/rules/user_rules.md`.
 
 - **project_rules.md** - coding standards: запросы, доступ к данным, производительность, форматирование
-- **user_rules.md** - общие принципы: пошаговый подход, минимальные изменения, проверка перед действием
 - **dev-standards-core.md** - параметры `.dev.env`, стиль кода, комментарии модификаций, именование, документирование
 - **dev-standards-architecture.md** - архитектурные паттерны, расширения, платформенные стандарты, code smells
-- **mcp-tools.md** - справочник по выбору MCP-инструментов с таблицей маппинга задач
 - **anti-patterns.md** - каталог антипаттернов (критические, высокие, средние) с примерами исправления
+- **mcp-tools.md** - справочник по выбору MCP-инструментов с таблицей маппинга задач
+- **powershell-windows.md** - правила PowerShell-скриптинга на Windows
 - **sdd-integrations.md** - интеграции с SDD-фреймворками (Memory Bank, OpenSpec, Spec Kit, TaskMaster)
 
-### Контекстные (path-scoped: `**/Form.Module.bsl`)
+Состав каждого профиля и его описание - в [`.claude/profiles.json`](.claude/profiles.json). Локальный выбор - в `.claude/profile.local.json` (gitignored; копируется из `.claude/profile.local.json.example`, настраивается каждым разработчиком под свою задачу).
 
-Загружаются автоматически при работе с файлами модулей форм:
+### 3. Контекстные path-scoped (`.claude/rules/`, `paths: ["**/Form.Module.bsl"]`)
+
+Грузятся автоматически при открытии файла модуля формы:
 
 - **dev-standards-forms.md** - структура модулей форм, правила модификации
 - **form_module_rules.md** - клиент-серверное взаимодействие, директивы компиляции
 - **forms_events_add.md** - добавление обработчиков событий форм
 
-### Подгружаются по ссылке из агентов (on-demand)
+## Загрузка правил по профилям
 
-Не активируются автоматически - читаются агентами по ссылке при соответствующей задаче:
+Подробное описание механики загрузки (3-слойная модель, SessionStart-хук, переключение профиля локально и в чате, добавление новых профилей, поведение при `/compact` / `/resume`, под-капотные особенности WinPS/UTF-8) - в [`profile-loading.md`](profile-loading.md).
 
-- **forms_add.md** - создание и модификация управляемых форм
-- **integrations_add.md** - внешние интеграции (Python-first политика)
-- **refactor_add.md** - подход к рефакторингу (top-down анализ, bottom-up правки)
-- **dump-config.md** - выгрузка конфигурации из ИБ в файлы
-- **mermaid-diagrams.md** - шаблоны диаграмм Mermaid и правила совместимости рендереров
-- **powershell-windows.md** - правила PowerShell-скриптинга на Windows
+Кратко:
+
+- **`.claude/profiles.json`** (committed) - каталог профилей, источник истины.
+- **`.claude/profile.local.json`** (gitignored) - локальный выбор активного профиля; шаблон в `.claude/profile.local.json.example`.
+- **`.claude/hooks/session-start-load-profile.ps1`** - SessionStart-хук, инжектит каталог профилей в контекст сессии на матчерах `startup` / `resume` / `clear` / `compact`.
+- Команды управления загрузкой в чате (`загрузи профиль X`, `добавь файл Y`, `какие правила сейчас активны`) - см. документ выше.
 
 ## SDD-интеграции (Spec-Driven Development)
 
-Все агенты поддерживают опциональную интеграцию с SDD-фреймворками, если они присутствуют в проекте. Подробности см. в `.claude/rules/sdd-integrations.md`.
+Все агенты поддерживают опциональную интеграцию с SDD-фреймворками, если они присутствуют в проекте. Подробности см. в `.claude/lib/sdd-integrations.md`.
 
 | Фреймворк | Тип | Описание | Обнаружение |
 |-----------|-----|----------|-------------|

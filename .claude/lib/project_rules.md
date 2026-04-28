@@ -3,7 +3,7 @@
 <!-- Scope: coding standards, query rules, data access, performance.
      Persona, tool selection, workflow and skill dispatch live elsewhere:
      - CLAUDE.md - persona, project parameters, workflow
-     - .claude/rules/mcp-tools.md - tool selection, task-to-tool mapping
+     - .claude/lib/mcp-tools.md - tool selection, task-to-tool mapping
      - .claude/skills_instructions.md - skill dispatch -->
 
 ## Scope
@@ -121,7 +121,7 @@ Dereferencing reference fields through a dot in **query text** is the standard 1
   ВЫБРАТЬ ВЫРАЗИТЬ(ЗП.ДокументОснование КАК Документ.ЗаказКлиента).Номер КАК Номер
   ```
 
-**Do not confuse with the BSL anti-pattern:** dot notation in **BSL code** (`Контрагент.ИНН` on a reference variable) loads the whole object - that is forbidden, see `.claude/rules/anti-patterns.md` and the section below.
+**Do not confuse with the BSL anti-pattern:** dot notation in **BSL code** (`Контрагент.ИНН` on a reference variable) loads the whole object - that is forbidden, see `.claude/lib/anti-patterns.md` and the section below.
 
 # Data Access Guidelines
 
@@ -170,7 +170,7 @@ Caching is appropriate for:
 
 # Performance & Optimization Guidelines
 
-Logic and performance review is manual in the current toolset - follow the checklists in `.claude/rules/anti-patterns.md` plus diagnostics from `bsl-language-server`. See Capability boundaries in `.claude/rules/mcp-tools.md`.
+Logic and performance review is manual in the current toolset - follow the checklists in `.claude/lib/anti-patterns.md` plus diagnostics from `bsl-language-server`. See Capability boundaries in `.claude/lib/mcp-tools.md`.
 
 ## Server Context
 

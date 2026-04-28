@@ -1,9 +1,9 @@
 # Skills Instructions
 
-<!-- Scope: единая точка входа для всех 67 локальных скиллов из .claude/skills/.
+<!-- Scope: единая точка входа для всех 68 локальных скиллов из .claude/skills/ (67 upstream + 1 наш mermaid-diagram).
      Это SSOT по реестру скиллов (полный список). Доменная карта по метаданным - в .claude/1c-metadata-manage.md.
-     Выбор MCP vs skill vs bsl-language-server - в .claude/rules/mcp-tools.md.
-     Стандарты кодирования - в .claude/rules/project_rules.md и .claude/rules/dev-standards-*.md. -->
+     Выбор MCP vs skill vs bsl-language-server - в .claude/lib/mcp-tools.md.
+     Стандарты кодирования - в .claude/lib/project_rules.md, .claude/lib/dev-standards-core.md, .claude/lib/dev-standards-architecture.md и .claude/rules/dev-standards-forms.md (path-scoped). -->
 
 ## Scope
 
@@ -11,6 +11,7 @@
 - Этот файл - **единый источник истины (SSOT)** по всему реестру скиллов. Любое добавление, удаление или переименование скилла начинается здесь.
 - Файл не дублирует `SKILL.md` конкретного скилла - только dispatch-брифы.
 - Покрыты только скиллы, физически лежащие в `.claude/skills/`. Глобальные плагины Claude Code (например `1c_syntax_skills` из плагина помощи по платформе) перечисляются самим Claude Code и здесь не описываются.
+- **Инвариант синхронизации.** При любом изменении состава или поведения скиллов (создание нового, переименование, удаление, изменение dispatch-описания, замена скрипта/`SKILL.md`) этот реестр обновляется синхронно - это SSOT по скиллам в репо. Аналогично - при добавлении нового домена метаданных или существенных правках поведения метаданных-скиллов синхронизируется `.claude/1c-metadata-manage.md`.
 
 ## MCP tools vs. skills vs. bsl-language-server
 
@@ -22,7 +23,7 @@
 | **BSL Language Server** (плагин `bsl-language-server`, НЕ MCP) | Диагностика `.bsl` / `.os` (ошибки, style warnings); плагин in-session или локальный CLI `bsl-language-server.exe --analyze`. Никогда не вызывается с префиксом `mcp__*`. | Проверить модуль после правки |
 | **Skills** (этот файл) | Мутации проекта - создание метаданных, сборка, развертывание, выгрузка | Создать управляемую форму, собрать роль, развернуть конфигурацию в тестовой ИБ |
 
-Полные правила выбора - `.claude/rules/mcp-tools.md`.
+Полные правила выбора - `.claude/lib/mcp-tools.md`.
 
 ## Метаданные 1С - карта знаний
 
@@ -30,7 +31,7 @@
 
 ## Available skills - dispatch table
 
-Реестр всех 67 upstream-скиллов, сгруппированных по доменам. Имена в бэктиках соответствуют каталогам `.claude/skills/<name>/`. Детали аргументов и DSL - в `SKILL.md` скилла.
+Реестр всех скиллов (67 upstream + 1 наш = 68), сгруппированных по доменам. Имена в бэктиках соответствуют каталогам `.claude/skills/<name>/`. Детали аргументов и DSL - в `SKILL.md` скилла.
 
 ### Метаданные
 
@@ -110,15 +111,21 @@ Scaffold расширения, заимствование объектов, ге
 
 Наложение пронумерованной сетки на изображение для разметки пропорций колонок перед `mxl-compile` (когда макет восстанавливается из скриншота или сканированной печатной формы).
 
+### Документация и диаграммы
+
+`mermaid-diagram`
+
+Создание диаграмм Mermaid с гарантией совместимости с консервативными рендерерами (VS Code preview, Git-платформы) плюс обязательный ASCII/Unicode-сайдкар. 9 типов (flowchart, sequence, class, state-v2, ER, journey, gantt, pie) и `graph`-фолбэки для quadrant, requirement, sankey, git graph (экспериментальные типы Mermaid не используются). Это единственный не-upstream скилл в реестре.
+
 ## Dispatch rules
 
 1. Любая мутация метаданных, форм, СКД, ролей, расширений - через соответствующий `*-compile` / `*-edit` / `*-validate` скилл, не через прямые правки XML.
-2. Выгрузка конфигурации из ИБ в файлы - `db-dump-xml` (`Full` для baseline, `Changes` для инкремента, `Partial` для узкого scope).
+2. Выгрузка конфигурации из ИБ в файлы - `db-dump-xml` (`Full` для baseline, `Changes` для инкремента, `Partial` для узкого scope). Полностью покрывает функциональность ранее существовавшего правила `dump-config.md`.
 3. End-to-end UI-тестирование - `web-test` поверх предварительного `web-publish` и `db-update`.
 4. Создание новой ИБ - `db-create` -> `db-load-cf` или `db-load-xml` -> `db-update` -> `db-run`.
 5. Изменение типового кода при `NEW_OBJECTS_IN=extension` из `.dev.env` - только через `cfe-borrow` + `cfe-patch-method`, прямые правки запрещены.
 6. Восстановление MXL из скриншота - обязательно предварять `img-grid` для пропорций колонок.
-7. Не переизобретать то, что уже закрыто скиллом - расширять скилл (или добавлять rule в `.claude/rules/`), если функциональности не хватает.
+7. Не переизобретать то, что уже закрыто скиллом - расширять скилл (или добавлять rule в `.claude/lib/` для подгружаемых стандартов или в `.claude/rules/` для auto-load core), если функциональности не хватает.
 
 ## bsl-language-server (not a skill, but mandatory)
 
@@ -128,7 +135,7 @@ LSP-интеграция над `BSL Language Server`. Не входит в сп
 - `go-to-definition`, `find-references` - при ревью.
 - `rename` - для рефакторинга, вместо search-and-replace.
 
-Полное описание - в `.claude/rules/mcp-tools.md` (раздел "bsl-language-server").
+Полное описание - в `.claude/lib/mcp-tools.md` (раздел "bsl-language-server").
 
 ## Runtime notes
 

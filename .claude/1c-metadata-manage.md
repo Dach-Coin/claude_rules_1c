@@ -8,7 +8,7 @@
 - **Что помнить** - проектные правила и грабли поверх upstream `SKILL.md`.
 - **В каком порядке** - обязательный цикл мутации и чеклист «готово».
 
-Здесь **нет**: параметров командной строки, DSL, примеров JSON/XML - это все в upstream `SKILL.md`. Стиля BSL, правил форм как модуля, критериев выбора MCP vs skill - это в `.claude/rules/*`. См. раздел «Что НЕ здесь» в конце.
+Здесь **нет**: параметров командной строки, DSL, примеров JSON/XML - это все в upstream `SKILL.md`. Стиля BSL и критериев выбора MCP vs skill - это в `.claude/lib/*` (`project_rules.md`, `dev-standards-*.md`, `mcp-tools.md`). Правил форм как модуля - в `.claude/rules/dev-standards-forms.md`, `form_module_rules.md`, `forms_events_add.md` (path-scoped). См. раздел «Что НЕ здесь» в конце.
 
 ## Домены и скиллы
 
@@ -34,7 +34,7 @@
 
 ## .dev.env: проектные параметры
 
-Перед любой мутацией - прочитать `.dev.env`. Детали - в `.claude/rules/dev-standards-core.md`.
+Перед любой мутацией - прочитать `.dev.env`. Детали - в `.claude/lib/dev-standards-core.md`.
 
 | Ключ | Что делает | Где всплывает |
 |---|---|---|
@@ -65,7 +65,7 @@
 3. **Inspect перед edit** - для любой правки существующего объекта запускать соответствующий `*-info` (meta/form/skd/mxl/role/cfe-diff/subsystem/cf-info); это дешевле, чем читать XML целиком.
 4. **Выполнить** - `*-compile` для создания с нуля из JSON или `*-edit` для точечной правки. Автоматический `*-validate` после каждого `*-edit`/`*-compile` отключать только в пакетных сценариях (`-NoValidate`).
 5. **compile+validate** - если что-то осталось без автопроверки, прогнать `*-validate` явно. Для форм с контекстом `BaseForm` - `form-validate` автоматически проверяет `callType` и `ID` заимствований.
-6. **BSL Language Server** - прогнать по тронутым `.bsl` модулям (см. `.claude/rules/mcp-tools.md`). Максимум три итерации по style warnings.
+6. **BSL Language Server** - прогнать по тронутым `.bsl` модулям (см. `.claude/lib/mcp-tools.md`). Максимум три итерации по style warnings.
 7. **Отчет** - список измененных файлов, использованные скиллы, нестандартные грабли (если всплыли), CFE vs main_configuration.
 
 ## Кириллица в аргументах дочерних `powershell.exe -File`
@@ -206,7 +206,7 @@ powershell.exe -NoProfile -File .claude/skills/epf-init/scripts/init.ps1 -NameB6
 
 ## SSL / БСП
 
-Короткая шпаргалка поверх `.claude/rules/mcp-tools.md` и `.claude/rules/dev-standards-architecture.md`:
+Короткая шпаргалка поверх `.claude/lib/mcp-tools.md` и `.claude/lib/dev-standards-architecture.md`:
 
 - Перед написанием своего кода - искать готовую подсистему БСП через `mcp__rlm-tools-bsl__rlm_execute` (`glob_files`, `parse_object_xml`, `find_callers`). Не угадывать.
 - Типовые точки интеграции: `ПодключаемыеКоманды` (команды форм), `ДополнительныеОтчетыИОбработки` (EPF/ERF), `БезопасноеХранилищеСлужебныхДанных` (секреты), `РаботаСФайлами`/`ПрисоединенныеФайлы` (файлы), `УправлениеДоступом` (RLS и права), `ВерсионированиеОбъектов` (история), `ОбновлениеИнформационнойБазы` (миграции данных).
@@ -214,7 +214,7 @@ powershell.exe -NoProfile -File .claude/skills/epf-init/scripts/init.ps1 -NameB6
 
 ## Оптимизация запросов
 
-Шпаргалка - подробные разборы в `.claude/rules/project_rules.md`.
+Шпаргалка - подробные разборы в `.claude/lib/project_rules.md`.
 
 - Виртуальные таблицы регистров - только с параметрами (период, измерения); отборы на уровне источника, не в `ГДЕ` над результатом.
 - Составные поля разыменовываются через `ВЫРАЗИТЬ(Поле КАК Тип)`, иначе платформа строит LEFT JOIN ко всем таблицам типа.
@@ -236,16 +236,17 @@ powershell.exe -NoProfile -File .claude/skills/epf-init/scripts/init.ps1 -NameB6
 - `COMMENT_OPEN`/`COMMENT_CLOSE` расставлены везде, где правилась типовая (вне CFE - в `cfe-patch-method`).
 - Если `NEW_OBJECTS_IN=extension` - изменения типовой обернуты в CFE, прямых правок нет.
 - BSL Language Server по тронутым `.bsl` - без новых критических диагностик.
-- Ручная сверка по `.claude/rules/anti-patterns.md` для затронутых модулей.
+- Ручная сверка по `.claude/lib/anti-patterns.md` для затронутых модулей.
 - В отчете перечислены измененные файлы, использованные скиллы и проектные грабли (если всплыли).
 
 ## Что НЕ здесь
 
 - Аргументы, DSL, примеры JSON/XML, формат вывода конкретного скилла - в `.claude/skills/<name>/SKILL.md`.
 - Полный реестр всех 67 скиллов и общая dispatch-таблица - в `.claude/skills_instructions.md`.
-- Стиль BSL, комментарии модификаций, типографика, `.dev.env`-детали - в `.claude/rules/dev-standards-core.md`.
-- Архитектурные паттерны, БСП-интеграция в глубину, code smells - в `.claude/rules/dev-standards-architecture.md`.
+- Стиль BSL, комментарии модификаций, типографика, `.dev.env`-детали - в `.claude/lib/dev-standards-core.md`.
+- Архитектурные паттерны, БСП-интеграция в глубину, code smells - в `.claude/lib/dev-standards-architecture.md`.
 - Правила модулей форм (клиент/сервер, директивы компиляции, события) - в `.claude/rules/form_module_rules.md` и `.claude/rules/dev-standards-forms.md`.
-- Выбор MCP vs skill vs bsl-language-server, capability boundaries - в `.claude/rules/mcp-tools.md`.
-- Каталог анти-паттернов с уровнями severity - в `.claude/rules/anti-patterns.md`.
-- SDD-интеграции (Memory Bank, OpenSpec, Spec Kit, TaskMaster) - в `.claude/rules/sdd-integrations.md`.
+- Выбор MCP vs skill vs bsl-language-server, capability boundaries - в `.claude/lib/mcp-tools.md`.
+- Каталог анти-паттернов с уровнями severity - в `.claude/lib/anti-patterns.md`.
+- SDD-интеграции (Memory Bank, OpenSpec, Spec Kit, TaskMaster) - в `.claude/lib/sdd-integrations.md`.
+- Mermaid-диаграммы и шаблоны - скилл `mermaid-diagram` (`.claude/skills/mermaid-diagram/`).
