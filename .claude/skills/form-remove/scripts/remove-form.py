@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# remove-form v1.0 — Remove form from 1C object
+# remove-form v1.0 - Remove form from 1C object
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 import argparse
@@ -79,7 +79,7 @@ def main():
                 if prev.tail and prev.tail.strip() == "":
                     prev.tail = ""
             else:
-                # First child — whitespace is in parent.text
+                # First child - whitespace is in parent.text
                 if parent.text and parent.text.strip() == "":
                     parent.text = ""
             parent.remove(node)

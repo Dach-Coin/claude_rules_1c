@@ -1,4 +1,4 @@
-﻿# db-load-git v1.3 — Load Git changes into 1C database
+﻿# db-load-git v1.3 - Load Git changes into 1C database
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS
@@ -230,7 +230,7 @@ foreach ($file in $changedFiles) {
     $fullPath = Join-Path $ConfigDir $file
 
     if ($file -match '\.xml$') {
-        # XML file — add directly if exists
+        # XML file - add directly if exists
         if (Test-Path $fullPath) {
             if ($configFiles -notcontains $file) {
                 $configFiles += $file
@@ -238,7 +238,7 @@ foreach ($file in $changedFiles) {
         }
     }
     else {
-        # Non-XML (BSL, HTML, etc.) — map to parent object XML + include all Ext/ files
+        # Non-XML (BSL, HTML, etc.) - map to parent object XML + include all Ext/ files
         $objectXml = Get-ObjectXmlFromSubFile -RelativePath $file
         if ($objectXml) {
             $fullXmlPath = Join-Path $ConfigDir $objectXml

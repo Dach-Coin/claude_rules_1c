@@ -1,4 +1,4 @@
-﻿# db-load-xml v1.3 — Load 1C configuration from XML files
+﻿# db-load-xml v1.3 - Load 1C configuration from XML files
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS
@@ -266,7 +266,7 @@ try {
     }
 
     if ($silentFailures.Count -gt 0) {
-        $msg = "[warning] log contains $($silentFailures.Count) rejection(s) — platform loaded config but dropped properties/refs"
+        $msg = "[warning] log contains $($silentFailures.Count) rejection(s) - platform loaded config but dropped properties/refs"
         if (-not $StrictLog) { $msg += " (pass -StrictLog to treat as error)" }
         Write-Host $msg -ForegroundColor Yellow
         foreach ($f in $silentFailures) { Write-Host "  $f" -ForegroundColor Yellow }

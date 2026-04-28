@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# add-form v1.1 — Add managed form to 1C external data processor
+# add-form v1.1 - Add managed form to 1C external data processor
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 import argparse

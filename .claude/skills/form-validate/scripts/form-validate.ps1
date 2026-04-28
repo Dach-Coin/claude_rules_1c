@@ -1,4 +1,4 @@
-﻿# form-validate v1.4 — Validate 1C managed form
+﻿# form-validate v1.4 - Validate 1C managed form
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[Parameter(Mandatory)]
@@ -238,7 +238,7 @@ foreach ($attr in $attrNodes) {
 		}
 	}
 
-	# Column IDs are a separate sub-pool per attribute — check uniqueness within parent
+	# Column IDs are a separate sub-pool per attribute - check uniqueness within parent
 	$colIds = @{}
 	foreach ($col in $attr.SelectNodes("f:Columns/f:Column", $nsMgr)) {
 		$colId = $col.GetAttribute("id")
@@ -373,7 +373,7 @@ if (-not $stopped) {
 		$rootAttr = $segments[0]
 
 		if (-not $attrMap.ContainsKey($rootAttr)) {
-			Report-Error "[$tag] '$elName': DataPath='$dataPath' — attribute '$rootAttr' not found"
+			Report-Error "[$tag] '$elName': DataPath='$dataPath' - attribute '$rootAttr' not found"
 			$pathErrors++
 		}
 	}
@@ -416,11 +416,11 @@ if (-not $stopped) {
 			$cmdName = $Matches[1]
 			$cmdChecked++
 			if (-not $cmdMap.ContainsKey($cmdName)) {
-				Report-Error "[Button] '$elName': CommandName='$cmdRef' — command '$cmdName' not found in Commands"
+				Report-Error "[Button] '$elName': CommandName='$cmdRef' - command '$cmdName' not found in Commands"
 				$cmdErrors++
 			}
 		}
-		# Form.StandardCommand.XXX — skip, standard commands always exist
+		# Form.StandardCommand.XXX - skip, standard commands always exist
 	}
 
 	if ($cmdErrors -eq 0 -and $cmdChecked -gt 0) {
@@ -528,7 +528,7 @@ if (-not $stopped) {
 	if ($titleNode) {
 		$v8items = $titleNode.SelectNodes("v8:item", $nsMgr)
 		if ($v8items.Count -eq 0 -and $titleNode.InnerText.Trim() -ne "") {
-			Report-Error "Form Title is plain text ('$($titleNode.InnerText.Trim())') — must be multilingual XML (<v8:item>). Use top-level 'title' key in form-compile DSL."
+			Report-Error "Form Title is plain text ('$($titleNode.InnerText.Trim())') - must be multilingual XML (<v8:item>). Use top-level 'title' key in form-compile DSL."
 		} else {
 			Report-OK "Title: multilingual XML"
 		}
@@ -606,7 +606,7 @@ if (-not $stopped -and $isExtension) {
 		Report-OK "callType values: $ctChecked checked"
 	}
 
-	# 11c. Extension ID ranges — warn if extension-added attrs/commands have id < 1000000
+	# 11c. Extension ID ranges - warn if extension-added attrs/commands have id < 1000000
 	# Collect BaseForm attribute names to distinguish added ones
 	$baseAttrNames = @{}
 	$baseCmdNames = @{}
@@ -654,7 +654,7 @@ if (-not $stopped -and $isExtension) {
 		$extAttrCount = ($attrNodes | Where-Object { -not $baseAttrNames.ContainsKey($_.GetAttribute("name")) }).Count
 		$extCmdCount = ($cmdNodes | Where-Object { -not $baseCmdNames.ContainsKey($_.GetAttribute("name")) }).Count
 		if (($extAttrCount + $extCmdCount) -gt 0) {
-			Report-OK "Extension ID ranges: $extAttrCount attr(s), $extCmdCount cmd(s) — all >= 1000000"
+			Report-OK "Extension ID ranges: $extAttrCount attr(s), $extCmdCount cmd(s) - all >= 1000000"
 		}
 	}
 }
@@ -677,7 +677,7 @@ if (-not $stopped -and -not $isExtension) {
 		}
 	}
 	if ($callTypeWithoutBase) {
-		Report-Warn "callType attributes found but no BaseForm — possible incorrect structure"
+		Report-Warn "callType attributes found but no BaseForm - possible incorrect structure"
 	}
 }
 

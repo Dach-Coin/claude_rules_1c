@@ -1,5 +1,5 @@
 {
-  "name": "AccumulationRegister List — Balances, 2 измерения + 3 ресурса",
+  "name": "AccumulationRegister List - Balances, 2 измерения + 3 ресурса",
   "preRun": [
     {
       "script": "meta-compile/scripts/meta-compile",

@@ -1,5 +1,5 @@
 {
-  "name": "Document List — средний (АктВВР-like)",
+  "name": "Document List - средний (АктВВР-like)",
   "preRun": [
     {
       "script": "meta-compile/scripts/meta-compile",

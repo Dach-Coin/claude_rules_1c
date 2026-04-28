@@ -5,7 +5,7 @@
 
 This rule provides integration guidance for optional SDD frameworks and task management tools. **Use these tools only when they are present in the project.**
 
-> **Note**: This rule is loaded on-demand via `rules/sdd-integrations.md` reference in agents. Check for framework presence before using.
+> **Note**: This rule is loaded on-demand via `.claude/lib/sdd-integrations.md` reference in agents. Check for framework presence before using.
 
 ## Detection
 

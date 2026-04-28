@@ -1,5 +1,5 @@
 {
-  "name": "ChartOfAccounts Item — план счетов с флагами и субконто",
+  "name": "ChartOfAccounts Item - план счетов с флагами и субконто",
   "preRun": [
     {
       "script": "meta-compile/scripts/meta-compile",

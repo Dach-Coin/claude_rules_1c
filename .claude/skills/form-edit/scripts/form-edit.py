@@ -1,4 +1,4 @@
-# form-edit v1.0 — Edit 1C managed form elements (Python port)
+# form-edit v1.0 - Edit 1C managed form elements (Python port)
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 import argparse
 import json
@@ -973,7 +973,7 @@ if elements_list:
         target_ci = root_ci
 
     if target_ci is None:
-        # Create ChildItems section in form — insert after Events or AutoCommandBar
+        # Create ChildItems section in form - insert after Events or AutoCommandBar
         target_ci = etree.Element(f"{{{FORM_NS}}}ChildItems")
         insert_after = root.find("f:Events", NS)
         if insert_after is None:

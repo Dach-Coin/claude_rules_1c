@@ -1,5 +1,5 @@
 {
-  "name": "Макет с -WithText — текст и шаблоны",
+  "name": "Макет с -WithText - текст и шаблоны",
   "preRun": [
     {
       "script": "mxl-compile/scripts/mxl-compile",

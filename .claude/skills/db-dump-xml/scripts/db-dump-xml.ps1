@@ -1,4 +1,4 @@
-﻿# db-dump-xml v1.0 — Dump 1C configuration to XML files
+﻿# db-dump-xml v1.0 - Dump 1C configuration to XML files
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS

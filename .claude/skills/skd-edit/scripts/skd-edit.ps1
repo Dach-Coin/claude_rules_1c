@@ -1,4 +1,4 @@
-﻿# skd-edit v1.11 — Atomic 1C DCS editor
+﻿# skd-edit v1.11 - Atomic 1C DCS editor
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[Parameter(Mandatory)]
@@ -198,7 +198,7 @@ function Read-FieldProperties($fieldEl) {
 				}
 			}
 			"valueType" {
-				# Read type info — store the raw element for now, we'll use type from parsed if overridden
+				# Read type info - store the raw element for now, we'll use type from parsed if overridden
 				$typeEl = $null
 				foreach ($gc in $ch.ChildNodes) {
 					if ($gc.NodeType -eq 'Element' -and $gc.LocalName -eq 'Type') {
@@ -254,7 +254,7 @@ function Parse-CalcShorthand {
 	# Pattern: "Name [Title]: type = Expression #noField #noFilter ...".
 	# - `[Title]` is extracted only from the LHS of '=' so that `[...]` inside
 	#   an expression (e.g. index access) isn't interpreted as a title.
-	# - `#restrict` flags use a known-names pattern and are extracted globally —
+	# - `#restrict` flags use a known-names pattern and are extracted globally -
 	#   the docs put them after `=`, and the closed flag set avoids matching
 	#   `#word` that happens to appear inside a string literal.
 	$restrictPattern = '#(noField|noFilter|noCondition|noGroup|noOrder)\b'
@@ -496,7 +496,7 @@ function Parse-DataSetShorthand {
 	param([string]$s)
 
 	$s = $s.Trim()
-	# "Name: QUERY" — split on first ": " only if prefix is a single word (no spaces)
+	# "Name: QUERY" - split on first ": " only if prefix is a single word (no spaces)
 	if ($s -match '^(\S+):\s(.+)$') {
 		return @{ name = $Matches[1]; query = $Matches[2] }
 	}
@@ -521,7 +521,7 @@ function Parse-ConditionalAppearanceShorthand {
 
 	$result = @{ param = ""; value = ""; filter = $null; fields = @() }
 
-	# Extract " when ..." — condition part
+	# Extract " when ..." - condition part
 	$whenIdx = $s.IndexOf(' when ')
 	$forIdx = $s.IndexOf(' for ')
 
@@ -1592,7 +1592,7 @@ switch ($Operation) {
 			# Duplicate check
 			$existing = Find-ElementByChildValue $dsNode "field" "dataPath" $parsed.dataPath $schNs
 			if ($existing) {
-				Write-Host "[WARN] Field `"$($parsed.dataPath)`" already exists in dataset `"$dsName`" — skipped"
+				Write-Host "[WARN] Field `"$($parsed.dataPath)`" already exists in dataset `"$dsName`" - skipped"
 				continue
 			}
 
@@ -1612,7 +1612,7 @@ switch ($Operation) {
 				$selection = Ensure-SettingsChild $settings "selection" @()
 				$existingSel = Find-ElementByChildValue $selection "item" "field" $parsed.dataPath $setNs
 				if ($existingSel) {
-					Write-Host "[INFO] Field `"$($parsed.dataPath)`" already in selection — skipped"
+					Write-Host "[INFO] Field `"$($parsed.dataPath)`" already in selection - skipped"
 				} else {
 					$selIndent = Get-ContainerChildIndent $selection
 					$selXml = Build-SelectionItemFragment -fieldName $parsed.dataPath -indent $selIndent
@@ -1634,7 +1634,7 @@ switch ($Operation) {
 			# Duplicate check
 			$existing = Find-ElementByChildValue $xmlDoc.DocumentElement "totalField" "dataPath" $parsed.dataPath $schNs
 			if ($existing) {
-				Write-Host "[WARN] TotalField `"$($parsed.dataPath)`" already exists — skipped"
+				Write-Host "[WARN] TotalField `"$($parsed.dataPath)`" already exists - skipped"
 				continue
 			}
 
@@ -1668,7 +1668,7 @@ switch ($Operation) {
 			# Duplicate check
 			$existing = Find-ElementByChildValue $xmlDoc.DocumentElement "calculatedField" "dataPath" $parsed.dataPath $schNs
 			if ($existing) {
-				Write-Host "[WARN] CalculatedField `"$($parsed.dataPath)`" already exists — skipped"
+				Write-Host "[WARN] CalculatedField `"$($parsed.dataPath)`" already exists - skipped"
 				continue
 			}
 
@@ -1698,7 +1698,7 @@ switch ($Operation) {
 				$selection = Ensure-SettingsChild $settings "selection" @()
 				$existingSel = Find-ElementByChildValue $selection "item" "field" $parsed.dataPath $setNs
 				if ($existingSel) {
-					Write-Host "[INFO] Field `"$($parsed.dataPath)`" already in selection — skipped"
+					Write-Host "[INFO] Field `"$($parsed.dataPath)`" already in selection - skipped"
 				} else {
 					$selIndent = Get-ContainerChildIndent $selection
 					$selXml = Build-SelectionItemFragment -fieldName $parsed.dataPath -indent $selIndent
@@ -1720,7 +1720,7 @@ switch ($Operation) {
 			# Duplicate check
 			$existing = Find-ElementByChildValue $xmlDoc.DocumentElement "parameter" "name" $parsed.name $schNs
 			if ($existing) {
-				Write-Host "[WARN] Parameter `"$($parsed.name)`" already exists — skipped"
+				Write-Host "[WARN] Parameter `"$($parsed.name)`" already exists - skipped"
 				continue
 			}
 
@@ -1768,7 +1768,7 @@ switch ($Operation) {
 			# Find parameter element
 			$paramEl = Find-ElementByChildValue $xmlDoc.DocumentElement "parameter" "name" $paramName $schNs
 			if (-not $paramEl) {
-				Write-Host "[WARN] Parameter `"$paramName`" not found — skipped"
+				Write-Host "[WARN] Parameter `"$paramName`" not found - skipped"
 				continue
 			}
 
@@ -1895,7 +1895,7 @@ switch ($Operation) {
 			$newName = $Matches[2].Trim()
 
 			if ($oldName -eq $newName) {
-				Write-Host "[WARN] rename-parameter: old and new names are equal — skipped"
+				Write-Host "[WARN] rename-parameter: old and new names are equal - skipped"
 				continue
 			}
 
@@ -1903,7 +1903,7 @@ switch ($Operation) {
 			$root = $xmlDoc.DocumentElement
 			$paramEl = Find-ElementByChildValue $root "parameter" "name" $oldName $schNs
 			if (-not $paramEl) {
-				Write-Host "[WARN] Parameter `"$oldName`" not found — skipped"
+				Write-Host "[WARN] Parameter `"$oldName`" not found - skipped"
 				continue
 			}
 			foreach ($ch in $paramEl.ChildNodes) {
@@ -1935,7 +1935,7 @@ switch ($Operation) {
 
 			# 3. Update <dcscor:parameter>OldName</dcscor:parameter> in dataParameters of all variants.
 			# Note: <settingsVariant> is in schNs, but <settings> and <dataParameters> are in setNs.
-			# IMPORTANT: don't use $variant — it collides with script parameter [string]$Variant
+			# IMPORTANT: don't use $variant - it collides with script parameter [string]$Variant
 			# (PowerShell vars are case-insensitive, and the [string] type would coerce XmlNode to "").
 			$dpUpdated = 0
 			foreach ($variantNode in $root.ChildNodes) {
@@ -1963,10 +1963,10 @@ switch ($Operation) {
 
 	"reorder-parameters" {
 		foreach ($val in $values) {
-			# Shorthand: "Name1, Name2, Name3" — partial list, listed names go first in order, rest preserve original order
+			# Shorthand: "Name1, Name2, Name3" - partial list, listed names go first in order, rest preserve original order
 			$order = @($val -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
 			if ($order.Count -eq 0) {
-				Write-Host "[WARN] reorder-parameters: empty list — skipped"
+				Write-Host "[WARN] reorder-parameters: empty list - skipped"
 				continue
 			}
 
@@ -2005,7 +2005,7 @@ switch ($Operation) {
 					$newOrder += $byName[$name]
 					$used[$name] = $true
 				} else {
-					Write-Host "[WARN] reorder-parameters: parameter `"$name`" not found — skipped"
+					Write-Host "[WARN] reorder-parameters: parameter `"$name`" not found - skipped"
 				}
 			}
 			foreach ($pe in $allParams) {
@@ -2098,13 +2098,13 @@ switch ($Operation) {
 					}
 				}
 				if ($isDup) {
-					Write-Host "[WARN] OrderItemAuto already exists in variant `"$varName`" — skipped"
+					Write-Host "[WARN] OrderItemAuto already exists in variant `"$varName`" - skipped"
 					continue
 				}
 			} else {
 				$existingOrd = Find-ElementByChildValue $orderEl "item" "field" $parsed.field $setNs
 				if ($existingOrd) {
-					Write-Host "[WARN] Order `"$($parsed.field)`" already exists in variant `"$varName`" — skipped"
+					Write-Host "[WARN] Order `"$($parsed.field)`" already exists in variant `"$varName`" - skipped"
 					continue
 				}
 			}
@@ -2143,7 +2143,7 @@ switch ($Operation) {
 				$nsMgr.AddNamespace("xsi", $xsiNs)
 				$groupEl = $settings.SelectSingleNode(".//dcsset:item[@xsi:type='dcsset:StructureItemGroup'][dcsset:name='$groupName']", $nsMgr)
 				if (-not $groupEl) {
-					Write-Host "[WARN] StructureItemGroup `"$groupName`" not found — adding to variant level"
+					Write-Host "[WARN] StructureItemGroup `"$groupName`" not found - adding to variant level"
 					$targetEl = $settings
 				} else {
 					$targetEl = $groupEl
@@ -2165,7 +2165,7 @@ switch ($Operation) {
 				}
 				if ($isDup) {
 					$target = if ($groupName) { "group `"$groupName`"" } else { "variant `"$varName`"" }
-					Write-Host "[WARN] SelectedItemAuto already exists in $target — skipped"
+					Write-Host "[WARN] SelectedItemAuto already exists in $target - skipped"
 					continue
 				}
 			}
@@ -2273,7 +2273,7 @@ switch ($Operation) {
 		$structItems = Parse-StructureShorthand $Value
 		$settingsIndent = Get-ChildIndent $settings
 
-		# Find insertion point — before outputParameters/dataParameters/conditionalAppearance/order/filter/selection or at end
+		# Find insertion point - before outputParameters/dataParameters/conditionalAppearance/order/filter/selection or at end
 		$refNode = Find-FirstElement $settings @("outputParameters","dataParameters","conditionalAppearance","order","filter","selection","item") $setNs
 		if (-not $refNode) { $refNode = $null }
 
@@ -2337,7 +2337,7 @@ switch ($Operation) {
 		# Duplicate check
 		$existing = Find-ElementByChildValue $root "dataSet" "name" $parsed.name $schNs
 		if ($existing) {
-			Write-Host "[WARN] DataSet `"$($parsed.name)`" already exists — skipped"
+			Write-Host "[WARN] DataSet `"$($parsed.name)`" already exists - skipped"
 		} else {
 			# Get dataSource name from first existing <dataSource>
 			$dsSourceEl = Find-FirstElement $root @("dataSource") $schNs
@@ -2377,7 +2377,7 @@ switch ($Operation) {
 		foreach ($val in $values) {
 			$parsed = Parse-VariantShorthand $val
 
-			# Duplicate check — search for settingsVariant with matching dcsset:name
+			# Duplicate check - search for settingsVariant with matching dcsset:name
 			$isDup = $false
 			foreach ($ch in $root.ChildNodes) {
 				if ($ch.NodeType -eq 'Element' -and $ch.LocalName -eq 'settingsVariant' -and $ch.NamespaceURI -eq $schNs) {
@@ -2390,7 +2390,7 @@ switch ($Operation) {
 				}
 			}
 			if ($isDup) {
-				Write-Host "[WARN] Variant `"$($parsed.name)`" already exists — skipped"
+				Write-Host "[WARN] Variant `"$($parsed.name)`" already exists - skipped"
 				continue
 			}
 
@@ -2703,7 +2703,7 @@ switch ($Operation) {
 					}
 				}
 			} catch {
-				# No variant — that's fine
+				# No variant - that's fine
 			}
 		}
 	}
@@ -2795,7 +2795,7 @@ switch ($Operation) {
 	}
 
 	"add-drilldown" {
-		# String-based manipulation — templates use dcsat namespace with inline xmlns
+		# String-based manipulation - templates use dcsat namespace with inline xmlns
 		$rawText = [System.IO.File]::ReadAllText($resolvedPath, [System.Text.Encoding]::UTF8)
 		$nl = "`r`n"
 		$dcsatNsDecl = 'xmlns:dcsat="http://v8.1c.ru/8.1/data-composition-system/area-template"'
@@ -2834,7 +2834,7 @@ switch ($Operation) {
 			Write-Host "[WARN] No named templates found in schema"
 		}
 
-		# Collect all insertions as (position, text) — apply in reverse order
+		# Collect all insertions as (position, text) - apply in reverse order
 		$insertions = [System.Collections.ArrayList]::new()
 
 		foreach ($tplBlock in $tplBlocks) {
@@ -2856,7 +2856,7 @@ switch ($Operation) {
 
 				# Idempotency: check if already exists
 				if ($tplText.Contains($drillName)) {
-					Write-Host "[INFO] $drillName already exists in $tplName — skipped"
+					Write-Host "[INFO] $drillName already exists in $tplName - skipped"
 					continue
 				}
 
@@ -2865,7 +2865,7 @@ switch ($Operation) {
 				if ($exprMap.ContainsKey($resource)) {
 					$paramName = $exprMap[$resource]
 				} else {
-					Write-Host "[WARN] Expression `"$resource`" not found in template $tplName — skipped"
+					Write-Host "[WARN] Expression `"$resource`" not found in template $tplName - skipped"
 					continue
 				}
 
@@ -2904,7 +2904,7 @@ switch ($Operation) {
 					$appEnd = $tplText.LastIndexOf("</dcsat:appearance>", $cellEnd)
 					if ($appEnd -lt $cellIdx) { $searchStart = $cellEnd + 1; continue }
 
-					# Detect indent for appearance items — insert after \n, before indent of </dcsat:appearance>
+					# Detect indent for appearance items - insert after \n, before indent of </dcsat:appearance>
 					$appPrevNl = $tplText.LastIndexOf("`n", $appEnd)
 					$appIndent = "`t`t`t`t`t`t"
 					if ($appPrevNl -ge 0) {
@@ -2936,7 +2936,7 @@ switch ($Operation) {
 			$rawText = $rawText.Insert($ins.pos, $ins.text)
 		}
 
-		# Write directly — skip DOM save
+		# Write directly - skip DOM save
 		$enc = New-Object System.Text.UTF8Encoding($true)
 		[System.IO.File]::WriteAllText($resolvedPath, $rawText, $enc)
 		Write-Host "[OK] Saved $resolvedPath"

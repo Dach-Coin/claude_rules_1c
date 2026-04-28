@@ -1,4 +1,4 @@
-﻿# web-unpublish v1.0 — Remove 1C web publication
+﻿# web-unpublish v1.0 - Remove 1C web publication
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS
@@ -6,7 +6,7 @@
 
 .DESCRIPTION
     Удаляет маркерный блок из httpd.conf и каталог публикации.
-    Если Apache запущен — перезапускает для применения.
+    Если Apache запущен - перезапускает для применения.
     С флагом -All удаляет все публикации и останавливает Apache.
 
 .PARAMETER AppName
@@ -144,7 +144,7 @@ if ($httpdProc) {
             exit 1
         }
     } else {
-        Write-Host "Публикаций не осталось — останавливаю Apache..."
+        Write-Host "Публикаций не осталось - останавливаю Apache..."
         $httpdProc | Stop-Process -Force -ErrorAction SilentlyContinue
         Start-Sleep -Seconds 1
         Write-Host "Apache остановлен" -ForegroundColor Green

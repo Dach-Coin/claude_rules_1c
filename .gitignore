@@ -1,5 +1,6 @@
 .dev.env
 .claude/settings.local.json
+.claude/profile.local.json
 CLAUDE.local.md
 .mcp.json
 .v8-project.json

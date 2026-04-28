@@ -8,7 +8,7 @@ allowed-tools:
   - Glob
 ---
 
-# /cf-init — Создание пустой конфигурации 1С
+# /cf-init - Создание пустой конфигурации 1С
 
 Создает scaffold исходников пустой конфигурации 1С: `Configuration.xml`, `Languages/Русский.xml`.
 
@@ -44,6 +44,6 @@ powershell.exe -NoProfile -File .claude/skills/cf-init/scripts/cf-init.ps1 -Name
 
 ```
 /cf-init TestConfig -OutputDir test-tmp/cf
-/cf-info test-tmp/cf          — проверить созданное
-/cf-validate test-tmp/cf      — валидировать
+/cf-info test-tmp/cf          - проверить созданное
+/cf-validate test-tmp/cf      - валидировать
 ```

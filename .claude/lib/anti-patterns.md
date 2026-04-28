@@ -51,7 +51,7 @@ This file consolidates all anti-patterns, performance issues, and best practice 
 Наименование = Реквизиты.Наименование;
 ```
 
-**SSL Methods Reference:** See `rules/project_rules.md` → "Reference Attribute Access" section.
+**SSL Methods Reference:** See `.claude/lib/project_rules.md` → "Reference Attribute Access" section.
 
 #### Dot notation in query text - ALLOWED for ordinary references
 

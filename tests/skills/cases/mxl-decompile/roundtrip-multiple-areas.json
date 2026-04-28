@@ -1,5 +1,5 @@
 {
-  "name": "Roundtrip — макет с несколькими областями и параметрами",
+  "name": "Roundtrip - макет с несколькими областями и параметрами",
   "preRun": [
     {
       "script": "mxl-compile/scripts/mxl-compile",

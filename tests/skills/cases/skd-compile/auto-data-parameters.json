@@ -1,5 +1,5 @@
 {
-  "name": "dataParameters: auto — наследование variant для StandardPeriod",
+  "name": "dataParameters: auto - наследование variant для StandardPeriod",
   "params": { "outputPath": "Template.xml" },
   "input": {
     "dataSets": [{

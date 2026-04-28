@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# meta-compile v1.10 — Compile 1C metadata object from JSON
+# meta-compile v1.10 - Compile 1C metadata object from JSON
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 import argparse
@@ -155,7 +155,7 @@ object_type_synonyms = _YoNormDict({
     'ОпределяемыйТип': 'DefinedType',
 })
 
-# Enum property value synonyms — model often gets these slightly wrong
+# Enum property value synonyms - model often gets these slightly wrong
 enum_value_aliases = {
     # RegisterType (AccumulationRegister)
     'Balances': 'Balance', 'Остатки': 'Balance', 'Обороты': 'Turnovers',
@@ -218,19 +218,19 @@ valid_enum_values = {
 }
 
 def normalize_enum_value(prop_name, value):
-    # 1. Check alias dictionary — silent auto-correct
+    # 1. Check alias dictionary - silent auto-correct
     if value in enum_value_aliases:
         return enum_value_aliases[value]
-    # 2. Case-insensitive match against valid values — silent
+    # 2. Case-insensitive match against valid values - silent
     valid = valid_enum_values.get(prop_name)
     if valid:
         for v in valid:
             if v.lower() == value.lower():
                 return v
-        # 3. Known property, unknown value — error with hint
+        # 3. Known property, unknown value - error with hint
         print(f"Invalid value '{value}' for property '{prop_name}'. Valid values: {', '.join(valid)}", file=sys.stderr)
         sys.exit(1)
-    # 4. Unknown property — pass-through (no validation data)
+    # 4. Unknown property - pass-through (no validation data)
     return value
 
 def get_enum_prop(prop_name, field_name, default):
@@ -400,7 +400,7 @@ def emit_type_content(indent, type_str):
         X(f'{indent}<v8:Type>xs:base64Binary</v8:Type>')
         return
 
-    # Reference types — use local xmlns declaration for 1C compatibility
+    # Reference types - use local xmlns declaration for 1C compatibility
     m = re.match(r'^(CatalogRef|DocumentRef|EnumRef|ChartOfAccountsRef|ChartOfCharacteristicTypesRef|ChartOfCalculationTypesRef|ExchangePlanRef|BusinessProcessRef|TaskRef)\.(.+)$', type_str)
     if m:
         X(f'{indent}<v8:Type xmlns:d5p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d5p1:{type_str}</v8:Type>')
@@ -770,7 +770,7 @@ def emit_attribute(indent, parsed, context):
     X(f'{indent}\t\t<ExtendedEdit>false</ExtendedEdit>')
     X(f'{indent}\t\t<MinValue xsi:nil="true"/>')
     X(f'{indent}\t\t<MaxValue xsi:nil="true"/>')
-    # FillFromFillingValue / FillValue — not for tabular/processor/chart/register-other
+    # FillFromFillingValue / FillValue - not for tabular/processor/chart/register-other
     # (Chart*, AccumulationRegister/AccountingRegister/CalculationRegister don't support these)
     if context not in ('tabular', 'processor', 'chart', 'register-other'):
         X(f'{indent}\t\t<FillFromFillingValue>false</FillFromFillingValue>')
@@ -802,7 +802,7 @@ def emit_attribute(indent, parsed, context):
             indexing = parsed['indexing']
         X(f'{indent}\t\t<Indexing>{indexing}</Indexing>')
         X(f'{indent}\t\t<FullTextSearch>Use</FullTextSearch>')
-        # DataHistory — not for Chart* types and non-InformationRegister register family
+        # DataHistory - not for Chart* types and non-InformationRegister register family
         if context not in ('chart', 'register-other'):
             X(f'{indent}\t\t<DataHistory>Use</DataHistory>')
     X(f'{indent}\t</Properties>')

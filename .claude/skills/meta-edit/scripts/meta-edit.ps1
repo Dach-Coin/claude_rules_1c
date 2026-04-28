@@ -1,4 +1,4 @@
-﻿# meta-edit v1.6 — Edit existing 1C metadata object XML (inline mode + complex properties + TS attribute ops + modify-ts)
+﻿# meta-edit v1.6 - Edit existing 1C metadata object XML (inline mode + complex properties + TS attribute ops + modify-ts)
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 param(
 	[string]$DefinitionFile,
@@ -99,21 +99,21 @@ $script:validEnumValues = @{
 
 function Normalize-EnumValue {
 	param([string]$propName, [string]$value)
-	# 1. Check alias dictionary — silent auto-correct
+	# 1. Check alias dictionary - silent auto-correct
 	if ($script:enumValueAliases.ContainsKey($value)) {
 		return $script:enumValueAliases[$value]
 	}
-	# 2. Case-insensitive match against valid values — silent
+	# 2. Case-insensitive match against valid values - silent
 	$valid = $script:validEnumValues[$propName]
 	if ($valid) {
 		foreach ($v in $valid) {
 			if ($v -ieq $value) { return $v }
 		}
-		# 3. Known property, unknown value — error with hint
+		# 3. Known property, unknown value - error with hint
 		Write-Error "Invalid value '$value' for property '$propName'. Valid values: $($valid -join ', ')"
 		exit 1
 	}
-	# 4. Unknown property — pass-through (no validation data)
+	# 4. Unknown property - pass-through (no validation data)
 	return $value
 }
 
@@ -142,7 +142,7 @@ if (Test-Path $ObjectPath -PathType Container) {
 		exit 1
 	}
 }
-# File not found — check Dir/Name/Name.xml → Dir/Name.xml
+# File not found - check Dir/Name/Name.xml → Dir/Name.xml
 if (-not (Test-Path $ObjectPath)) {
 	$fileName = [System.IO.Path]::GetFileNameWithoutExtension($ObjectPath)
 	$parentDir = Split-Path $ObjectPath
@@ -188,7 +188,7 @@ if ($root.LocalName -ne "MetaDataObject") {
 	exit 1
 }
 
-# Find the first child element — this is the object type element
+# Find the first child element - this is the object type element
 $script:objElement = $null
 foreach ($child in $root.ChildNodes) {
 	if ($child.NodeType -eq 'Element') {
@@ -426,7 +426,7 @@ function Build-TypeContentXml {
 		return $sb.ToString().TrimEnd("`r","`n")
 	}
 
-	# Reference types — use local xmlns declaration for 1C compatibility
+	# Reference types - use local xmlns declaration for 1C compatibility
 	if ($typeStr -match '^(CatalogRef|DocumentRef|EnumRef|ChartOfAccountsRef|ChartOfCharacteristicTypesRef|ChartOfCalculationTypesRef|ExchangePlanRef|BusinessProcessRef|TaskRef)\.(.+)$') {
 		$sb.AppendLine("$indent<v8:Type xmlns:d5p1=`"http://v8.1c.ru/8.1/data/enterprise/current-config`">d5p1:$typeStr</v8:Type>") | Out-Null
 		return $sb.ToString().TrimEnd("`r","`n")
@@ -605,14 +605,14 @@ function Ensure-ChildObjectsOpen {
 			if ($ch.NodeType -eq 'Element') { $hasElements = $true; break }
 		}
 		if (-not $hasElements) {
-			# It's empty — we need to add whitespace for proper formatting
+			# It's empty - we need to add whitespace for proper formatting
 			$indent = Get-ChildIndent $script:objElement
 			$closeWs = $script:xmlDoc.CreateWhitespace("`r`n$indent")
 			$script:childObjectsEl.AppendChild($closeWs) | Out-Null
 		}
 		return
 	}
-	# No ChildObjects at all — create one after Properties
+	# No ChildObjects at all - create one after Properties
 	$indent = Get-ChildIndent $script:objElement
 	$coXml = "`r`n$indent<ChildObjects>`r`n$indent</ChildObjects>"
 	# Insert after Properties
@@ -820,7 +820,7 @@ function Build-AttributeFragment {
 	$sb.AppendLine("$indent`t`t<MinValue xsi:nil=`"true`"/>") | Out-Null
 	$sb.AppendLine("$indent`t`t<MaxValue xsi:nil=`"true`"/>") | Out-Null
 
-	# FillFromFillingValue/FillValue — not for register, tabular (config TS), or processor (non-stored top-level)
+	# FillFromFillingValue/FillValue - not for register, tabular (config TS), or processor (non-stored top-level)
 	if ($context -notin @("register", "tabular", "processor")) {
 		$sb.AppendLine("$indent`t`t<FillFromFillingValue>false</FillFromFillingValue>") | Out-Null
 		$sb.AppendLine($(Build-FillValueXml "$indent`t`t" $typeStr)) | Out-Null
@@ -841,12 +841,12 @@ function Build-AttributeFragment {
 	$sb.AppendLine("$indent`t`t<LinkByType/>") | Out-Null
 	$sb.AppendLine("$indent`t`t<ChoiceHistoryOnInput>Auto</ChoiceHistoryOnInput>") | Out-Null
 
-	# Use — catalog only
+	# Use - catalog only
 	if ($context -eq "catalog") {
 		$sb.AppendLine("$indent`t`t<Use>ForItem</Use>") | Out-Null
 	}
 
-	# Indexing/FullTextSearch/DataHistory — not for non-stored objects (processor, processor-tabular)
+	# Indexing/FullTextSearch/DataHistory - not for non-stored objects (processor, processor-tabular)
 	if ($context -notin @("processor", "processor-tabular")) {
 		$indexing = "DontIndex"
 		if ($parsed.flags -contains "index") { $indexing = "Index" }
@@ -928,7 +928,7 @@ function Build-TabularSectionFragment {
 	$sb.AppendLine("$indent`t`t`t</xr:StandardAttribute>") | Out-Null
 	$sb.AppendLine("$indent`t`t</StandardAttributes>") | Out-Null
 
-	# Use — catalog only
+	# Use - catalog only
 	if ($objType -eq "Catalog") {
 		$sb.AppendLine("$indent`t`t<Use>ForItem</Use>") | Out-Null
 	}
@@ -1180,7 +1180,7 @@ function Build-ColumnFragment {
 
 function Build-SimpleChildFragment {
 	param([string]$tagName, [string]$name, [string]$indent)
-	# For Form, Template, Command — just a name wrapper
+	# For Form, Template, Command - just a name wrapper
 	$uuid = New-Guid-String
 	$synonym = Split-CamelCase $name
 	$sb = New-Object System.Text.StringBuilder
@@ -1608,7 +1608,7 @@ function Find-InsertionPoint {
 		return $next  # null means append (which is correct: after last of type)
 	}
 
-	# No elements of this type yet — find canonical position
+	# No elements of this type yet - find canonical position
 	$tagIdx = [array]::IndexOf($script:childOrder, $xmlTag)
 	if ($tagIdx -lt 0) { return $null }
 
@@ -1800,7 +1800,7 @@ function Process-Remove($removeDef) {
 			return
 		}
 		if ($childType -eq "properties") {
-			Warn "Cannot remove properties — use modify instead"
+			Warn "Cannot remove properties - use modify instead"
 			return
 		}
 
@@ -2052,7 +2052,7 @@ function Modify-ChildElements($modifyDef, [string]$childType) {
 						$propsEl.InsertAfter($newTypeNodes[0], $typeEl) | Out-Null
 						Remove-NodeWithWhitespace $typeEl
 					} elseif ($newTypeNodes.Count -gt 0) {
-						# No existing Type — insert after Comment
+						# No existing Type - insert after Comment
 						$commentEl = $null
 						foreach ($gc in $propsEl.ChildNodes) {
 							if ($gc.NodeType -eq 'Element' -and $gc.LocalName -eq "Comment") {

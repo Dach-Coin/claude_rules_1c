@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# cf-init v1.1 — Create empty 1C configuration scaffold
+# cf-init v1.1 - Create empty 1C configuration scaffold
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 """Generates minimal XML source files for a 1C configuration."""
 import sys, os, argparse, uuid

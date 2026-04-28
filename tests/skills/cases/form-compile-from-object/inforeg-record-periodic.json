@@ -1,5 +1,5 @@
 {
-  "name": "InformationRegister Record — периодический (Day), Independent, 2 измерения + 2 ресурса",
+  "name": "InformationRegister Record - периодический (Day), Independent, 2 измерения + 2 ресурса",
   "preRun": [
     {
       "script": "meta-compile/scripts/meta-compile",

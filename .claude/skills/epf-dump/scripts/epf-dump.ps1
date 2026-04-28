@@ -1,4 +1,4 @@
-﻿# epf-dump v1.0 — Dump external data processor or report (EPF/ERF) to XML sources
+﻿# epf-dump v1.0 - Dump external data processor or report (EPF/ERF) to XML sources
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 <#
 .SYNOPSIS

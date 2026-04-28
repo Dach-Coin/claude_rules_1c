@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# meta-edit v1.6 — Edit existing 1C metadata object XML (inline mode + complex properties + TS attribute ops + modify-ts)
+# meta-edit v1.6 - Edit existing 1C metadata object XML (inline mode + complex properties + TS attribute ops + modify-ts)
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 import argparse
@@ -140,19 +140,19 @@ valid_enum_values = {
 
 
 def normalize_enum_value(prop_name, value):
-    # 1. Check alias dictionary — silent auto-correct
+    # 1. Check alias dictionary - silent auto-correct
     if value in enum_value_aliases:
         return enum_value_aliases[value]
-    # 2. Case-insensitive match against valid values — silent
+    # 2. Case-insensitive match against valid values - silent
     valid = valid_enum_values.get(prop_name)
     if valid:
         for v in valid:
             if v.lower() == value.lower():
                 return v
-        # 3. Known property, unknown value — error with hint
+        # 3. Known property, unknown value - error with hint
         print(f"Invalid value '{value}' for property '{prop_name}'. Valid values: {', '.join(valid)}", file=sys.stderr)
         sys.exit(1)
-    # 4. Unknown property — pass-through (no validation data)
+    # 4. Unknown property - pass-through (no validation data)
     return value
 
 
@@ -364,7 +364,7 @@ def build_type_content_xml(indent, type_str):
         lines.append(f"{indent}<v8:TypeSet>cfg:DefinedType.{dt_name}</v8:TypeSet>")
         return "\r\n".join(lines)
 
-    # Reference types — use local xmlns declaration for 1C compatibility
+    # Reference types - use local xmlns declaration for 1C compatibility
     m = re.match(
         r"^(CatalogRef|DocumentRef|EnumRef|ChartOfAccountsRef|ChartOfCharacteristicTypesRef|"
         r"ChartOfCalculationTypesRef|ExchangePlanRef|BusinessProcessRef|TaskRef)\.(.+)$",
@@ -1704,7 +1704,7 @@ def modify_properties(props_def):
         if isinstance(prop_value, bool):
             value_str = "true" if prop_value else "false"
 
-        # Set inner text — clear children first, set text
+        # Set inner text - clear children first, set text
         for ch in list(prop_el):
             prop_el.remove(ch)
         prop_el.text = value_str

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# mxl-compile v1.1 — Compile 1C spreadsheet from JSON
+# mxl-compile v1.1 - Compile 1C spreadsheet from JSON
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 import argparse
 import json

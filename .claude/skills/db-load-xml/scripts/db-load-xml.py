@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# db-load-xml v1.3 — Load 1C configuration from XML files
+# db-load-xml v1.3 - Load 1C configuration from XML files
 # Source: https://github.com/Nikolay-Shirokov/cc-1c-skills
 
 import argparse
@@ -208,7 +208,7 @@ def main():
         if silent_failures:
             suffix = "" if args.StrictLog else " (pass -StrictLog to treat as error)"
             print(
-                f"[warning] log contains {len(silent_failures)} rejection(s) — "
+                f"[warning] log contains {len(silent_failures)} rejection(s) - "
                 f"platform loaded config but dropped properties/refs{suffix}",
                 file=sys.stderr,
             )

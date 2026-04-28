@@ -1,5 +1,5 @@
 {
-  "name": "InformationRegister Record — непериодический, Independent, 1 измерение + 1 ресурс + 1 реквизит",
+  "name": "InformationRegister Record - непериодический, Independent, 1 измерение + 1 ресурс + 1 реквизит",
   "preRun": [
     {
       "script": "meta-compile/scripts/meta-compile",
