@@ -27,6 +27,7 @@ Available compilation directives for form module methods:
 
 - Prefer `Асинх` (async) methods over `ОписаниеОповещения` (notification description) when async analogues are available.
 - Use `Ждать` (Await) for cleaner async code flow.
+- Mixing `Асинх`/`Ждать` with non-async methods is prohibited - see `.claude/lib/dev-standards-architecture.md` § «Async and Modality» for the platform-version gate (`{PLATFORM_VERSION}` in `.dev.env`).
 
 ## Form Data
 
