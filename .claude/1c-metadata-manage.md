@@ -58,6 +58,26 @@
 
 Если `NEW_OBJECTS_IN=main_configuration` - работаем напрямую через соответствующие домены, CFE не используем.
 
+## Mandatory Read для metadata-задач, генерирующих BSL
+
+Профиль `metadata_management` грузит из `.claude/lib/` только `dev-standards-core.md` и `mcp-tools.md`. Когда metadata-задача порождает или меняет BSL (формы, EPF/ERF, объектные/менеджер-модули, регистры с модулями набора записей, обработки), агент должен Read дополнительно:
+
+- `.claude/rules/dev-standards-forms.md` - стандарты модуля формы и XML формы (ConditionalAppearance, Form Commands, ValueTable vs DynamicList для внешних обработок).
+- `.claude/lib/dev-standards-architecture.md` - error handling (`ОбработкаОшибок.ПодробноеПредставлениеОшибки`), headless message capture, методы платформы (`Заблокировать` vs `ЗаблокироватьДанныеДляРедактирования`), defensive code, Code Smells.
+
+Без этого формы и обработки сгенерируются раньше, чем path-scoped правила успеют подхватиться, и в коде появятся анти-паттерны, ловимые только на следующей итерации.
+
+Когда нужен Read:
+
+| Триггер | Read |
+|---|---|
+| `epf-init`, `epf-add-form`, `epf-build`, `erf-init`, `erf-build` | оба файла |
+| `form-compile`, `form-edit`, `form-add` | `dev-standards-forms.md` обязательно; `dev-standards-architecture.md` - если в форме генерируется серверный код |
+| `meta-compile` / `meta-edit` для документов, обработок, регистров с модулем набора записей | `dev-standards-architecture.md` (error handling, defensive code) |
+| `cfe-borrow` + `cfe-patch-method` | оба файла |
+
+Шаг Read выполняется **до** запуска скилла мутации.
+
 ## Цикл мутации метаданных
 
 1. **Определить домен** по таблице выше. Для многодоменных задач - планировать по порядку (например, meta -> form -> role).

@@ -48,6 +48,8 @@ Live developers write comments rarely, briefly, and only to explain the *motive*
 
 **Rule of thumb:** if removing a comment would not confuse a future reader, the comment is noise. Prefer fewer, sharper comments over many bland ones.
 
+**Length budget:** the default for an inline comment is 1-2 lines, the hard maximum is 3. If a comment grows to 4-5 lines, it has drifted into narration -- compress to the motive. The formal `Параметры` / `Возвращаемое значение` block is API documentation and applies **only to `Экспорт`-procedures** (see `dev-standards-core.md` § "Procedure/Function Documentation"); internal/non-exported procedures get no such block.
+
 | Form | Comment |
 |---|---|
 | OK | `// Платформа теряет привязку, если перечитать набор внутри транзакции.` |
@@ -102,6 +104,50 @@ Live developers write comments rarely, briefly, and only to explain the *motive*
 - Use query parameters (`Запрос.УстановитьПараметр()`) instead of string concatenation to prevent SQL injection and improve performance.
 - For complex data retrieval, prefer batch queries with temporary tables over multiple separate queries.
 
+### INNER JOIN predicates -- in `ПО`, not in `ГДЕ`
+
+For an `ВНУТРЕННЕЕ СОЕДИНЕНИЕ`, the SQL optimizer collapses both forms into the same plan. For the **reader**, one block of conditions in one place is easier to follow than predicates split between `ПО` and `ГДЕ`.
+
+```sql
+-- Bad: predicates split between ПО and ГДЕ
+ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.ЗаказКлиента.Товары КАК ЗКТовары
+    ПО ПТУТовары.Номенклатура = ЗКТовары.Номенклатура
+ГДЕ
+    ПТУТовары.Количество > 0
+    И ЗКТовары.Ссылка.Проведен
+
+-- Good: full join condition in ПО
+ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.ЗаказКлиента.Товары КАК ЗКТовары
+    ПО (ПТУТовары.Номенклатура = ЗКТовары.Номенклатура)
+        И (ПТУТовары.Количество > 0)
+        И (ЗКТовары.Ссылка.Проведен)
+```
+
+The example uses non-composite reference fields (`Номенклатура`) on purpose. **If the joined field is of composite type** (`ДокументОснование`, `Объект`, etc.), this rule does NOT lift the composite-type restriction below: dot dereference of a composite field is still prohibited in `ПО` and `ГДЕ` -- pin the type in a temp table via `ВЫРАЗИТЬ(...)` first, then use the mono-typed field in the join.
+
+**This rule applies only to INNER JOIN.** For LEFT JOIN, `ПО` and `ГДЕ` have **different semantics**: a predicate in `ПО` filters only the right side (the left row stays with `NULL`s); the same predicate in `ГДЕ` drops the whole row. Do not mechanically migrate LEFT JOIN predicates from `ГДЕ` into `ПО`.
+
+### Final selection from a temp-table reference -- via dot notation, no explicit JOIN
+
+If a temp table already holds `Ссылка` of a document/catalog, fetch its attributes through dot notation in the final SELECT. The platform builds the JOIN automatically; an explicit join is unnecessary noise.
+
+```sql
+-- Bad: redundant explicit join
+ВЫБРАТЬ Док.Ссылка, Док.Дата, Док.Номер
+ИЗ Документ.X КАК Док
+    ВНУТРЕННЕЕ СОЕДИНЕНИЕ ВТ_Список КАК ВТ
+    ПО Док.Ссылка = ВТ.Ссылка
+
+-- Good: dot notation from ВТ.Ссылка
+ВЫБРАТЬ
+    ВТ_Список.Ссылка КАК Ссылка,
+    ВТ_Список.Ссылка.Дата КАК Дата,
+    ВТ_Список.Ссылка.Номер КАК Номер
+ИЗ ВТ_Список КАК ВТ_Список
+```
+
+Explicit `ВНУТРЕННЕЕ СОЕДИНЕНИЕ Документ.X` is justified only for virtual fields (e.g., posting flag from a register virtual table) or a non-default join type.
+
 ## Dot Notation in Query Text
 
 Dereferencing reference fields through a dot in **query text** is the standard 1C idiom (it expands into an automatic LEFT JOIN handled by the platform). It is allowed and preferred over manual JOINs for ordinary references.
@@ -120,6 +166,26 @@ Dereferencing reference fields through a dot in **query text** is the standard 1
   ```sql
   ВЫБРАТЬ ВЫРАЗИТЬ(ЗП.ДокументОснование КАК Документ.ЗаказКлиента).Номер КАК Номер
   ```
+
+**Two-step pattern for composite-type attributes** -- the canonical way to dereference a composite-type field through several attributes is split into two temp tables:
+
+```sql
+// VT1: pin the type via ВЫРАЗИТЬ in SELECT
+ВЫБРАТЬ
+    Док.Ссылка КАК Док,
+    ВЫРАЗИТЬ(Док.ДокументОснование КАК Документ.ЗаказКлиента) КАК ЗаказКлиента
+ПОМЕСТИТЬ ВТ_Док
+ИЗ
+    Документ.X КАК Док
+ГДЕ
+    Док.ДокументОснование ССЫЛКА Документ.ЗаказКлиента
+;
+
+// VT2: dot-dereference attributes from the now mono-typed field
+ВЫБРАТЬ ... ИЗ ВТ_Док ГДЕ ЗаказКлиента.Проведен
+```
+
+In the first VT use `ВЫРАЗИТЬ(... КАК Документ.X)` in the SELECT to fix the type; in the second VT pull `.Реквизит` off the mono-typed field. **Never** dot-dereference a composite field directly in `ГДЕ` / `ПО` of the source query.
 
 **Do not confuse with the BSL anti-pattern:** dot notation in **BSL code** (`Контрагент.ИНН` on a reference variable) loads the whole object - that is forbidden, see `.claude/lib/anti-patterns.md` and the section below.
 
@@ -199,6 +265,7 @@ Logic and performance review is manual in the current toolset - follow the check
   - Session parameters for session-scoped caching
   - Information registers for persistent caching across sessions
 - Combine `ОбщегоНазначения.ЗначенияРеквизитовОбъекта` with caching for repeated attribute access.
+- **If the read must be consistent with a lock, the cache lives exactly one transaction (one unit of work) -- not longer.** A cache that survives across iterations or across the outer loop will desynchronise from the data the lock guards. For per-iteration work: rebuild the cache inside the same transaction that takes the lock.
 
 ## Collection Operations
 
@@ -219,4 +286,13 @@ Structural metadata work (creating/editing/validating objects, forms, reports, l
 # Documentation
 
 - Document public procedures/functions with purpose, parameters and return values.
-- Use `//BSLLS:` comments for targeted bsl-language-server suppressions.
+- For targeted bsl-language-server suppression at one call site, use `//BSLLS:<DiagnosticKey>`.
+- For systemic noise that is not relevant to this project, suppress at **module level** with `// BSLLS:<DiagnosticKey>-off` placed at the file head -- one comment per diagnostic, one diagnostic per line. Typical candidates:
+  - `// BSLLS:MissingParameterDescription-off`
+  - `// BSLLS:MissingReturnedValueDescription-off`
+  - `// BSLLS:NestedFunctionInParameters-off`
+  - `// BSLLS:QueryNestedFieldsByDot-off`
+
+  In the snippets above `<DiagnosticKey>` is a placeholder -- replace with the real diagnostic key (`MissingParameterDescription`, etc.) when applying.
+
+  Do not abuse module-level suppression: before adding it, confirm the diagnostic is genuinely irrelevant for the project, not just noisy on the current snippet. Targeted point suppression stays the default for one-off exceptions.

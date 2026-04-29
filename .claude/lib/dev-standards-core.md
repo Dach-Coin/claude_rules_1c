@@ -46,15 +46,40 @@ See `.dev.env.example` for template.
 | Method parameters | <= 5 (additional via Structure as 6th) | hard limit |
 
 ### String Building
-Use `StrTemplate()` / `StrShablon()` for composing strings, **NOT** concatenation via `+`.
-Exception: simple `Prefix + Suffix` is acceptable when it reads better.
+Use `СтрШаблон(...)` for composing strings, **NOT** concatenation via `+`. Single project-wide templating helper -- do not mix in alternative SSL helper-wrappers (see `dev-standards-architecture.md` § Error Handling).
+Exception: simple `Префикс + Суффикс` is acceptable when it reads better.
 
 ### Naming (extends project_rules.md)
-- **Variable names MUST semantically reflect data type** (e.g., `InvoicesArray`, `ConnectionParametersStructure`)
-- **Boolean variables -- positive names only** (`CheckPassed`, not `CheckNotPassed`)
+- **Variable names MUST be self-explanatory and use 1C-native Russian terms** (e.g., `Счета`, `ПараметрыПодключения`). Do NOT add type-suffixes that duplicate what the value already implies -- that is Hungarian notation, forbidden by `project_rules.md`.
+- **Boolean variables -- positive names only** (`ПроверкаПройдена`, not `ПроверкаНеПройдена`)
 - **"Magic numbers" are PROHIBITED** -- extract into named variables
 - **String value enumerations** -- in alphabetical order
-- **Yoda syntax is PROHIBITED** (`If Amount = 0`, not `If 0 = Amount`)
+- **Yoda syntax is PROHIBITED** (`Если Сумма = 0`, not `Если 0 = Сумма`)
+- **One- and two-letter names are PROHIBITED** outside of `Для Сч = ...` loop counters. No `Q`, `U`, `N`, `i`, `j` as standalone identifiers.
+- **Mixed-alphabet identifiers are PROHIBITED** (`SumQ`, `tmpСумма`). Stay in one alphabet -- Russian for business identifiers.
+- **No programmer-jargon calques** -- replace with business terms in 1C terminology:
+   - `split` / `сплит` -> `Разделение`
+   - `lookup` / `лукап` -> `Поиск` / `ПроверкаПринадлежности`
+   - `план обработки` / `элемент плана` -> `Кандидат` / `СтрокаКРаспределению` (the word "план" is programmer mindset, not business domain)
+
+### No anglicisms in BSL identifiers, comments, user-facing strings
+
+Live 1C developers do not write in mixed Russian-English jargon. Identifiers, comments and `НСтр("ru = '...'")` strings use native 1C/Russian terms. Replace the loanword with its 1C equivalent before committing the module.
+
+| Anglicism | 1C equivalent |
+|---|---|
+| дебаунс | отложенное обновление / задержка обновления |
+| UI | форма / интерфейс / состояние формы |
+| батч-запрос | пакетный запрос |
+| триггерить | запускать / вызывать |
+| коммит | фиксация транзакции |
+| воркфлоу | процесс / сценарий |
+| фолбэк | запасной вариант / ветка отката |
+| тоггл | переключатель / переключение |
+| мердж | объединение / слияние |
+| деплой | развертывание / публикация |
+
+**Industry abbreviations actually used in standard 1C configurations** (`FIFO`, `FEFO`, `RLS`, `БСП`, etc.) are allowed -- do not rewrite them. The rule targets imported jargon from other stacks (web, mobile, devops), not domain abbreviations established in 1C practice.
 
 ### Conditions
 - Simple conditions -- ternary operator `?()` is allowed
@@ -66,13 +91,13 @@ Exception: simple `Prefix + Suffix` is acceptable when it reads better.
 - For additional parameters -- use constructor function pattern:
 
 ```bsl
-Function FillingParameters() Export
-	Parameters = New Structure;
-	Parameters.Insert("Date");
-	Parameters.Insert("Currency");
-	Parameters.Insert("RecalculateAmount", True);
-	Return Parameters;
-EndFunction
+Функция ПараметрыЗаполнения() Экспорт
+	Параметры = Новый Структура;
+	Параметры.Вставить("Дата");
+	Параметры.Вставить("Валюта");
+	Параметры.Вставить("ПересчитатьСумму", Истина);
+	Возврат Параметры;
+КонецФункции
 ```
 
 ## 3. Modification Comments
@@ -89,9 +114,9 @@ Removed typical code -- **comment out, DO NOT delete**:
 
 ```bsl
 // {COMMENT_OPEN}
-NewVariable = {PREFIX}ConvertValue(Value1);
-//TypicalCodeProcedure(Value1, Value2);
-TypicalCodeProcedure(NewVariable, Value2);
+НоваяПеременная = {PREFIX}ПреобразоватьЗначение(Значение1);
+//ТиповаяПроцедура(Значение1, Значение2);
+ТиповаяПроцедура(НоваяПеременная, Значение2);
 // {COMMENT_CLOSE}
 ```
 
@@ -99,12 +124,12 @@ TypicalCodeProcedure(NewVariable, Value2);
 Comment is placed **inside** the procedure, after the header:
 
 ```bsl
-Function NewFunction(Parameter) Export
+Функция НоваяФункция(Параметр) Экспорт
 	// {COMMENT_OPEN}
-	// ... code ...
-	Return Result;
+	// ... код ...
+	Возврат Результат;
 	// {COMMENT_CLOSE}
-EndFunction
+КонецФункции
 ```
 
 ### Entirely New (Non-Typical) Objects
@@ -132,10 +157,10 @@ The same applies to git/PR descriptions inside the codebase, agent reports writt
 
 | Element | Rule |
 |---|---|
-| New metadata objects | Prefix `{PREFIX}` in name (e.g., `{PREFIX}ContractAmount`) |
+| New metadata objects | Prefix `{PREFIX}` in name (e.g., `{PREFIX}СуммаДоговора`) |
 | Object synonyms | No prefix. If conflicts -- add `({COMPANY})` |
 | New roles | Prefix `{PREFIX}` |
-| Subsystems | `{PREFIX}AddedObjects` and `{PREFIX}ModifiedObjects` |
+| Subsystems | `{PREFIX}ДобавленныеОбъекты` and `{PREFIX}ИзмененныеОбъекты` |
 | Attributes of typical objects | Prefix `{PREFIX}` |
 | Form elements on typical forms | Prefix `{PREFIX}` |
 
@@ -159,25 +184,25 @@ The same applies to git/PR descriptions inside the codebase, agent reports writt
 
 ## 5. Procedure/Function Documentation
 
-Mandatory for all `Export` procedures/functions (except predefined handlers):
+Mandatory for all `Экспорт` procedures/functions (except predefined handlers):
 
 ```bsl
-// Returns workwear for position effective on the specified date
+// Возвращает спецодежду для должности, действующую на указанную дату.
 //
-// Parameters:
-//  ActionDate - Date
-//  Position - CatalogRef.Positions
+// Параметры:
+//  ДатаДействия - Дата
+//  Должность - СправочникСсылка.Должности
 //
-// Returns:
-//  CatalogRef.{PREFIX}WorkwearForPositions
+// Возвращаемое значение:
+//  СправочникСсылка.{PREFIX}СпецодеждаДляДолжностей
 //
-Function ActualWorkwearForPosition(ActionDate, Position) Export
+Функция АктуальнаяСпецодеждаДляДолжности(ДатаДействия, Должность) Экспорт
 ```
 
-- Description starts with a verb: "Returns...", "Checks...", "Calculates..."
-- DO NOT start with "Procedure...", "Function..." or the function name
-- For structure parameters -- describe keys via `*`
-- For arrays -- specify element type
+- Description starts with a Russian verb: "Возвращает...", "Проверяет...", "Рассчитывает..."
+- DO NOT start with "Процедура...", "Функция..." or the function name
+- For `Структура` parameters -- describe keys via `*`
+- For `Массив` -- specify element type
 
 ## 6. Repository Typography
 

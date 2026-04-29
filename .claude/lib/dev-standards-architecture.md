@@ -13,36 +13,36 @@
 - Server object modules -- mandatory preprocessor: `#If Server Or ThickClientOrdinaryApplication Or ExternalConnection Then`
 
 ### "Result-Structure" Pattern
-Return compound results via Structure:
+Return compound results via `Структура`:
 
 ```bsl
-Result = New Structure;
-Result.Insert("CheckPassed", CheckResult);
-Result.Insert("ErrorText", ErrorText);
-Return Result;
+Результат = Новый Структура;
+Результат.Вставить("ПроверкаПройдена", РезультатПроверки);
+Результат.Вставить("ТекстОшибки", ТекстОшибки);
+Возврат Результат;
 ```
 
 ### "Early Return" Pattern
 Reduce nesting by returning early on precondition failures:
 
 ```bsl
-If Cancel Then
-	Return;
-EndIf;
+Если Отказ Тогда
+	Возврат;
+КонецЕсли;
 
-If Not ValueIsFilled(ActionDate) Then
-	Return DefaultValue;
-EndIf;
+Если НЕ ЗначениеЗаполнено(ДатаДействия) Тогда
+	Возврат ЗначениеПоУмолчанию;
+КонецЕсли;
 ```
 
 ### "Value Table Search" Pattern
 
 ```bsl
-SearchParameters = New Structure("WorkwearType", CurrentRow.WorkwearType);
-FoundRows = DataTable.FindRows(SearchParameters);
-If FoundRows.Count() = 0 Then
-	Continue;
-EndIf;
+ПараметрыПоиска = Новый Структура("ТипСпецодежды", ТекущаяСтрока.ТипСпецодежды);
+НайденныеСтроки = ТаблицаДанных.НайтиСтроки(ПараметрыПоиска);
+Если НайденныеСтроки.Количество() = 0 Тогда
+	Продолжить;
+КонецЕсли;
 ```
 
 ### Event Subscriptions
@@ -62,28 +62,37 @@ Default: `main_configuration`.
 Operations taking > 10 seconds -- move to background jobs with progress indication. Do not block UI.
 
 ### Defensive Type Checking
-BSL has no strict typing. Check type at function entry when critical:
+BSL has no strict typing. Check type at function entry **only when the type really can vary on the module boundary** -- typical case is a public API that accepts `Array` or a single value and must normalise to one collection. This is not a routine measure to be applied to every parameter.
 
 ```bsl
-If TypeOf(DocumentsOrRef) <> Type("Array") Then
-	DocumentsArray = New Array;
-	DocumentsArray.Add(DocumentsOrRef);
-Else
-	DocumentsArray = DocumentsOrRef;
-EndIf;
+Если ТипЗнч(ДокументыИлиСсылка) <> Тип("Массив") Тогда
+	МассивДокументов = Новый Массив;
+	МассивДокументов.Добавить(ДокументыИлиСсылка);
+Иначе
+	МассивДокументов = ДокументыИлиСсылка;
+КонецЕсли;
 ```
+
+### Defensive code: real scenarios only
+Defensive code is justified only for scenarios that can actually occur in the real call flow. Paranoid guards add dead code and hide bugs.
+
+- **Do NOT write checks for scenarios that cannot happen.** Guards like `Если Параметр = Неопределено Тогда Возврат; КонецЕсли;` over a guaranteed-non-empty source are dead code -- rely on the actual call flow, not on "what if".
+- **Do NOT silently fix business-rule violations on behalf of the user.** If input data violates a business invariant, that is not the agent's job to quietly repair. Let the platform raise the standard error with a clear message.
+- **Throw exceptions upward instead of silent `Возврат`.** When a branch condition equals a data anomaly, raise `ВызватьИсключение СтрШаблон(НСтр("ru = '...'"), ИдентификаторСлучая)` with concrete context. The transaction picks it up and writes it to the journal / `ТекстОшибки` field.
+
+A silent `Возврат` on a strange situation is diagnostic noise that costs days in log-chasing later.
 
 ### Safe Structure Property Access
 Always check key existence before access:
 
 ```bsl
-If ReportParameters.Property("StartDate", StartDate) Then
-	// use StartDate
-EndIf;
+Если ПараметрыОтчета.Свойство("ДатаНачала", ДатаНачала) Тогда
+	// использовать ДатаНачала
+КонецЕсли;
 ```
 
 ### Collection Normalization
-Normalize input to a single collection type for uniform processing. Use `CommonClientServer.ValueInArray()` for single-to-array conversion.
+Normalize input to a single collection type for uniform processing. For single-to-array conversion use a verified SSL helper -- look up the real signature via `mcp__rlm-tools-bsl__rlm_execute` (`find_exports` for `ОбщегоНазначенияКлиентСервер` and similar SSL utility modules) before referencing it in code; do not hard-code an SSL module name from memory.
 
 ## 2. Extensions
 
@@ -129,16 +138,39 @@ Visual form editing in extensions -- **minimize**. Changes -- programmatically t
 - `Execute()` and `Eval()` -- **PROHIBITED** without extreme necessity
 - **Hardcoded credentials are PROHIBITED** -- passwords, tokens, API keys in code are FORBIDDEN
 - **RLS** -- design with access restriction requirements in mind
-- **No "anti-spoofing" reset of form attributes on the server.** Form attribute values cannot be tampered with from the client in 1C -- the client never sees the raw transport, the platform serializes the form context. Patterns like `If FlagFromForm And Not Users.IsFullUser() Then FlagFromForm = False; EndIf;` add no security and clutter the code. Restrict access at its real source: disable the control on the client (`Items.Flag.Enabled = False`) and let role-based / RLS / posting-time checks (e.g. period-end-closing) reject the action. If a server method must enforce a hard boundary, make the check itself authoritative -- do not pretend the form attribute is untrusted input.
+- **No "anti-spoofing" reset of form attributes on the server.** Form attribute values cannot be tampered with from the client in 1C -- the client never sees the raw transport, the platform serializes the form context. Patterns like `Если ФлагИзФормы И НЕ Пользователи.ЭтоПолноправныйПользователь() Тогда ФлагИзФормы = Ложь; КонецЕсли;` add no security and clutter the code. Restrict access at its real source: disable the control on the client (`Элементы.Флажок.Доступность = Ложь`) and let role-based / RLS / posting-time checks (e.g. period-end-closing) reject the action. If a server method must enforce a hard boundary, make the check itself authoritative -- do not pretend the form attribute is untrusted input.
 
 ### Error Handling (extends project_rules.md)
-- String localization -- `NStr("en = '...'")` with `StringFunctionsClientServer.SubstituteParametersToString()`
-- Error collection -- into a single variable via `Chars.LF`
-- Logging -- `DetailErrorDescription(ErrorInfo())`, NOT `BriefErrorDescription()`
+- String localization -- `НСтр("ru = '...'")` with `СтрШаблон(...)` for parameter substitution. Single templating helper across the project: stick to `СтрШаблон` (platform-native primitive) and do NOT mix in alternative SSL helper-wrappers for the same task. If you think you need an SSL templating wrapper, look up the real module signature via `mcp__rlm-tools-bsl__rlm_execute` (`find_exports`) before referencing it -- do not invent module names.
+- Error collection -- into a single variable via `Символы.ПС`
+- Logging -- canonical form `ОбработкаОшибок.ПодробноеПредставлениеОшибки(ИнформацияОбОшибке())`. The bare call `ПодробноеПредставлениеОшибки(ИнформацияОбОшибке())` is **deprecated since 8.3.17** and reported by BSL Language Server as `DeprecatedMethods8317`. NOT `КраткоеПредставлениеОшибки()` either way.
 - Empty exception handlers are **PROHIBITED** -- always log or re-raise
+
+### Headless processing message capture
+External processings, scheduled jobs and background jobs run without a form, so anything emitted via `ОбщегоНазначения.СообщитьПользователю(...)` does not reach the user on its own. Capture it explicitly:
+
+- At the **start of every iteration**, before `НачатьТранзакцию`, call `ПолучитьСообщенияПользователю(Истина)` to clear the buffer of foreign messages from the previous iteration.
+- In the **`Исключение` block**, call `ПолучитьСообщенияПользователю(Истина)` again -- it returns a `ФиксированныйМассив` of `СообщениеПользователю` objects (read `.Текст`). Join through `Символы.ПС` and append to the canonical error text from `ОбработкаОшибок.ПодробноеПредставлениеОшибки(ИнформацияОбОшибке())`.
+- The `Истина` argument is **mandatory** in both calls -- otherwise messages leak into the next iteration or to a foreign form.
+
+Without this pattern the iteration "just fails with an unclear error", because the real diagnostics from standard procedures went to a void.
 
 ### Dates
 - On server -- `CurrentSessionDate()` instead of `CurrentDate()`
+
+### Document locking before write
+- Use `ДокументОбъект.Заблокировать()` (object method) to lock a document before write/post.
+- Do **NOT** use `ЗаблокироватьДанныеДляРедактирования()` -- that is a managed-form UI helper, not the right primitive for headless / object-level code.
+
+### Verifying platform and SSL methods (split contract)
+Do not invent "magical" `ДополнительныеСвойства` keys, "disable check" flags or SSL module names from memory. If a method or key is needed, look it up:
+
+| What you are verifying | Tool |
+|---|---|
+| Platform built-in (functions, types, global context, language constructs) | `mcp__1c-syntax__search_syntax`, `mcp__1c-syntax__get_function_info` |
+| SSL / БСП module exports (signatures, parameter names) | `mcp__rlm-tools-bsl__rlm_execute` (`find_exports`, `extract_procedures`, `grep`) |
+
+`1c-syntax` does **not** cover SSL / БСП -- using it for SSL lookups returns nothing or wrong results. Conversely `rlm-tools-bsl` operates on configuration sources, not on platform documentation. See `project_rules.md` § "Reference Attribute Access" and `1c-metadata-manage.md` § БСП for the search workflow.
 
 ### Queries (extends project_rules.md)
 - Temporary tables -- prefixed with `TT_`

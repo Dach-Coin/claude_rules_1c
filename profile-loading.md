@@ -10,7 +10,7 @@
 |---|---|---|---|
 | **Auto-core** | `.claude/rules/` | При каждом старте сессии (платформенный механизм Claude Code) | `user_rules.md`, `typography.md` + path-scoped правила форм |
 | **Профильные** | `.claude/lib/` | По активному профилю либо по подтверждению агентом-предложения | `project_rules.md`, `dev-standards-*.md`, `anti-patterns.md`, `mcp-tools.md`, `powershell-windows.md`, `sdd-integrations.md`, `1c-metadata-manage.md`, `skills_instructions.md` |
-| **Path-scoped** | `.claude/rules/` с `paths: [...]` во frontmatter | При открытии файла, попадающего под glob | `dev-standards-forms.md`, `form_module_rules.md`, `forms_events_add.md` (все `**/Form.Module.bsl`) |
+| **Path-scoped** | `.claude/rules/` с `paths: [...]` во frontmatter | При открытии файла, попадающего под glob | `dev-standards-forms.md` (`**/Form.Module.bsl` + `**/Form.xml`), `form_module_rules.md`, `forms_events_add.md` (`**/Form.Module.bsl`) |
 
 ## Профили - что это и где они
 
